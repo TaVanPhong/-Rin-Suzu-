@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#100e27">
+<title>Quản trị · 鈴Rin ✧ Suzu鈴</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
+:root{
+ --bg:#0b0b20;--panel:rgba(19,18,47,.78);--panel-solid:#15132f;--line:rgba(206,174,255,.18);
+ --text:#f7efff;--muted:#b9accf;--faint:#8f82a8;
+ --pink:#f0a9ed;--lilac:#c9a8ff;--gold:#ffd6a5;--ease:cubic-bezier(.22,1,.36,1);
+ --mood-happy:#c9801f;--mood-peace:#6e8fe0;--mood-sad:#6456a8;--mood-surprise:#e0599e;
+ --good:#4fb286;--danger:#e8637c;
+ --sidebar-w:248px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Be Vietnam Pro',sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:-20%;pointer-events:none;z-index:-1;background:
+ radial-gradient(38rem 28rem at 10% 10%,rgba(115,76,205,.15),transparent 70%),
+ radial-gradient(32rem 34rem at 90% 20%,rgba(228,119,203,.09),transparent 70%),
+ radial-gradient(30rem 25rem at 50% 100%,rgba(84,121,202,.1),transparent 70%)}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid #e4b5ff;outline-offset:2px}
+a{color:inherit}
+h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;margin:0}
+
+.shell{display:flex;min-height:100vh}
+.sidebar{position:sticky;top:0;align-self:flex-start;height:100vh;width:var(--sidebar-w);flex:0 0 auto;border-right:1px solid var(--line);background:rgba(13,12,33,.6);backdrop-filter:blur(16px);display:flex;flex-direction:column;padding:22px 16px}
+.side-brand{display:flex;align-items:center;gap:11px;padding:4px 8px 22px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.side-brand .mark{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;background:linear-gradient(145deg,rgba(220,170,255,.22),rgba(255,185,225,.08));border:1px solid var(--line);font-size:19px}
+.side-brand .mark-logo{width:52px;height:34px;object-fit:cover;object-position:center;flex:0 0 auto;border-radius:9px;border:1px solid var(--line);box-shadow:0 0 16px rgba(201,139,255,.3)}
+.side-brand strong{display:block;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side-brand strong{display:block;font-size:13px;font-weight:600;letter-spacing:.02em}
+.side-brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:.14em;margin-top:2px}
+.nav-group{display:flex;flex-direction:column;gap:3px;margin-bottom:18px}
+.nav-label{font-size:9px;letter-spacing:.16em;color:var(--faint);padding:6px 10px 2px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid transparent;background:none;text-align:left;font-size:12.5px;color:var(--muted);transition:background .3s var(--ease),color .3s,border-color .3s}
+.nav-item .ic{font-size:14px;width:18px;text-align:center}
+.nav-item:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.nav-item.active{background:linear-gradient(120deg,rgba(220,170,255,.16),rgba(255,185,225,.07));border-color:var(--line);color:#fff;box-shadow:0 0 0 1px rgba(230,190,255,.08) inset}
+.sidebar-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.back-link{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;font-size:12px;color:var(--muted);text-decoration:none;border:1px solid var(--line);transition:background .3s,color .3s}
+.back-link:hover{background:rgba(255,255,255,.04);color:#fff}
+
+.main{flex:1 1 auto;min-width:0;padding:26px 32px 60px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.topbar h1{font-size:25px}
+.topbar p{margin:4px 0 0;color:var(--muted);font-size:11.5px}
+.page{display:none}
+.page.active{display:block;animation:pageIn .5s cubic-bezier(.16,1,.3,1) both}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.btn{border:1px solid var(--line);background:rgba(25,22,56,.6);color:#f8eaff;border-radius:12px;padding:9px 14px;font-size:12px;display:inline-flex;align-items:center;gap:7px;transition:transform .3s var(--ease),background .3s,border-color .3s}
+.btn:hover{transform:translateY(-2px);background:rgba(101,69,146,.32);border-color:#d6aaff70}
+.btn.primary{border-color:rgba(255,225,255,.4);color:#231633;font-weight:600;background:linear-gradient(115deg,#e9c2ff,#f7c7e6 55%,#ffd9bb)}
+.btn.primary:hover{box-shadow:0 10px 30px #e8aaff30}
+.btn.danger{border-color:rgba(232,99,124,.4);color:#ffd2db}
+.btn.danger:hover{background:rgba(232,99,124,.18)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.btn.sm{padding:6px 10px;font-size:11px;border-radius:9px}
+
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:22px}
+.kpi{border:1px solid var(--line);border-radius:17px;padding:16px 18px;background:linear-gradient(160deg,rgba(22,19,51,.75),rgba(16,15,36,.55));position:relative;overflow:hidden}
+.kpi .kpi-icon{font-size:17px;color:var(--pink);margin-bottom:10px;display:block}
+.kpi strong{display:block;font-size:24px;font-weight:600;font-family:'Playfair Display',serif}
+.kpi span{display:block;color:var(--muted);font-size:10.5px;margin-top:3px}
+
+.panel-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-bottom:16px}
+@media(max-width:980px){.panel-grid{grid-template-columns:1fr}}
+.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(160deg,rgba(22,19,51,.7),rgba(16,15,36,.5));padding:20px 22px}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px}
+.card-head h3{font-size:16px}
+.card-head p{margin:2px 0 0;color:var(--muted);font-size:10.5px}
+
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.search-input{border:1px solid var(--line);background:#17142f99;border-radius:12px;padding:10px 13px;color:var(--text);font-size:11.5px;min-width:200px;flex:1 1 200px}
+.select-input{border:1px solid var(--line);background:#17142f99;border-radius:12px;padding:10px 13px;color:var(--text);font-size:11.5px}
+.spacer{flex:1 1 auto}
+
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:720px}
+thead th{text-align:left;font-weight:600;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);padding:12px 14px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02);cursor:pointer;user-select:none;white-space:nowrap}
+thead th:hover{color:var(--text)}
+thead th.sorted{color:var(--pink)}
+tbody td{padding:11px 14px;border-bottom:1px solid rgba(206,174,255,.08);vertical-align:middle}
+tbody tr{transition:background .25s}
+tbody tr:hover{background:rgba(255,255,255,.03)}
+tbody tr:last-child td{border-bottom:none}
+.cell-title{font-weight:500;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cell-story{color:var(--muted);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11.5px}
+.mood-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.mood-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 3px rgba(255,255,255,.04)}
+.photo-tag{font-size:13px}
+.row-actions{display:flex;gap:6px;justify-content:flex-end}
+.icon-action{width:28px;height:28px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.03);display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);transition:all .25s}
+.icon-action:hover{color:#fff;border-color:#d6aaff70;background:rgba(101,69,146,.3)}
+.icon-action.danger:hover{color:#ffd2db;border-color:rgba(232,99,124,.5);background:rgba(232,99,124,.15)}
+.empty-row td{text-align:center;color:var(--muted);padding:38px 14px;font-size:12px}
+input[type=checkbox]{width:15px;height:15px;accent-color:var(--pink)}
+
+.legend{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.legend-row{display:flex;align-items:center;gap:9px;font-size:11.5px}
+.legend-row .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.legend-row .lbl{flex:1 1 auto;color:var(--muted)}
+.legend-row .val{font-variant-numeric:tabular-nums;color:var(--text);font-weight:500}
+.legend-row .pct{color:var(--faint);font-size:10px;width:36px;text-align:right}
+
+.chart-tooltip{position:fixed;z-index:60;pointer-events:none;background:#1c1838f0;border:1px solid #e0b7ff44;border-radius:10px;padding:7px 11px;font-size:11px;color:#f8eaff;box-shadow:0 10px 30px #0007;opacity:0;transition:opacity .15s;white-space:nowrap}
+.chart-tooltip.show{opacity:1}
+.bar-rect{transition:opacity .2s}
+.bar-rect:hover{opacity:.72}
+.stat-mini-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+.field label{font-size:11px;color:#d6c6e8}
+.field input,.field textarea,.field select{width:100%;border:1px solid #cba8ef30;border-radius:12px;padding:11px 13px;background:#100f27;color:#f8efff;font-size:12px}
+.field textarea{resize:vertical;min-height:90px;line-height:1.7}
+.hint{color:var(--muted);font-size:10px}
+
+.settings-form{display:flex;flex-direction:column;gap:20px;max-width:720px}
+.preset-row{display:flex;gap:12px;flex-wrap:wrap}
+.preset-card{border:1px solid var(--line);border-radius:14px;padding:10px;width:120px;background:rgba(255,255,255,.02);text-align:left;transition:all .25s}
+.preset-card.active{border-color:#e8bfff;box-shadow:0 0 0 1px #e8bfff50}
+.preset-swatch{height:34px;border-radius:9px;margin-bottom:8px}
+.preset-card span{font-size:10.5px;color:var(--muted)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:14px;padding:13px 16px;background:rgba(255,255,255,.02)}
+.toggle-row strong{display:block;font-size:12.5px;font-weight:500}
+.toggle-row span{display:block;color:var(--muted);font-size:10.5px;margin-top:2px}
+.switch{position:relative;width:42px;height:24px;border-radius:999px;background:#2a2550;border:1px solid var(--line);flex:0 0 auto;transition:background .25s}
+.switch.on{background:linear-gradient(120deg,#dcb3ff,#f0bfe9)}
+.switch i{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .25s var(--ease);box-shadow:0 2px 6px #0005}
+.switch.on i{transform:translateX(18px)}
+
+.modal-backdrop{position:fixed;inset:0;z-index:50;background:#060511c9;backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:18px;opacity:0;transition:opacity .3s}
+.modal-backdrop.open{display:flex}
+.modal-backdrop.visible{opacity:1}
+.modal{width:min(620px,100%);max-height:min(88vh,800px);overflow:auto;border:1px solid #e2bdff40;border-radius:22px;background:linear-gradient(145deg,#211a42f5,#111127f8);box-shadow:0 30px 90px #0009;transform:translateY(16px) scale(.98);transition:transform .4s var(--ease)}
+.modal-backdrop.visible .modal{transform:translateY(0) scale(1)}
+.modal-top{display:flex;align-items:center;justify-content:space-between;padding:20px 22px 0}
+.modal-top h3{font-size:22px}
+.close-btn{width:32px;height:32px;border:1px solid var(--line);border-radius:50%;background:#ffffff08;color:#fff;font-size:16px}
+.modal-body{padding:18px 22px 22px}
+.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+
+.toast{position:fixed;z-index:70;bottom:25px;left:50%;transform:translate(-50%,16px);padding:12px 17px;border:1px solid #e0b7ff50;border-radius:14px;background:#21183beF;color:#f9eaff;font-size:12px;box-shadow:0 12px 40px #0006;opacity:0;pointer-events:none;transition:all .35s var(--ease)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.hidden{display:none!important}
+.checkbar{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--muted)}
+
+@media(max-width:860px){
+ .shell{flex-direction:column}
+ .sidebar{position:static;width:100%;height:auto;flex-direction:row;overflow-x:auto;padding:14px}
+ .side-brand{display:none}
+ .nav-group{flex-direction:row;margin-bottom:0}
+ .nav-label{display:none}
+ .sidebar-foot{display:none}
+ .main{padding:20px 16px 40px}
+ .form-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.dropzone{border:1.5px dashed #cba8ef4a;border-radius:12px;padding:16px;text-align:center;color:var(--muted);font-size:11px;cursor:pointer;transition:border-color .25s,background .25s}
+.dropzone:hover,.dropzone.drag{border-color:#e8bfffb0;background:#1a1636a0}
+.dropzone .dz-icon{font-size:19px;display:block;margin-bottom:5px;color:#dcb3ff}
+.dropzone small{display:block;margin-top:4px;color:#8f82a8;font-size:9.5px}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:7px;margin-top:10px}
+.photo-thumb{position:relative;aspect-ratio:1;border-radius:9px;overflow:hidden;border:1px solid var(--line);background:#17142f}
+.photo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-thumb .ph-remove{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#0c0b25cc;border:1px solid #fff4;color:#fff;font-size:10px;display:grid;place-items:center}
+.photo-thumb .ph-remove:hover{background:var(--danger)}
+.photo-thumb .ph-cover{position:absolute;left:3px;bottom:3px;font-size:7.5px;padding:2px 5px;border-radius:999px;background:#0c0b25cc;color:var(--gold);border:1px solid #fff2}
+.photo-count-label{font-size:10px;color:var(--muted);margin-top:7px;display:block}
+.submit-spinner{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid #cba8ef55;border-top-color:#231633;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="shell">
+ <aside class="sidebar">
+  <div class="side-brand"><img class="mark-logo" src="assets/rin-logo-full.jpg" alt="鈴Rin ✧ Suzu鈴"><div><strong id="sideBrandName">鈴Rin ✧ Suzu鈴</strong><small>QUẢN TRỊ</small></div></div>
+  <nav class="nav-group">
+   <div class="nav-label">Điều hướng</div>
+   <button class="nav-item active" data-page="overview"><span class="ic">◈</span> Tổng quan</button>
+   <button class="nav-item" data-page="memories"><span class="ic">✿</span> Kỷ niệm</button>
+   <button class="nav-item" data-page="stats"><span class="ic">▤</span> Thống kê</button>
+   <button class="nav-item" data-page="settings"><span class="ic">⚙</span> Cài đặt</button>
+  </nav>
+  <div class="sidebar-foot">
+   <a class="back-link" href="index.html">← Về trang chính</a>
+  </div>
+ </aside>
+
+ <main class="main">
+
+  <!-- OVERVIEW -->
+  <section class="page active" id="page-overview">
+   <div class="topbar"><div><h1>Tổng quan</h1><p>Một cái nhìn nhanh về khu vườn của bạn.</p></div>
+    <button class="btn primary" id="ovAddBtn">✿ Thêm kỷ niệm</button>
+   </div>
+   <div class="kpi-row">
+    <div class="kpi"><span class="kpi-icon">✿</span><strong id="kpiTotal">0</strong><span>tổng số kỷ niệm</span></div>
+    <div class="kpi"><span class="kpi-icon">▧</span><strong id="kpiPhotos">0</strong><span>có hình ảnh</span></div>
+    <div class="kpi"><span class="kpi-icon">✦</span><strong id="kpiMoods">0</strong><span>loại cảm xúc</span></div>
+    <div class="kpi"><span class="kpi-icon">⌁</span><strong id="kpiStorage">0 KB</strong><span>dung lượng đã dùng</span></div>
+    <div class="kpi"><span class="kpi-icon">☾</span><strong id="kpiLatest">—</strong><span>kỷ niệm gần nhất</span></div>
+   </div>
+   <div class="panel-grid">
+    <div class="card">
+     <div class="card-head"><div><h3>Kỷ niệm theo tháng</h3><p>12 tháng gần nhất</p></div></div>
+     <div id="barChartOverview"></div>
+    </div>
+    <div class="card">
+     <div class="card-head"><div><h3>Phân bố cảm xúc</h3><p>Theo tỉ lệ phần trăm</p></div></div>
+     <div id="donutChartOverview"></div>
+    </div>
+   </div>
+   <div class="card">
+    <div class="card-head"><div><h3>Kỷ niệm mới nhất</h3><p>5 mục được thêm/sửa gần đây</p></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Tên</th><th>Ngày</th><th>Cảm xúc</th><th>Ảnh</th></tr></thead><tbody id="recentBody"></tbody></table></div>
+   </div>
+  </section>
+
+  <!-- MEMORIES -->
+  <section class="page" id="page-memories">
+   <div class="topbar"><div><h1>Kỷ niệm</h1><p>Quản lý toàn bộ dữ liệu kỷ niệm trong khu vườn.</p></div>
+    <button class="btn primary" id="memAddBtn">✿ Thêm kỷ niệm</button>
+   </div>
+   <div class="toolbar">
+    <input class="search-input" id="memSearch" type="search" placeholder="⌕ Tìm theo tên hoặc nội dung...">
+    <select class="select-input" id="memMoodFilter">
+     <option value="all">Tất cả cảm xúc</option>
+     <option value="happy">☀ Vui vẻ</option>
+     <option value="peace">☾ Bình yên</option>
+     <option value="sad">☁ Trầm lắng</option>
+     <option value="surprise">✧ Bất ngờ</option>
+    </select>
+    <span class="spacer"></span>
+    <span class="checkbar" id="selectedBar">0 mục được chọn</span>
+    <button class="btn danger sm" id="bulkDeleteBtn" disabled>🗑 Xoá đã chọn</button>
+   </div>
+   <div class="table-wrap">
+    <table>
+     <thead><tr>
+      <th style="width:34px"><input type="checkbox" id="selectAll"></th>
+      <th data-sort="title">Tên kỷ niệm</th>
+      <th data-sort="date">Ngày</th>
+      <th data-sort="mood">Cảm xúc</th>
+      <th>Ảnh</th>
+      <th>Nội dung</th>
+      <th style="width:90px"></th>
+     </tr></thead>
+     <tbody id="memTableBody"></tbody>
+    </table>
+   </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="page" id="page-stats">
+   <div class="topbar"><div><h1>Thống kê</h1><p>Phân tích chi tiết dữ liệu khu vườn ký ức.</p></div></div>
+   <div class="panel-grid">
+    <div class="card">
+     <div class="card-head"><div><h3>Kỷ niệm theo tháng</h3><p>12 tháng gần nhất, theo ngày đã lưu</p></div></div>
+     <div id="barChartStats"></div>
+    </div>
+    <div class="card">
+     <div class="card-head"><div><h3>Phân bố cảm xúc</h3><p>Số lượng &amp; tỉ lệ theo từng loại</p></div></div>
+     <div id="donutChartStats"></div>
+     <div class="legend" id="legendStats"></div>
+    </div>
+   </div>
+   <div class="stat-mini-row">
+    <div class="kpi"><span class="kpi-icon">☀</span><strong id="statTopMood">—</strong><span>cảm xúc phổ biến nhất</span></div>
+    <div class="kpi"><span class="kpi-icon">▤</span><strong id="statBusiestMonth">—</strong><span>tháng nhiều kỷ niệm nhất</span></div>
+    <div class="kpi"><span class="kpi-icon">▧</span><strong id="statPhotoRatio">0%</strong><span>kỷ niệm có hình ảnh</span></div>
+    <div class="kpi"><span class="kpi-icon">✎</span><strong id="statAvgLen">0</strong><span>độ dài câu chuyện TB (ký tự)</span></div>
+   </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="page" id="page-settings">
+   <div class="topbar"><div><h1>Cài đặt</h1><p>Tuỳ chỉnh nội dung &amp; giao diện trang chính — không cần sửa code.</p></div></div>
+   <div class="card">
+    <form class="settings-form" id="settingsForm">
+     <div class="form-grid">
+      <div class="field"><label for="setBrandName">Tên thương hiệu</label><input id="setBrandName" maxlength="60"></div>
+      <div class="field"><label for="setBrandTagline">Khẩu hiệu nhỏ (trên cùng)</label><input id="setBrandTagline" maxlength="60"></div>
+      <div class="field full"><label for="setEyebrow">Dòng giới thiệu (phía trên tiêu đề)</label><input id="setEyebrow" maxlength="80"></div>
+      <div class="field"><label for="setTitle1">Tiêu đề — dòng 1</label><input id="setTitle1" maxlength="40"></div>
+      <div class="field"><label for="setTitle2">Tiêu đề — dòng 2</label><input id="setTitle2" maxlength="40"></div>
+      <div class="field full"><label for="setDesc">Mô tả ngắn dưới tiêu đề</label><textarea id="setDesc" maxlength="240"></textarea></div>
+      <div class="field full"><label for="setHeroQuote">Trích dẫn trong thẻ nổi (hero)</label><textarea id="setHeroQuote" maxlength="200"></textarea></div>
+      <div class="field"><label for="setHeroSign">Ký hiệu cuối trích dẫn hero</label><input id="setHeroSign" maxlength="6"></div>
+      <div class="field full"><label for="setFooterQuote">Trích dẫn ở chân trang</label><textarea id="setFooterQuote" maxlength="200"></textarea></div>
+     </div>
+
+     <div>
+      <label class="hint" style="display:block;margin-bottom:10px;font-size:11px;color:#d6c6e8">Bảng màu chủ đạo</label>
+      <div class="preset-row" id="presetRow"></div>
+     </div>
+
+     <div class="toggle-row">
+      <div><strong>Hiệu ứng chuyển động mặc định</strong><span>Bật cánh hoa rơi, ánh sáng theo con trỏ... khi khách ghé thăm lần đầu</span></div>
+      <button type="button" class="switch on" id="motionSwitch"><i></i></button>
+     </div>
+
+     <div class="modal-actions" style="margin-top:0">
+      <button type="button" class="btn" id="settingsReset">Khôi phục mặc định</button>
+      <button type="submit" class="btn primary">✓ Lưu thay đổi</button>
+     </div>
+    </form>
+   </div>
+  </section>
+
+ </main>
+</div>
+
+<!-- Memory edit/create modal -->
+<div class="modal-backdrop" id="memModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="memModalTitle">
+ <div class="modal">
+  <div class="modal-top"><h3 id="memModalTitle">Gieo một kỷ niệm</h3><button class="close-btn" data-close="memModalBackdrop" aria-label="Đóng">×</button></div>
+  <form class="modal-body" id="memForm">
+   <input type="hidden" id="mId">
+   <div class="form-grid">
+    <div class="field full"><label for="mTitle">Tên kỷ niệm *</label><input id="mTitle" maxlength="90" required placeholder="Ví dụ: Một chiều hoàng hôn đáng nhớ"></div>
+    <div class="field"><label for="mDate">Ngày tháng</label><input id="mDate" type="date"></div>
+    <div class="field"><label for="mMood">Cảm xúc</label><select id="mMood"><option value="happy">☀ Vui vẻ</option><option value="peace">☾ Bình yên</option><option value="sad">☁ Trầm lắng</option><option value="surprise">✧ Bất ngờ</option></select></div>
+    <div class="field full"><label for="mStory">Câu chuyện</label><textarea id="mStory" maxlength="5000" placeholder="Hôm ấy đã có chuyện gì đặc biệt?"></textarea></div>
+    <div class="field full"><label>Hình ảnh (không bắt buộc, có thể chọn nhiều ảnh)</label>
+     <div class="dropzone" id="mDropzone" tabindex="0" role="button" aria-label="Chọn hoặc kéo thả ảnh vào đây">
+      <span class="dz-icon">▧</span>Nhấn để chọn ảnh hoặc kéo thả vào đây<small>JPG, PNG, WebP · tối đa 12 ảnh, mỗi ảnh dưới 8&nbsp;MB</small>
+     </div>
+     <input id="mPhoto" type="file" accept="image/jpeg,image/png,image/webp" multiple class="hidden">
+     <div class="photo-grid" id="mPhotoGrid"></div>
+     <small class="photo-count-label" id="mPhotoCountLabel"></small>
+    </div>
+   </div>
+   <div class="modal-actions"><button type="button" class="btn" data-close="memModalBackdrop">Huỷ</button><button class="btn primary" type="submit" id="mSubmitBtn">✓ Lưu kỷ niệm</button></div>
+  </form>
+ </div>
+</div>
+
+<div class="chart-tooltip" id="chartTooltip"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* ---------- image store (IndexedDB), shared schema with index.html ---------- */
+const IMG_DB_NAME='rin-memory-garden-images', IMG_STORE='images';
+let imgDbPromise=null;
+function openImageDB(){
+ if(imgDbPromise) return imgDbPromise;
+ imgDbPromise=new Promise((resolve,reject)=>{
+  if(!window.indexedDB){reject(new Error('no-idb'));return;}
+  const req=indexedDB.open(IMG_DB_NAME,1);
+  req.onupgradeneeded=()=>{req.result.createObjectStore(IMG_STORE);};
+  req.onsuccess=()=>resolve(req.result);
+  req.onerror=()=>reject(req.error);
+ });
+ return imgDbPromise;
+}
+async function idbPutImage(id,blob){const db=await openImageDB();return new Promise((resolve,reject)=>{const tx=db.transaction(IMG_STORE,'readwrite');tx.objectStore(IMG_STORE).put(blob,id);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});}
+async function idbGetImage(id){const db=await openImageDB();return new Promise((resolve,reject)=>{const tx=db.transaction(IMG_STORE,'readonly');const req=tx.objectStore(IMG_STORE).get(id);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+async function idbDeleteImage(id){try{const db=await openImageDB();return new Promise((resolve)=>{const tx=db.transaction(IMG_STORE,'readwrite');tx.objectStore(IMG_STORE).delete(id);tx.oncomplete=()=>resolve();tx.onerror=()=>resolve();});}catch(e){}}
+const coverUrlCache=new Map();
+async function getCoverUrl(id){
+ if(coverUrlCache.has(id)) return coverUrlCache.get(id);
+ try{const blob=await idbGetImage(id); if(!blob) return null; const url=URL.createObjectURL(blob); coverUrlCache.set(id,url); return url;}
+ catch(e){return null;}
+}
+function compressImage(file,maxDim=1600,quality=.82){
+ return new Promise((resolve,reject)=>{
+  const url=URL.createObjectURL(file);
+  const img=new Image();
+  img.onload=()=>{
+   let {width,height}=img;
+   if(width>maxDim||height>maxDim){const scale=maxDim/Math.max(width,height);width=Math.round(width*scale);height=Math.round(height*scale);}
+   const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+   canvas.getContext('2d').drawImage(img,0,0,width,height);
+   canvas.toBlob(blob=>{URL.revokeObjectURL(url); blob?resolve(blob):reject(new Error('encode-failed'));},'image/jpeg',quality);
+  };
+  img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('load-failed'));};
+  img.src=url;
+ });
+}
+function dataURLtoBlob(dataURL){
+ const [head,b64]=dataURL.split(',');
+ const mime=/data:(.*?);base64/.exec(head)?.[1]||'image/jpeg';
+ const bin=atob(b64); const arr=new Uint8Array(bin.length);
+ for(let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+ return new Blob([arr],{type:mime});
+}
+function photoCountOf(m){if(m.photos&&m.photos.length)return m.photos.length;return m.photo?1:0;}
+function hasPhoto(m){return photoCountOf(m)>0;}
+
+const DATA_KEY = 'rin-memory-garden-v1';
+const SETTINGS_KEY = 'rin-memory-garden-settings-v1';
+const MOODS = {
+ happy:{label:'Vui vẻ',icon:'☀',color:'var(--mood-happy)'},
+ peace:{label:'Bình yên',icon:'☾',color:'var(--mood-peace)'},
+ sad:{label:'Trầm lắng',icon:'☁',color:'var(--mood-sad)'},
+ surprise:{label:'Bất ngờ',icon:'✧',color:'var(--mood-surprise)'}
+};
+const MOOD_HEX = {happy:'#c9801f',peace:'#6e8fe0',sad:'#6456a8',surprise:'#e0599e'};
+const ACCENT_PRESETS = {
+ lilac:{pink:'#f0a9ed',lilac:'#c9a8ff',gold:'#ffd6a5',label:'Tím dạ quang'},
+ rose:{pink:'#ffb3d6',lilac:'#e3a8ff',gold:'#ffd9c2',label:'Hồng phấn mơ màng'},
+ azure:{pink:'#b9c9ff',lilac:'#8fb3ff',gold:'#c9e4ff',label:'Lam dạ khúc'},
+ sunset:{pink:'#ffcf9e',lilac:'#e3b8ff',gold:'#ffe29e',label:'Hoàng hôn ánh kim'}
+};
+const DEFAULT_SETTINGS = {
+ brandName:'鈴Rin ✧ Suzu鈴',brandTagline:'A LITTLE WORLD OF YOURS',
+ eyebrow:'NƠI NHỮNG ĐIỀU ĐẸP ĐẼ NỞ HOA',
+ heroTitleLine1:'鈴Rin',heroTitleLine2:'✧ Suzu鈴',
+ heroDesc:'Mỗi kỷ niệm là một bông hoa. Mỗi câu chuyện là một mảnh ghép nhỏ tạo nên khu vườn của riêng bạn.',
+ heroQuote:'Có những khoảnh khắc nhỏ bé, nhưng khi nhớ lại, chúng lấp lánh như cả bầu trời.',
+ heroQuoteSign:'♡',
+ footerQuote:'Ký ức không chỉ ở quá khứ, mà còn là những bông hoa ta giữ trong tim.',
+ accent:'lilac', motionDefaultOn:true
+};
+
+function loadMemories(){
+ try{const raw=localStorage.getItem(DATA_KEY);if(raw){const p=JSON.parse(raw);return Array.isArray(p)?p:[];}}catch(e){}
+ return [];
+}
+function saveMemories(list){
+ try{localStorage.setItem(DATA_KEY,JSON.stringify(list));return true;}
+ catch(e){showToast('Bộ nhớ trình duyệt gần đầy. Hãy dùng ảnh nhỏ hơn hoặc xuất bản sao lưu.');return false;}
+}
+function loadSettings(){
+ try{const raw=localStorage.getItem(SETTINGS_KEY);if(raw)return {...DEFAULT_SETTINGS,...JSON.parse(raw)};}catch(e){}
+ return {...DEFAULT_SETTINGS};
+}
+function saveSettings(s){
+ try{localStorage.setItem(SETTINGS_KEY,JSON.stringify(s));return true;}catch(e){return false;}
+}
+
+let memories = loadMemories();
+let settings = loadSettings();
+
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmtDate(d){if(!d)return '—';const dt=new Date(d+'T12:00:00');return Number.isNaN(+dt)?d:dt.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});}
+
+let toastTimer;
+function showToast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2800);}
+
+function applyAccentToPage(){
+ const preset = ACCENT_PRESETS[settings.accent]||ACCENT_PRESETS.lilac;
+ document.documentElement.style.setProperty('--pink',preset.pink);
+ document.documentElement.style.setProperty('--lilac',preset.lilac);
+ document.documentElement.style.setProperty('--gold',preset.gold);
+ $('#sideBrandName').textContent = settings.brandName || DEFAULT_SETTINGS.brandName;
+}
+
+/* ---------- navigation ---------- */
+function goPage(name){
+ $$('.nav-item').forEach(b=>b.classList.toggle('active', b.dataset.page===name));
+ $$('.page').forEach(p=>p.classList.toggle('active', p.id==='page-'+name));
+ if(name==='overview') renderOverview();
+ if(name==='memories') renderMemTable();
+ if(name==='stats') renderStats();
+ if(name==='settings') fillSettingsForm();
+ location.hash = name;
+}
+$$('.nav-item').forEach(b=>b.addEventListener('click',()=>goPage(b.dataset.page)));
+window.addEventListener('hashchange',()=>{
+ const n=(location.hash||'#overview').slice(1);
+ if(['overview','memories','stats','settings'].includes(n)) goPage(n);
+});
+
+/* ---------- modal ---------- */
+function openModal(id){const el=$('#'+id);el.classList.add('open');requestAnimationFrame(()=>el.classList.add('visible'));document.body.style.overflow='hidden';}
+function closeModal(id){const el=$('#'+id);el.classList.remove('visible');setTimeout(()=>{el.classList.remove('open');document.body.style.overflow='';},250);}
+$$('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
+$$('.modal-backdrop').forEach(b=>b.addEventListener('click',e=>{if(e.target===b)closeModal(b.id);}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$$('.modal-backdrop.open').forEach(m=>closeModal(m.id));});
+
+/* ---------- multi-image picker ---------- */
+const MAX_PHOTOS=12, MAX_PHOTO_MB=8;
+let pendingPhotos=[]; let removedExistingIds=[];
+function renderPhotoGrid(){
+ const gridEl=$('#mPhotoGrid');
+ gridEl.innerHTML=pendingPhotos.map((p,i)=>`<div class="photo-thumb"><img src="${p.url}" alt="">${i===0?'<span class="ph-cover">BÌA</span>':''}<button type="button" class="ph-remove" data-i="${i}" aria-label="Bỏ ảnh này">×</button></div>`).join('');
+ gridEl.querySelectorAll('.ph-remove').forEach(b=>b.addEventListener('click',()=>{
+  const i=+b.dataset.i; const [removed]=pendingPhotos.splice(i,1);
+  if(removed.kind==='existing') removedExistingIds.push(removed.id);
+  if(removed.kind==='new') URL.revokeObjectURL(removed.url);
+  renderPhotoGrid();
+ }));
+ const n=pendingPhotos.length;
+ $('#mPhotoCountLabel').textContent=n?`Đã chọn ${n} ảnh${n>1?' · ảnh đầu tiên là ảnh bìa':''}`:'';
+}
+function resetPhotoPicker(){
+ pendingPhotos.forEach(p=>{if(p.kind==='new')URL.revokeObjectURL(p.url);});
+ pendingPhotos=[]; removedExistingIds=[]; renderPhotoGrid();
+}
+function addFilesToPending(fileList){
+ const files=Array.from(fileList||[]);
+ if(!files.length) return;
+ let added=0, rejected=0;
+ for(const file of files){
+  if(pendingPhotos.length>=MAX_PHOTOS){showToast(`Chỉ có thể chọn tối đa ${MAX_PHOTOS} ảnh cho một kỷ niệm.`);break;}
+  if(!file.type.startsWith('image/')){rejected++;continue;}
+  if(file.size>MAX_PHOTO_MB*1024*1024){showToast(`"${file.name}" vượt quá ${MAX_PHOTO_MB}MB, bỏ qua ảnh này.`);continue;}
+  pendingPhotos.push({kind:'new',file,url:URL.createObjectURL(file)});
+  added++;
+ }
+ if(rejected) showToast(rejected===1?'Có 1 tệp không phải ảnh, đã bỏ qua.':`Có ${rejected} tệp không phải ảnh, đã bỏ qua.`);
+ if(added) renderPhotoGrid();
+}
+const mDropzone=$('#mDropzone'), mPhotoInput=$('#mPhoto');
+mDropzone.addEventListener('click',()=>mPhotoInput.click());
+mDropzone.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();mPhotoInput.click();}});
+mPhotoInput.addEventListener('change',()=>{addFilesToPending(mPhotoInput.files);mPhotoInput.value='';});
+['dragenter','dragover'].forEach(ev=>mDropzone.addEventListener(ev,e=>{e.preventDefault();mDropzone.classList.add('drag');}));
+['dragleave','drop'].forEach(ev=>mDropzone.addEventListener(ev,e=>{e.preventDefault();mDropzone.classList.remove('drag');}));
+mDropzone.addEventListener('drop',e=>{if(e.dataTransfer?.files?.length)addFilesToPending(e.dataTransfer.files);});
+
+let editingId=null;
+function openCreate(){
+ editingId=null; $('#memForm').reset(); $('#mId').value=''; $('#mDate').value=new Date().toISOString().slice(0,10);
+ $('#memModalTitle').textContent='Gieo một kỷ niệm'; resetPhotoPicker();
+ openModal('memModalBackdrop');
+}
+async function openEdit(id){
+ const m=memories.find(x=>x.id===id); if(!m) return;
+ editingId=id; $('#memForm').reset();
+ $('#mId').value=m.id; $('#mTitle').value=m.title; $('#mDate').value=m.date||''; $('#mMood').value=m.mood||'peace';
+ $('#mStory').value=m.story||'';
+ resetPhotoPicker();
+ $('#memModalTitle').textContent='Chỉnh sửa kỷ niệm';
+ openModal('memModalBackdrop');
+ if(m.photos&&m.photos.length){
+  for(const p of m.photos){const url=await getCoverUrl(p.id); if(url) pendingPhotos.push({kind:'existing',id:p.id,url});}
+  renderPhotoGrid();
+ } else if(m.photo){
+  pendingPhotos.push({kind:'legacy',url:m.photo});
+  renderPhotoGrid();
+ }
+}
+$('#ovAddBtn').addEventListener('click',openCreate);
+$('#memAddBtn').addEventListener('click',openCreate);
+
+const symbols=['✿','✧','❀','✦','☾','❋','♡','✺'];
+$('#memForm').addEventListener('submit', async e=>{
+ e.preventDefault();
+ const title=$('#mTitle').value.trim();
+ if(!title){showToast('Đặt tên cho kỷ niệm trước nhé.');return;}
+ const old=memories.find(x=>x.id===$('#mId').value);
+ const submitBtn=$('#mSubmitBtn'); const originalLabel=submitBtn.innerHTML;
+ const photosToProcess=pendingPhotos.slice();
+ let newPhotos=[];
+ if(photosToProcess.length){
+  submitBtn.disabled=true; submitBtn.innerHTML='<span class="submit-spinner"></span>Đang lưu '+photosToProcess.length+' ảnh...';
+  try{
+   for(const p of photosToProcess){
+    if(p.kind==='existing'){newPhotos.push({id:p.id});continue;}
+    const blob=p.kind==='legacy'?dataURLtoBlob(p.url):await compressImage(p.file);
+    const id='img_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);
+    await idbPutImage(id,blob);
+    newPhotos.push({id});
+   }
+  }catch(err){
+   submitBtn.disabled=false; submitBtn.innerHTML=originalLabel;
+   showToast('Không thể lưu ảnh (bộ nhớ trình duyệt có thể đã đầy). Thử lại với ít ảnh hơn nhé.');
+   return;
+  }
+ }
+ const item={id:old?.id||'m_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7),
+  title,date:$('#mDate').value,mood:$('#mMood').value,story:$('#mStory').value.trim(),photos:newPhotos,
+  symbol:old?.symbol||symbols[Math.floor(Math.random()*symbols.length)]};
+ if(old){memories=memories.map(x=>x.id===old.id?item:x);showToast('Đã cập nhật kỷ niệm.');}
+ else{memories.unshift(item);showToast('Đã thêm kỷ niệm mới ✨');}
+ saveMemories(memories);
+ submitBtn.disabled=false; submitBtn.innerHTML=originalLabel;
+ removedExistingIds.forEach(id=>idbDeleteImage(id)); removedExistingIds=[];
+ closeModal('memModalBackdrop');
+ refreshCurrentPage();
+});
+
+function deleteMemory(id){
+ const m=memories.find(x=>x.id===id); if(!m) return;
+ if(!confirm('Xoá kỷ niệm "'+m.title+'"? Hành động này không thể hoàn tác.')) return;
+ if(m.photos) m.photos.forEach(p=>idbDeleteImage(p.id));
+ memories=memories.filter(x=>x.id!==id);
+ saveMemories(memories);
+ selected.delete(id);
+ showToast('Đã xoá kỷ niệm.');
+ refreshCurrentPage();
+}
+
+function refreshCurrentPage(){
+ const n=(location.hash||'#overview').slice(1);
+ if(n==='overview') renderOverview();
+ else if(n==='memories') renderMemTable();
+ else if(n==='stats') renderStats();
+}
+
+/* ---------- stats helpers ---------- */
+function computeStats(){
+ const total=memories.length;
+ const withPhoto=memories.filter(hasPhoto).length;
+ const moodCounts={happy:0,peace:0,sad:0,surprise:0};
+ memories.forEach(m=>{ if(moodCounts[m.mood]!==undefined) moodCounts[m.mood]++; else moodCounts.peace++; });
+ const moodTypes=Object.values(moodCounts).filter(c=>c>0).length;
+ const bytes=new Blob([JSON.stringify(memories)]).size;
+ const sorted=[...memories].filter(m=>m.date).sort((a,b)=> b.date.localeCompare(a.date));
+ const latest=sorted[0];
+ const avgLen = total? Math.round(memories.reduce((s,m)=>s+(m.story||'').length,0)/total) : 0;
+
+ const months=[];
+ const now=new Date();
+ for(let i=11;i>=0;i--){
+  const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+  months.push({key:d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'),label:'Th'+(d.getMonth()+1)+'/'+String(d.getFullYear()).slice(2),count:0});
+ }
+ memories.forEach(m=>{
+  if(!m.date) return;
+  const key=m.date.slice(0,7);
+  const slot=months.find(x=>x.key===key);
+  if(slot) slot.count++;
+ });
+ const busiest = months.reduce((a,b)=> b.count>a.count? b:a, months[0]);
+ const topMoodKey = Object.entries(moodCounts).sort((a,b)=>b[1]-a[1])[0];
+
+ return {total,withPhoto,moodCounts,moodTypes,bytes,latest,avgLen,months,busiest,topMoodKey};
+}
+
+function fmtBytes(b){ if(b<1024) return b+' B'; if(b<1024*1024) return (b/1024).toFixed(1)+' KB'; return (b/1024/1024).toFixed(2)+' MB'; }
+
+/* ---------- charts ---------- */
+function renderBarChart(container, months){
+ const max = Math.max(1, ...months.map(m=>m.count));
+ const w=560, h=190, padB=26, padT=10, barGap=6;
+ const barW = (w - barGap*(months.length-1)) / months.length;
+ let bars='';
+ months.forEach((m,i)=>{
+  const bh = m.count===0 ? 2 : Math.round((m.count/max) * (h-padB-padT));
+  const x = i*(barW+barGap);
+  const y = h-padB-bh;
+  bars += `<rect class="bar-rect" data-label="${m.label}" data-count="${m.count}" x="${x.toFixed(1)}" y="${y}" width="${barW.toFixed(1)}" height="${bh}" rx="4" fill="var(--lilac)" opacity="${m.count===0?.25:.85}"></rect>`;
+  if(i%2===0 || months.length<=8) bars += `<text x="${(x+barW/2).toFixed(1)}" y="${h-8}" font-size="9" fill="#8f82a8" text-anchor="middle">${m.label}</text>`;
+ });
+ container.innerHTML = `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:auto;overflow:visible" role="img" aria-label="Biểu đồ kỷ niệm theo tháng">
+  <line x1="0" y1="${h-padB}" x2="${w}" y2="${h-padB}" stroke="rgba(206,174,255,.18)" stroke-width="1"></line>
+  ${bars}
+ </svg>`;
+ const tooltip = $('#chartTooltip');
+ container.querySelectorAll('.bar-rect').forEach(rect=>{
+  rect.addEventListener('mousemove', e=>{
+   tooltip.textContent = `${rect.dataset.label}: ${rect.dataset.count} kỷ niệm`;
+   tooltip.style.left = e.clientX+14+'px'; tooltip.style.top = e.clientY+12+'px';
+   tooltip.classList.add('show');
+  });
+  rect.addEventListener('mouseleave', ()=> tooltip.classList.remove('show'));
+ });
+}
+
+function renderDonutChart(container, moodCounts, legendEl){
+ const entries = Object.entries(moodCounts);
+ const total = entries.reduce((s,[,v])=>s+v,0);
+ const r=52, cx=64, cy=64, sw=20, circ=2*Math.PI*r;
+ let offset=0, segs='';
+ const tooltip=$('#chartTooltip');
+ if(total===0){
+  container.innerHTML = `<div style="text-align:center;color:var(--muted);font-size:11.5px;padding:30px 0">Chưa có dữ liệu để thống kê.</div>`;
+  if(legendEl) legendEl.innerHTML='';
+  return;
+ }
+ entries.forEach(([key,count])=>{
+  if(count===0) return;
+  const frac = count/total;
+  const len = frac*circ;
+  segs += `<circle class="bar-rect" data-label="${MOODS[key].label}" data-count="${count}" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${MOOD_HEX[key]}" stroke-width="${sw}" stroke-dasharray="${len.toFixed(2)} ${(circ-len).toFixed(2)}" stroke-dashoffset="${(-offset).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})"></circle>`;
+  offset += len;
+ });
+ container.innerHTML = `<div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap">
+  <svg viewBox="0 0 128 128" style="width:128px;height:128px;flex:0 0 auto" role="img" aria-label="Biểu đồ phân bố cảm xúc">
+   ${segs}
+   <text x="64" y="60" text-anchor="middle" font-size="22" fill="#f7efff" font-family="Playfair Display, serif">${total}</text>
+   <text x="64" y="76" text-anchor="middle" font-size="8.5" fill="#8f82a8">kỷ niệm</text>
+  </svg>
+ </div>`;
+ container.querySelectorAll('.bar-rect').forEach(seg=>{
+  seg.addEventListener('mousemove', e=>{
+   tooltip.textContent = `${seg.dataset.label}: ${seg.dataset.count} (${Math.round(seg.dataset.count/total*100)}%)`;
+   tooltip.style.left = e.clientX+14+'px'; tooltip.style.top = e.clientY+12+'px';
+   tooltip.classList.add('show');
+  });
+  seg.addEventListener('mouseleave', ()=> tooltip.classList.remove('show'));
+ });
+ if(legendEl){
+  legendEl.innerHTML = entries.map(([key,count])=>{
+   const pct = total? Math.round(count/total*100) : 0;
+   return `<div class="legend-row"><span class="dot" style="background:${MOOD_HEX[key]}"></span><span class="lbl">${MOODS[key].icon} ${MOODS[key].label}</span><span class="val">${count}</span><span class="pct">${pct}%</span></div>`;
+  }).join('');
+ }
+}
+
+/* ---------- overview ---------- */
+function renderOverview(){
+ const s = computeStats();
+ $('#kpiTotal').textContent = s.total;
+ $('#kpiPhotos').textContent = s.withPhoto;
+ $('#kpiMoods').textContent = s.moodTypes;
+ $('#kpiStorage').textContent = fmtBytes(s.bytes);
+ $('#kpiLatest').textContent = s.latest ? fmtDate(s.latest.date) : '—';
+ renderBarChart($('#barChartOverview'), s.months);
+ renderDonutChart($('#donutChartOverview'), s.moodCounts, null);
+
+ const recent = [...memories].sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,5);
+ const body = $('#recentBody');
+ body.innerHTML = recent.length ? recent.map(m=>{
+  const mood = MOODS[m.mood]||MOODS.peace;
+  const pc=photoCountOf(m);
+  return `<tr><td class="cell-title">${esc(m.title)}</td><td>${fmtDate(m.date)}</td><td><span class="mood-badge"><span class="mood-dot" style="background:${MOOD_HEX[m.mood]||MOOD_HEX.peace}"></span>${mood.icon} ${mood.label}</span></td><td class="photo-tag">${pc?'▧'+(pc>1?' ×'+pc:''):'—'}</td></tr>`;
+ }).join('') : `<tr class="empty-row"><td colspan="4">Chưa có kỷ niệm nào. Hãy thêm kỷ niệm đầu tiên!</td></tr>`;
+}
+
+/* ---------- memories table ---------- */
+let sortKey='date', sortDir=-1;
+let selected = new Set();
+
+function getFilteredSorted(){
+ const q = $('#memSearch').value.trim().toLocaleLowerCase('vi');
+ const moodFilter = $('#memMoodFilter').value;
+ let list = memories.filter(m=>
+  (moodFilter==='all'||m.mood===moodFilter) &&
+  (!q || (m.title+' '+(m.story||'')).toLocaleLowerCase('vi').includes(q))
+ );
+ list.sort((a,b)=>{
+  let av=a[sortKey]||'', bv=b[sortKey]||'';
+  if(sortKey==='date'){ av=av||'0000'; bv=bv||'0000'; }
+  return av>bv ? sortDir : av<bv ? -sortDir : 0;
+ });
+ return list;
+}
+
+function renderMemTable(){
+ const list = getFilteredSorted();
+ const body = $('#memTableBody');
+ body.innerHTML = list.length ? list.map(m=>{
+  const mood = MOODS[m.mood]||MOODS.peace;
+  const story = (m.story||'').replace(/\s+/g,' ').trim();
+  return `<tr data-id="${m.id}">
+   <td><input type="checkbox" class="rowCheck" data-id="${m.id}" ${selected.has(m.id)?'checked':''}></td>
+   <td class="cell-title">${esc(m.title)}</td>
+   <td>${fmtDate(m.date)}</td>
+   <td><span class="mood-badge"><span class="mood-dot" style="background:${MOOD_HEX[m.mood]||MOOD_HEX.peace}"></span>${mood.icon} ${mood.label}</span></td>
+   <td class="photo-tag">${photoCountOf(m)?'▧'+(photoCountOf(m)>1?' ×'+photoCountOf(m):''):'—'}</td>
+   <td class="cell-story">${esc(story)||'—'}</td>
+   <td><div class="row-actions">
+    <button class="icon-action editBtn" data-id="${m.id}" title="Sửa" aria-label="Sửa">✎</button>
+    <button class="icon-action danger delBtn" data-id="${m.id}" title="Xoá" aria-label="Xoá">🗑</button>
+   </div></td>
+  </tr>`;
+ }).join('') : `<tr class="empty-row"><td colspan="7">Không tìm thấy kỷ niệm phù hợp.</td></tr>`;
+
+ body.querySelectorAll('.editBtn').forEach(b=>b.addEventListener('click',()=>openEdit(b.dataset.id)));
+ body.querySelectorAll('.delBtn').forEach(b=>b.addEventListener('click',()=>deleteMemory(b.dataset.id)));
+ body.querySelectorAll('.rowCheck').forEach(c=>c.addEventListener('change',()=>{
+  if(c.checked) selected.add(c.dataset.id); else selected.delete(c.dataset.id);
+  updateSelectedBar();
+ }));
+ updateSelectedBar();
+ $$('thead th[data-sort]').forEach(th=>th.classList.toggle('sorted', th.dataset.sort===sortKey));
+}
+function updateSelectedBar(){
+ $('#selectedBar').textContent = selected.size+' mục được chọn';
+ $('#bulkDeleteBtn').disabled = selected.size===0;
+}
+$('#memSearch').addEventListener('input', renderMemTable);
+$('#memMoodFilter').addEventListener('change', renderMemTable);
+$$('thead th[data-sort]').forEach(th=>th.addEventListener('click',()=>{
+ const key=th.dataset.sort;
+ if(sortKey===key) sortDir*=-1; else { sortKey=key; sortDir=1; }
+ renderMemTable();
+}));
+$('#selectAll').addEventListener('change', e=>{
+ const list=getFilteredSorted();
+ if(e.target.checked) list.forEach(m=>selected.add(m.id));
+ else list.forEach(m=>selected.delete(m.id));
+ renderMemTable();
+});
+$('#bulkDeleteBtn').addEventListener('click',()=>{
+ if(selected.size===0) return;
+ if(!confirm('Xoá '+selected.size+' kỷ niệm đã chọn? Hành động này không thể hoàn tác.')) return;
+ memories.filter(m=>selected.has(m.id)).forEach(m=>{if(m.photos)m.photos.forEach(p=>idbDeleteImage(p.id));});
+ memories = memories.filter(m=>!selected.has(m.id));
+ selected.clear();
+ saveMemories(memories);
+ showToast('Đã xoá các kỷ niệm đã chọn.');
+ renderMemTable();
+});
+
+/* ---------- stats page ---------- */
+function renderStats(){
+ const s = computeStats();
+ renderBarChart($('#barChartStats'), s.months);
+ renderDonutChart($('#donutChartStats'), s.moodCounts, $('#legendStats'));
+ $('#statTopMood').textContent = s.total ? (MOODS[s.topMoodKey[0]].icon+' '+MOODS[s.topMoodKey[0]].label) : '—';
+ $('#statBusiestMonth').textContent = s.busiest && s.busiest.count>0 ? s.busiest.label : '—';
+ $('#statPhotoRatio').textContent = s.total ? Math.round(s.withPhoto/s.total*100)+'%' : '0%';
+ $('#statAvgLen').textContent = s.avgLen;
+}
+
+/* ---------- settings page ---------- */
+function fillSettingsForm(){
+ $('#setBrandName').value = settings.brandName;
+ $('#setBrandTagline').value = settings.brandTagline;
+ $('#setEyebrow').value = settings.eyebrow;
+ $('#setTitle1').value = settings.heroTitleLine1;
+ $('#setTitle2').value = settings.heroTitleLine2;
+ $('#setDesc').value = settings.heroDesc;
+ $('#setHeroQuote').value = settings.heroQuote;
+ $('#setHeroSign').value = settings.heroQuoteSign;
+ $('#setFooterQuote').value = settings.footerQuote;
+ renderPresetRow();
+ $('#motionSwitch').classList.toggle('on', settings.motionDefaultOn!==false);
+}
+function renderPresetRow(){
+ const row = $('#presetRow');
+ row.innerHTML = Object.entries(ACCENT_PRESETS).map(([key,p])=>`
+  <button type="button" class="preset-card ${settings.accent===key?'active':''}" data-preset="${key}">
+   <div class="preset-swatch" style="background:linear-gradient(115deg,${p.pink},${p.lilac} 55%,${p.gold})"></div>
+   <span>${p.label}</span>
+  </button>`).join('');
+ row.querySelectorAll('.preset-card').forEach(card=>card.addEventListener('click',()=>{
+  settings.accent = card.dataset.preset;
+  renderPresetRow();
+  applyAccentToPage();
+ }));
+}
+$('#motionSwitch').addEventListener('click',()=>{
+ $('#motionSwitch').classList.toggle('on');
+});
+$('#settingsForm').addEventListener('submit', e=>{
+ e.preventDefault();
+ settings = {
+  ...settings,
+  brandName: $('#setBrandName').value.trim() || DEFAULT_SETTINGS.brandName,
+  brandTagline: $('#setBrandTagline').value.trim() || DEFAULT_SETTINGS.brandTagline,
+  eyebrow: $('#setEyebrow').value.trim() || DEFAULT_SETTINGS.eyebrow,
+  heroTitleLine1: $('#setTitle1').value.trim() || DEFAULT_SETTINGS.heroTitleLine1,
+  heroTitleLine2: $('#setTitle2').value.trim() || DEFAULT_SETTINGS.heroTitleLine2,
+  heroDesc: $('#setDesc').value.trim() || DEFAULT_SETTINGS.heroDesc,
+  heroQuote: $('#setHeroQuote').value.trim() || DEFAULT_SETTINGS.heroQuote,
+  heroQuoteSign: $('#setHeroSign').value.trim() || DEFAULT_SETTINGS.heroQuoteSign,
+  footerQuote: $('#setFooterQuote').value.trim() || DEFAULT_SETTINGS.footerQuote,
+  motionDefaultOn: $('#motionSwitch').classList.contains('on')
+ };
+ saveSettings(settings);
+ applyAccentToPage();
+ showToast('Đã lưu cài đặt. Mở lại trang chính để xem thay đổi.');
+});
+$('#settingsReset').addEventListener('click',()=>{
+ if(!confirm('Khôi phục toàn bộ cài đặt giao diện về mặc định?')) return;
+ settings = {...DEFAULT_SETTINGS};
+ saveSettings(settings);
+ fillSettingsForm();
+ applyAccentToPage();
+ showToast('Đã khôi phục cài đặt mặc định.');
+});
+
+/* ---------- init ---------- */
+applyAccentToPage();
+const startPage = (location.hash||'#overview').slice(1);
+goPage(['overview','memories','stats','settings'].includes(startPage) ? startPage : 'overview');
+})();
+</script>
+</body>
+</html>
