@@ -186,10 +186,66 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:8;opaci
   <div class="detail-story" id="detailStory"></div><div class="detail-actions"><button class="ghost-btn danger" id="deleteMemory">Xóa kỷ niệm</button><button class="ghost-btn" id="editMemory">✎ Chỉnh sửa</button><button class="primary-btn" data-close="detailBackdrop">Cất lại trong tim ♡</button></div></div></div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (() => {
 'use strict';
 const $ = s => document.querySelector(s);
+/* Supabase cloud storage */
+const SUPABASE_URL = 'https://gvibphifwtojmqnyrtpg.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Y1E5NTIdG4uS35t1qiYQBA_6zoxdayS';
+const ADMIN_UID = '7a6288a2-9c82-4db9-98f2-11abb2f0c259';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+function fromCloudRow(row) {
+ const photos = Array.isArray(row.image_urls) ? row.image_urls.map(p => typeof p === 'string' ? {id:p} : p).filter(p=>p && p.id) : [];
+ return {id: row.client_id || String(row.id), title: row.title || 'Kỷ niệm', date: row.memory_date || '', mood: row.mood || 'peace', story: row.content || '', photos: photos.map(p=>({id: p.id || (p.path ? 'cloud:'+p.path : '')})).filter(p=>p.id), symbol: row.symbol || '✿', demo:false};
+}
+function toCloudRow(m) {
+ const image_urls = (m.photos || []).map(p => {
+  if (!p || !p.id) return null;
+  const path = p.id.startsWith('cloud:') ? p.id.slice(6) : null;
+  return path ? {id:p.id, path} : null;
+ }).filter(Boolean);
+ return {client_id:String(m.id), title:String(m.title || 'Kỷ niệm'), content:String(m.story || ''), memory_date:m.date || null, mood:m.mood || 'peace', symbol:m.symbol || '✿', image_urls, is_public:true};
+}
+async function cloudLoadMemories(admin=false) {
+ let query = sb.from('memories').select('*').order('created_at', {ascending:false});
+ if (!admin) query = query.eq('is_public', true);
+ const {data,error} = await query;
+ if (error) throw error;
+ return (data || []).map(fromCloudRow);
+}
+async function cloudSaveMemory(m) {
+ const row = toCloudRow(m);
+ let result;
+ if (/^\d+$/.test(String(m.id))) { result = await sb.from('memories').update(row).eq('id', Number(m.id)); }
+ else { result = await sb.from('memories').upsert(row, {onConflict:'client_id'}); }
+ if (result.error) throw result.error;
+}
+async function cloudDeleteMemory(id) {
+ const result = /^\d+$/.test(String(id))
+  ? await sb.from('memories').delete().eq('id', Number(id))
+  : await sb.from('memories').delete().eq('client_id', String(id));
+ if (result.error) throw result.error;
+}
+async function cloudUploadBlob(blob, suggestedName='photo.jpg') {
+ const {data:{user}, error:userError} = await sb.auth.getUser();
+ if (userError || !user || user.id !== ADMIN_UID) throw new Error('Cần đăng nhập tài khoản quản trị để tải ảnh lên.');
+ const safeName = String(suggestedName).replace(/[^a-zA-Z0-9._-]/g,'_').slice(-80) || 'photo.jpg';
+ const path = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2,9)}-${safeName}`;
+ const {error} = await sb.storage.from('memory-images').upload(path, blob, {contentType:blob.type || 'image/jpeg', upsert:false});
+ if (error) throw error;
+ return {id:'cloud:'+path};
+}
+async function cloudSignedPhotoUrl(id) {
+ const path = String(id).startsWith('cloud:') ? String(id).slice(6) : String(id);
+ const {data,error} = await sb.storage.from('memory-images').createSignedUrl(path, 3600);
+ if (error) return null;
+ return data?.signedUrl || null;
+}
+
+
+
 
 /* ---------- image store (IndexedDB) ---------- */
 const IMG_DB_NAME='rin-memory-garden-images', IMG_STORE='images';
@@ -211,8 +267,10 @@ async function idbDeleteImage(id){try{const db=await openImageDB();return new Pr
 const coverUrlCache=new Map();
 async function getCoverUrl(id){
  if(coverUrlCache.has(id)) return coverUrlCache.get(id);
- try{const blob=await idbGetImage(id); if(!blob) return null; const url=URL.createObjectURL(blob); coverUrlCache.set(id,url); return url;}
- catch(e){return null;}
+ try{
+  if(String(id).startsWith('cloud:')) { const url=await cloudSignedPhotoUrl(id); if(url) coverUrlCache.set(id,url); return url; }
+  const blob=await idbGetImage(id); if(!blob) return null; const url=URL.createObjectURL(blob); coverUrlCache.set(id,url); return url;
+ }catch(e){return null;}
 }
 function compressImage(file,maxDim=1600,quality=.82){
  return new Promise((resolve,reject)=>{
@@ -268,6 +326,8 @@ function applySettings(){
  if(typeof s.motionDefaultOn==='boolean'){window.__motionDefaultOn=s.motionDefaultOn;}
 }
 applySettings();
+$('#addTop')?.classList.add('hidden');
+$('#editMemory')?.classList.add('hidden');
 
 const grid = $('#gardenGrid');
 const MOODS = {
@@ -300,7 +360,7 @@ function render(){
  animateCount($('#photoCount'),memories.filter(hasPhoto).length);
  animateCount($('#moodCount'),new Set(memories.map(m=>m.mood)).size);
  grid.innerHTML='';
- const add=document.createElement('button');add.className='empty-card';add.innerHTML='<span class="plus">＋</span><strong>Gieo kỷ niệm mới</strong><small>Lưu lại một khoảnh khắc đặc biệt của bạn...</small>';add.addEventListener('click',openCreate);grid.appendChild(add);
+ /* Public page is read-only; additions are managed in admin.html. */
  list.forEach((m,i)=>{
   const card=document.createElement('article');card.className='memory-card';card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label','Mở kỷ niệm '+m.title);card.style.animationDelay=Math.min(i*.055,.35)+'s';card.dataset.id=m.id;card.style.viewTransitionName='card-'+m.id;
   const mood=MOODS[m.mood]||MOODS.peace;
@@ -444,7 +504,7 @@ function openDetail(id){
   if(m.photos&&m.photos.length){galleryState={photos:m.photos,legacySrc:null,index:0};stage.classList.remove('hidden');showGalleryIndex(0);}
   else if(m.photo){galleryState={photos:[],legacySrc:m.photo,index:0};stage.classList.remove('hidden');showGalleryIndex(0);}
   else{galleryState={photos:[],legacySrc:null,index:0};stage.classList.add('hidden');$('#detailPhoto').removeAttribute('src');}
-  $('#deleteMemory').classList.toggle('hidden',!!m.demo);};
+  $('#deleteMemory').classList.add('hidden');};
  const card=document.querySelector('[data-id="'+id+'"]');
  const hero=$('#detailHero');
  if(!withPhotos&&!reducedMotion&&document.startViewTransition&&card&&hero){
@@ -462,7 +522,8 @@ function openDetail(id){
  }
 }
 $('#memoryForm').addEventListener('submit',async e=>{
- e.preventDefault();const title=$('#title').value.trim();if(!title){showToast('Đặt tên cho kỷ niệm trước nhé.');return;}
+ e.preventDefault();showToast('Trang này chỉ xem kỷ niệm. Hãy dùng trang quản trị để chỉnh sửa.');return;
+ const title=$('#title').value.trim();if(!title){showToast('Đặt tên cho kỷ niệm trước nhé.');return;}
  const old=memories.find(x=>x.id===$('#memoryId').value);
  const submitBtn=$('#formSubmitBtn'); const originalLabel=submitBtn.innerHTML;
  const photosToProcess=pendingPhotos.slice();
@@ -471,11 +532,13 @@ $('#memoryForm').addEventListener('submit',async e=>{
   submitBtn.disabled=true; submitBtn.innerHTML='<span class="submit-spinner"></span>Đang lưu '+photosToProcess.length+' ảnh...';
   try{
    for(const p of photosToProcess){
-    if(p.kind==='existing'){newPhotos.push({id:p.id});continue;}
-    const blob=p.kind==='legacy'?dataURLtoBlob(p.url):await compressImage(p.file);
-    const id='img_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);
-    await idbPutImage(id,blob);
-    newPhotos.push({id});
+    if(p.kind==='existing' && String(p.id).startsWith('cloud:')){newPhotos.push({id:p.id});continue;}
+    let blob;
+    if(p.kind==='legacy') blob=dataURLtoBlob(p.url);
+    else if(p.kind==='existing') blob=await idbGetImage(p.id);
+    else blob=await compressImage(p.file);
+    if(!blob) throw new Error('missing-image');
+    newPhotos.push(await cloudUploadBlob(blob, p.file?.name || 'memory.jpg'));
    }
   }catch(err){
    submitBtn.disabled=false; submitBtn.innerHTML=originalLabel;
@@ -494,7 +557,7 @@ $('#memoryForm').addEventListener('submit',async e=>{
  withTransition(render);closeModal('formBackdrop');
 });
 $('#editMemory').addEventListener('click',()=>{if(selectedId)openEdit(selectedId);});
-$('#deleteMemory').addEventListener('click',()=>{const m=memories.find(x=>x.id===selectedId);if(!m)return;if(!confirm('Xóa kỷ niệm “'+m.title+'” khỏi khu vườn?'))return;if(m.photos)m.photos.forEach(p=>idbDeleteImage(p.id));memories=memories.filter(x=>x.id!==selectedId);save();withTransition(render);closeModal('detailBackdrop');showToast('Kỷ niệm đã được gỡ khỏi khu vườn.');});
+$('#deleteMemory').addEventListener('click',()=>{showToast('Chỉ quản trị viên mới được xóa kỷ niệm.');return; const m=memories.find(x=>x.id===selectedId);if(!m)return;if(!confirm('Xóa kỷ niệm “'+m.title+'” khỏi khu vườn?'))return;if(m.photos)m.photos.forEach(p=>idbDeleteImage(p.id));memories=memories.filter(x=>x.id!==selectedId);save();withTransition(render);closeModal('detailBackdrop');showToast('Kỷ niệm đã được gỡ khỏi khu vườn.');});
 $('#addTop').addEventListener('click',openCreate);
 $('#exploreBtn').addEventListener('click',()=>$('#memories').scrollIntoView({behavior:reducedMotion?'auto':'smooth',block:'start'}));
 let searchDebounce;$('#search').addEventListener('input',()=>{clearTimeout(searchDebounce);searchDebounce=setTimeout(()=>withTransition(render),120);});
@@ -555,6 +618,7 @@ function resize(){W=innerWidth;H=innerHeight;dpr=Math.min(devicePixelRatio||1,1.
 function animate(t=0){if(reducedMotion||document.hidden){cancelAnimationFrame(raf);return;}raf=requestAnimationFrame(animate);if(t-last<28)return;last=t;ctx.clearRect(0,0,W,H);for(const p of particles){p.phase+=.012*p.speed;p.y-=p.speed*.15;if(p.y<-5){p.y=H+5;p.x=Math.random()*W;}const x=p.x+Math.sin(p.phase)*7+((mouse.x-.5)*9),y=p.y+Math.cos(p.phase*.8)*4;const alpha=p.a*(.65+.35*Math.sin(p.phase*2));ctx.beginPath();ctx.fillStyle=`hsla(${p.hue},80%,85%,${alpha})`;ctx.shadowBlur=p.r>1.1?9:0;ctx.shadowColor='#d9a7ff';ctx.arc(x,y,p.r,0,Math.PI*2);ctx.fill();}ctx.shadowBlur=0;}
 window.addEventListener('resize',resize,{passive:true});window.addEventListener('pointermove',e=>{mouse.x=e.clientX/W;mouse.y=e.clientY/H;},{passive:true});window.addEventListener('scroll',()=>{scrollY=window.scrollY;document.documentElement.style.setProperty('--scroll',scrollY);},{passive:true});document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!reducedMotion)animate();});resize();if(!reducedMotion)animate();
 render();
+(async()=>{ try { const remote=await cloudLoadMemories(false); memories=remote; render(); } catch(err) { console.warn('Supabase read failed; using local cached data.',err); showToast('Chưa tải được dữ liệu trực tuyến. Đang hiển thị dữ liệu đã lưu trên thiết bị này.'); } })();
 })();
 </script>
 
