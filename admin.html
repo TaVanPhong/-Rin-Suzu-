@@ -4,193 +4,367 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#100e27">
-<title>鈴Rin ✧ Suzu鈴</title>
+<title>Quản trị · 鈴Rin ✧ Suzu鈴</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
-:root{--bg:#0b0b20;--panel:rgba(19,18,47,.78);--line:rgba(206,174,255,.2);--text:#f7efff;--muted:#b9accf;--pink:#f0a9ed;--lilac:#c9a8ff;--gold:#ffd6a5;--ease:cubic-bezier(.22,1,.36,1)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:'Be Vietnam Pro',sans-serif;min-height:100vh;overflow-x:hidden}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #e4b5ff;outline-offset:3px}
-#sky{position:fixed;inset:0;width:100%;height:100%;z-index:-3;pointer-events:none}.ambient{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(ellipse at 72% 18%,rgba(112,69,160,.24),transparent 45%),radial-gradient(ellipse at 12% 78%,rgba(69,45,139,.22),transparent 38%),linear-gradient(180deg,rgba(8,8,28,.1),rgba(8,7,23,.65))}.grain{position:fixed;inset:0;z-index:8;pointer-events:none;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E")}
-.app{max-width:1500px;margin:auto;padding:24px 30px 60px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px;font-size:13px;letter-spacing:.08em;color:#f5dcff}.brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:15px;background:linear-gradient(145deg,rgba(220,170,255,.2),rgba(255,185,225,.07));border:1px solid var(--line);box-shadow:0 0 30px #bd83ff18;font-size:23px}.brand strong{display:block;font-weight:600;font-size:14px;letter-spacing:.02em}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.15em;margin-top:3px}.top-actions{display:flex;align-items:center;gap:9px}.icon-btn,.ghost-btn{border:1px solid var(--line);background:rgba(25,22,56,.58);color:#f8eaff;border-radius:14px;padding:10px 13px;transition:transform .35s var(--ease),background .35s,border-color .35s}
-a.icon-btn,a.ghost-btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}.icon-btn:hover,.ghost-btn:hover{transform:translateY(-2px);background:rgba(101,69,146,.32);border-color:#d6aaff70}.icon-btn{width:42px;height:42px;padding:0;font-size:17px}.hero{position:relative;min-height:410px;border:1px solid rgba(211,172,255,.23);border-radius:28px;overflow:hidden;display:flex;align-items:center;padding:clamp(25px,5vw,66px);background:linear-gradient(90deg,rgba(13,11,38,.94) 0%,rgba(13,11,38,.75) 37%,rgba(13,11,38,.08) 100%),radial-gradient(ellipse at 77% 42%,#68428c 0%,#29235b 24%,#171638 52%,#11102c 80%);box-shadow:0 24px 90px #03020d60;isolation:isolate}.hero:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,#0b0b20aa,transparent 34%),url("data:image/svg+xml,%3Csvg width='900' height='500' viewBox='0 0 900 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3CradialGradient id='g'%3E%3Cstop stop-color='%23f7c8ff' stop-opacity='.95'/%3E%3Cstop offset='1' stop-color='%23b780ff' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='640' cy='115' r='115' fill='url(%23g)' opacity='.28'/%3E%3Ccircle cx='705' cy='100' r='42' fill='%23ffe4ff' opacity='.8'/%3E%3Ccircle cx='723' cy='84' r='42' fill='%232c245c'/%3E%3Cpath d='M510 500 Q550 300 700 300 Q800 300 900 390 L900 500Z' fill='%23100e2a'/%3E%3Cpath d='M600 500 Q660 360 750 390 Q820 420 850 500Z' fill='%232b1b50'/%3E%3C/svg%3E") center/cover no-repeat;transform:scale(1.02);animation:heroDrift 22s ease-in-out infinite alternate}.hero-copy{max-width:530px;position:relative;z-index:1;animation:rise .9s var(--ease) both}.eyebrow{color:#d8b6ff;text-transform:uppercase;letter-spacing:.22em;font-size:10px;font-weight:600;display:flex;align-items:center;gap:10px}.eyebrow:before{content:"";width:24px;height:1px;background:#d8b6ff}.hero h1{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(43px,6vw,76px);line-height:1.04;letter-spacing:-.045em;margin:19px 0 16px;background:linear-gradient(115deg,#fff6ff 12%,#e5c7ff 50%,#f6c8e8 95%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 45px #d8aaff22}.hero p{color:#d4c6e5;line-height:1.85;font-size:13px;max-width:390px;margin:0 0 25px}.primary-btn{border:1px solid rgba(255,225,255,.48);border-radius:999px;padding:12px 18px;color:#231633;font-weight:600;font-size:12px;background:linear-gradient(115deg,#e9c2ff,#f7c7e6 55%,#ffd9bb);box-shadow:0 8px 35px #e8aaff25;transition:transform .4s var(--ease),box-shadow .4s;display:inline-flex;align-items:center;gap:10px}.primary-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 13px 42px #e8aaff45}.hero-orbit{position:absolute;right:10%;top:16%;width:260px;height:260px;border:1px solid #e3baff22;border-radius:50%;animation:orbit 38s linear infinite}.hero-orbit:before,.hero-orbit:after{content:"";position:absolute;border-radius:50%;background:#ffe5ff;box-shadow:0 0 14px 5px #dfaaff88}.hero-orbit:before{width:5px;height:5px;top:18%;left:15%}.hero-orbit:after{width:3px;height:3px;bottom:15%;right:13%}.hero-plant{position:absolute;right:7%;bottom:6%;width:360px;height:168px;opacity:.94;filter:drop-shadow(0 0 34px #c887ff55);animation:plantFloat 7s ease-in-out infinite}.hero-plant svg{width:100%;height:100%}.hero-note{position:absolute;right:4%;bottom:13%;padding:15px 17px;width:190px;border:1px solid #e6c9ff35;border-radius:17px;background:#15112eb0;backdrop-filter:blur(14px);color:#e9d6f7;font-family:'Playfair Display',serif;font-style:italic;font-size:13px;line-height:1.6;transform:rotate(2deg);animation:noteFloat 8s ease-in-out infinite}.hero-note span{display:block;text-align:right;color:#f5b6e7;margin-top:8px}
-.statsbar{display:flex;align-items:center;gap:0;margin:18px 0 35px;padding:15px 18px;border:1px solid var(--line);border-radius:19px;background:linear-gradient(100deg,rgba(22,19,51,.83),rgba(18,15,42,.62));backdrop-filter:blur(14px)}.stat{padding:0 23px;border-right:1px solid var(--line);display:flex;align-items:center;gap:10px}.stat:first-child{padding-left:5px}.stat:last-of-type{border:0}.stat-icon{font-size:21px;color:#e9baff}.stat strong{display:block;font-size:19px;font-weight:500}.stat small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.mood-filters{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap}.chip{border:1px solid var(--line);background:#17142f8a;color:#c9bddb;padding:9px 13px;border-radius:999px;font-size:10px;transition:all .3s var(--ease)}.chip:hover,.chip.active{background:linear-gradient(120deg,#dcb3ff,#f0bfe9);color:#251638;border-color:transparent;box-shadow:0 4px 18px #d5a1ff20}
-.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:18px}.section-head h2{font-family:'Playfair Display',serif;font-weight:400;font-size:29px;margin:0 0 5px}.section-head p{margin:0;color:var(--muted);font-size:11px}.search{border:1px solid var(--line);background:#17142f99;border-radius:13px;padding:11px 14px;color:var(--text);width:min(260px,45vw);font-size:11px}.garden-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.memory-card{position:relative;overflow:hidden;min-height:240px;border:1px solid rgba(210,173,255,.23);border-radius:19px;background:linear-gradient(145deg,#25204a,#13132e);cursor:pointer;transition:transform .5s var(--ease),border-color .4s,box-shadow .4s;animation:cardIn .75s var(--ease) both;isolation:isolate}.memory-card:hover{transform:translateY(-7px);border-color:#e8bfff88;box-shadow:0 18px 45px #03020c66,0 0 30px #b77aff12}.memory-card:focus-visible{outline:2px solid var(--pink)}.card-art{height:150px;position:relative;overflow:hidden;background:linear-gradient(140deg,#43306d,#17234a 52%,#e7a6d7)}.card-art:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 65% 28%,#fff8dcbb 0 2%,transparent 3%),radial-gradient(ellipse at 72% 65%,#f3b8ff88,transparent 35%),linear-gradient(0deg,#10102bd9,transparent 68%)}.card-art:after{content:"";position:absolute;width:180px;height:180px;border:1px solid #ffffff29;border-radius:50%;right:-35px;top:-90px;box-shadow:0 0 0 20px #ffffff08,0 0 0 40px #ffffff05}.art-1{background:linear-gradient(135deg,#221b57,#5b3c86 50%,#edb5dc)}.art-2{background:linear-gradient(140deg,#f8b7aa,#ffdfb3 43%,#6d8bb3)}.art-3{background:linear-gradient(145deg,#19162e,#b76b6c 54%,#f7cda4)}.art-4{background:linear-gradient(140deg,#7cb5d5,#d5e8fb 45%,#f7c3dc)}.art-5{background:linear-gradient(140deg,#271a4c,#db88c5 48%,#ffdaa6)}.art-6{background:linear-gradient(135deg,#17184e,#654cba 52%,#f4a9d9)}.art-7{background:linear-gradient(145deg,#443020,#c38b68 45%,#f8d8b0)}.art-8{background:linear-gradient(140deg,#201b52,#613ba1 55%,#d4a8ff)}.art-symbol{position:absolute;inset:0;display:grid;place-items:center;font-size:47px;filter:drop-shadow(0 0 17px #fff6ff99);animation:symbolFloat 6s ease-in-out infinite}.art-symbol:after{content:"";position:absolute;width:110px;height:110px;border-radius:50%;border:1px solid #fff5;box-shadow:0 0 35px #f7d3ff25}.card-heart{position:absolute;right:10px;top:10px;width:30px;height:30px;display:grid;place-items:center;border:1px solid #fff5;border-radius:50%;background:#0c0b25a8;color:#fff;font-size:15px;z-index:2;transition:transform .3s}.card-heart:hover{transform:scale(1.15)}.card-body{padding:13px 14px 15px}.card-title{font-size:12px;font-weight:500;margin:0 0 7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card-date{color:#a99bbb;font-size:10px}.card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;color:#cdbbdf;font-size:10px}.mood-label{display:inline-flex;align-items:center;gap:5px;color:#e9c0ff}.empty-card{min-height:240px;border:1px dashed #d8b4ff50;border-radius:19px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:#15132c60;color:#d6bde9;transition:all .35s var(--ease)}.empty-card:hover{background:#241c43;border-color:#e7baff;transform:translateY(-3px)}.empty-card .plus{font-size:27px;width:43px;height:43px;border:1px solid #cda1ef;border-radius:50%;display:grid;place-items:center}.empty-card strong{font-size:12px;font-weight:500}.empty-card small{font-size:10px;color:var(--muted);text-align:center;max-width:145px;line-height:1.6}.footer-note{text-align:center;color:#8f82a8;font-family:'Playfair Display',serif;font-style:italic;font-size:14px;margin:44px 0 0}.footer-note span{color:#df9ee9}
-.modal-backdrop{position:fixed;inset:0;z-index:20;background:#060511c9;backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:18px;opacity:0;transition:opacity .35s}.modal-backdrop.open{display:flex}.modal-backdrop.visible{opacity:1}.modal{width:min(650px,100%);max-height:min(90vh,850px);overflow:auto;border:1px solid #e2bdff48;border-radius:25px;background:linear-gradient(145deg,#211a42f5,#111127f8);box-shadow:0 35px 100px #0009;transform:translateY(18px) scale(.98);transition:transform .5s var(--ease);position:relative}.modal-backdrop.visible .modal{transform:translateY(0) scale(1)}.modal-top{display:flex;align-items:center;justify-content:space-between;padding:23px 25px 0}.modal-top h3{font-family:'Playfair Display',serif;font-weight:400;font-size:27px;margin:0}.close-btn{width:36px;height:36px;border:1px solid var(--line);border-radius:50%;background:#ffffff08;color:#fff;font-size:18px}.form-body{padding:22px 25px 25px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:11px;color:#d6c6e8}.field input,.field textarea,.field select{width:100%;border:1px solid #cba8ef30;border-radius:12px;padding:12px 13px;background:#100f27;color:#f8efff;font-size:12px}.field textarea{resize:vertical;min-height:105px;line-height:1.7}.field input[type=file]{padding:10px}.form-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}.danger{color:#ffb5c3;border-color:#ffb5c344}.detail-hero{height:210px;display:grid;place-items:center;font-size:74px;position:relative;overflow:hidden}.detail-hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle,#e6b4ff66,transparent 55%),linear-gradient(135deg,#20183f,#4b2b68,#141532)}.detail-hero span{z-index:1;filter:drop-shadow(0 0 25px #ffcaffaa);animation:symbolFloat 5s ease-in-out infinite}.detail-content{padding:23px 27px 28px}.detail-content h3{font-family:'Playfair Display',serif;font-weight:400;font-size:30px;margin:8px 0}.detail-meta{font-size:11px;color:var(--muted);margin-bottom:20px}.detail-story{font-size:13px;line-height:1.95;color:#e2d6ef;white-space:pre-wrap}.detail-photo{display:block;max-width:100%;max-height:280px;object-fit:contain;border-radius:13px;margin:16px auto}.detail-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:25px;flex-wrap:wrap}.toast{position:fixed;z-index:40;bottom:25px;left:50%;transform:translate(-50%,20px);padding:12px 17px;border:1px solid #e0b7ff50;border-radius:14px;background:#21183beF;color:#f9eaff;font-size:12px;box-shadow:0 12px 40px #0006;opacity:0;pointer-events:none;transition:all .4s var(--ease)}.toast.show{opacity:1;transform:translate(-50%,0)}.hidden{display:none!important}.reduced *{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-@keyframes rise{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}@keyframes heroDrift{from{transform:scale(1.02) translate3d(0,0,0)}to{transform:scale(1.08) translate3d(-1.2%,1%,0)}}@keyframes orbit{to{transform:rotate(360deg)}}@keyframes plantFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}@keyframes noteFloat{0%,100%{transform:translateY(0) rotate(2deg)}50%{transform:translateY(-8px) rotate(1deg)}}@keyframes cardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes symbolFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-7px) rotate(3deg)}}@keyframes petalFall{0%{transform:translate3d(0,-8vh,0) rotate(0deg);opacity:0}10%{opacity:.9}90%{opacity:.75}100%{transform:translate3d(var(--drift),108vh,0) rotate(var(--spin));opacity:0}}
-@media(max-width:1050px){.garden-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-note{display:none}.hero-plant{right:3%;opacity:.5}.statsbar{flex-wrap:wrap;gap:14px}.mood-filters{width:100%;margin:2px 0 0}.stat{padding:0 15px}}
-@media(max-width:700px){.app{padding:16px 14px 40px}.topbar{margin-bottom:15px}.brand small{display:none}.top-actions .ghost-btn{display:none}.hero{min-height:440px;padding:28px 22px;align-items:flex-start}.hero-copy{max-width:100%}.hero h1{font-size:49px}.hero p{max-width:290px}.hero-plant{width:230px;height:108px;right:0;bottom:4px;opacity:.4}.hero-orbit{width:180px;height:180px;right:-20px;top:45%}.statsbar{padding:14px 12px;gap:12px}.stat{padding:0 8px;gap:7px}.stat:first-child{padding-left:0}.stat strong{font-size:16px}.stat small{font-size:9px}.stat-icon{font-size:17px}.chip{padding:8px 10px}.section-head{align-items:flex-start;flex-direction:column}.search{width:100%}.garden-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.memory-card,.empty-card{min-height:215px}.card-art{height:125px}.card-body{padding:11px}.card-title{font-size:11px}.art-symbol{font-size:39px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.modal-top{padding:20px 19px 0}.form-body{padding:18px 19px 22px}.detail-content{padding:20px}.detail-content h3{font-size:25px}}
-@media(max-width:380px){.garden-grid{grid-template-columns:1fr}.memory-card{min-height:240px}.card-art{height:155px}.stat{padding:0 5px}.stat-icon{display:none}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+:root{
+ --bg:#0b0b20;--panel:rgba(19,18,47,.78);--panel-solid:#15132f;--line:rgba(206,174,255,.18);
+ --text:#f7efff;--muted:#b9accf;--faint:#8f82a8;
+ --pink:#f0a9ed;--lilac:#c9a8ff;--gold:#ffd6a5;--ease:cubic-bezier(.22,1,.36,1);
+ --mood-happy:#c9801f;--mood-peace:#6e8fe0;--mood-sad:#6456a8;--mood-surprise:#e0599e;
+ --good:#4fb286;--danger:#e8637c;
+ --sidebar-w:248px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Be Vietnam Pro',sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:-20%;pointer-events:none;z-index:-1;background:
+ radial-gradient(38rem 28rem at 10% 10%,rgba(115,76,205,.15),transparent 70%),
+ radial-gradient(32rem 34rem at 90% 20%,rgba(228,119,203,.09),transparent 70%),
+ radial-gradient(30rem 25rem at 50% 100%,rgba(84,121,202,.1),transparent 70%)}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid #e4b5ff;outline-offset:2px}
+a{color:inherit}
+h1,h2,h3{font-family:'Playfair Display',serif;font-weight:500;margin:0}
 
-/* ✦ PREMIUM MOTION UPGRADE */
-:root{--ease-premium:cubic-bezier(.16,1,.3,1);--pointer-x:50%;--pointer-y:35%}
-body:before{content:"";position:fixed;inset:-20%;pointer-events:none;z-index:-2;background:
-radial-gradient(38rem 28rem at 14% 18%,rgba(115,76,205,.17),transparent 70%),
-radial-gradient(32rem 34rem at 82% 34%,rgba(228,119,203,.11),transparent 70%),
-radial-gradient(30rem 25rem at 60% 92%,rgba(84,121,202,.12),transparent 70%);
-animation:auroraDrift 24s ease-in-out infinite alternate;will-change:transform}
-body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:8;opacity:.46;background:radial-gradient(340px circle at var(--pointer-x) var(--pointer-y),rgba(228,185,255,.075),transparent 72%);transition:opacity .4s}
-@keyframes auroraDrift{0%{transform:translate3d(-1.5%,0,0) rotate(-1deg) scale(1)}100%{transform:translate3d(1.5%,-1%,0) rotate(1deg) scale(1.06)}}
-@keyframes petalDrift{0%{transform:translate3d(0,-8vh,0) rotate(0deg);opacity:0}10%{opacity:.75}85%{opacity:.55}100%{transform:translate3d(var(--sway),110vh,0) rotate(var(--spin));opacity:0}}
-@keyframes glowBreathe{0%,100%{filter:drop-shadow(0 0 8px rgba(220,164,255,.13));opacity:.82}50%{filter:drop-shadow(0 0 23px rgba(255,174,231,.42));opacity:1}}
-@keyframes shimmerLine{0%{background-position:-180% 0}100%{background-position:180% 0}}
-@keyframes riseIn{from{opacity:0;transform:translateY(24px) scale(.985);filter:blur(4px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
-#petal-layer{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:4;contain:strict}
-.falling-petal{position:absolute;top:-10vh;left:var(--left);font-size:var(--size);color:var(--petal-color);opacity:0;text-shadow:0 0 12px rgba(255,191,240,.45);animation:petalDrift var(--duration) linear var(--delay) infinite;will-change:transform,opacity}
-.cursor-aura{position:fixed;left:0;top:0;width:240px;height:240px;border-radius:50%;pointer-events:none;z-index:7;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(202,160,255,.075),rgba(245,174,224,.025) 38%,transparent 70%);mix-blend-mode:screen;opacity:0;transition:opacity .35s;will-change:transform}
-@media(hover:hover) and (pointer:fine){body:hover .cursor-aura{opacity:1}}
-.app{position:relative;z-index:1}
-.hero h1{animation:riseIn 1.05s var(--ease-premium) both}
-.hero-copy .eyebrow{animation:riseIn .8s .08s var(--ease-premium) both}
-.hero-copy p{animation:riseIn .95s .18s var(--ease-premium) both}
-.hero-copy .primary-btn{animation:riseIn .95s .28s var(--ease-premium) both}
-.hero-plant{animation:glowBreathe 5.5s ease-in-out infinite;transform-origin:50% 75%}
-.hero-orbit{animation:orbitFloat 16s ease-in-out infinite alternate}
-@keyframes orbitFloat{0%{transform:translate3d(-8px,5px,0) rotate(-2deg)}100%{transform:translate3d(8px,-9px,0) rotate(2deg)}}
-.primary-btn,.ghost-btn,.icon-btn,.filter-btn,.memory-card{transition:transform .55s var(--ease-premium),box-shadow .55s var(--ease-premium),border-color .45s ease,background .45s ease}
-.primary-btn{position:relative;overflow:hidden}
-.primary-btn:before{content:"";position:absolute;inset:0;transform:translateX(-120%);background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.23) 48%,transparent 70%);animation:shimmerLine 5.8s ease-in-out infinite;background-size:220% 100%}
-.primary-btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(191,128,255,.24)}
-.memory-card{transform-style:preserve-3d;will-change:transform}
-.memory-card:hover{box-shadow:0 22px 70px rgba(8,5,25,.35),0 0 0 1px rgba(230,190,255,.13),0 0 35px rgba(183,129,255,.08)}
-.memory-card:after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(125deg,transparent 20%,rgba(255,255,255,.055) 45%,transparent 62%);background-size:230% 100%;background-position:120% 0;transition:background-position .9s var(--ease-premium)}
-.memory-card:hover:after{background-position:-120% 0}
-.card-art{transition:transform .6s var(--ease-premium)}
-.memory-card:hover .card-art{transform:scale(1.045)}
-@media(prefers-reduced-motion:reduce){.card-art{transition:none}.memory-card:hover .card-art{transform:none}}
-.reveal-ready{opacity:0;transform:translateY(22px);filter:blur(2px);transition:opacity .8s var(--ease-premium),transform .8s var(--ease-premium),filter .8s var(--ease-premium)}
-.reveal-ready.is-visible{opacity:1;transform:translateY(0);filter:blur(0)}
-.brand-mark{animation:glowBreathe 4s ease-in-out infinite}
-.brand-logo{height:44px;width:72px;object-fit:cover;object-position:center;display:block;border-radius:12px;border:1px solid var(--line);box-shadow:0 0 22px rgba(201,139,255,.35);animation:glowBreathe 4s ease-in-out infinite}
-.hero-plant img{width:100%;height:100%;object-fit:contain;object-position:center bottom}
-@media(max-width:700px){.cursor-aura{display:none}body:after{opacity:.2}.falling-petal{font-size:calc(var(--size)*.8)}}
-@media(prefers-reduced-motion:reduce){body:before,.hero-plant,.hero-orbit,.primary-btn:before,.brand-mark,.brand-logo,.falling-petal{animation:none!important}.reveal-ready{opacity:1;transform:none;filter:none;transition:none}}
+.shell{display:flex;min-height:100vh}
+.sidebar{position:sticky;top:0;align-self:flex-start;height:100vh;width:var(--sidebar-w);flex:0 0 auto;border-right:1px solid var(--line);background:rgba(13,12,33,.6);backdrop-filter:blur(16px);display:flex;flex-direction:column;padding:22px 16px}
+.side-brand{display:flex;align-items:center;gap:11px;padding:4px 8px 22px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.side-brand .mark{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;background:linear-gradient(145deg,rgba(220,170,255,.22),rgba(255,185,225,.08));border:1px solid var(--line);font-size:19px}
+.side-brand .mark-logo{width:52px;height:34px;object-fit:cover;object-position:center;flex:0 0 auto;border-radius:9px;border:1px solid var(--line);box-shadow:0 0 16px rgba(201,139,255,.3)}
+.side-brand strong{display:block;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side-brand strong{display:block;font-size:13px;font-weight:600;letter-spacing:.02em}
+.side-brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:.14em;margin-top:2px}
+.nav-group{display:flex;flex-direction:column;gap:3px;margin-bottom:18px}
+.nav-label{font-size:9px;letter-spacing:.16em;color:var(--faint);padding:6px 10px 2px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid transparent;background:none;text-align:left;font-size:12.5px;color:var(--muted);transition:background .3s var(--ease),color .3s,border-color .3s}
+.nav-item .ic{font-size:14px;width:18px;text-align:center}
+.nav-item:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.nav-item.active{background:linear-gradient(120deg,rgba(220,170,255,.16),rgba(255,185,225,.07));border-color:var(--line);color:#fff;box-shadow:0 0 0 1px rgba(230,190,255,.08) inset}
+.sidebar-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.back-link{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;font-size:12px;color:var(--muted);text-decoration:none;border:1px solid var(--line);transition:background .3s,color .3s}
+.back-link:hover{background:rgba(255,255,255,.04);color:#fff}
 
-/* ✦ SCENE TRANSITIONS & INTRO */
-#scrollProgress{position:fixed;top:0;left:0;height:3px;width:0%;z-index:50;background:linear-gradient(90deg,#c9a8ff,#f0a9ed,#ffd6a5);box-shadow:0 0 12px rgba(217,167,255,.55);pointer-events:none}
-#introCurtain{position:fixed;inset:0;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(ellipse at 50% 38%,#2c2360,#0b0b20 72%);transition:opacity .9s var(--ease-premium),visibility .9s var(--ease-premium)}
-#introCurtain.hide{opacity:0;visibility:hidden;pointer-events:none}
-#introCurtain .intro-mark{font-size:58px;color:#f0c6ff;filter:drop-shadow(0 0 32px rgba(201,139,255,.55));animation:introBloom 1.4s var(--ease-premium) both}
-#introCurtain .intro-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:#cdb4e8;letter-spacing:.04em;opacity:0;animation:riseIn 1s .5s var(--ease-premium) both}
-@keyframes introBloom{0%{opacity:0;transform:scale(.35) rotate(-18deg)}55%{opacity:1;transform:scale(1.18) rotate(5deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
-.count-pop{display:inline-block;animation:countPop .5s var(--ease-premium)}
-@keyframes countPop{0%{transform:scale(1)}40%{transform:scale(1.2)}100%{transform:scale(1)}}
-::view-transition-old(root),::view-transition-new(root){animation-duration:.45s;animation-timing-function:cubic-bezier(.16,1,.3,1)}
-::view-transition-group(*){animation-duration:.55s;animation-timing-function:cubic-bezier(.16,1,.3,1)}
-::view-transition-old(morph-card),::view-transition-new(morph-card){animation-duration:.62s;animation-timing-function:cubic-bezier(.16,1,.3,1)}
-@media(prefers-reduced-motion:reduce){#introCurtain{display:none}#scrollProgress{display:none}}
+.main{flex:1 1 auto;min-width:0;padding:26px 32px 60px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.topbar h1{font-size:25px}
+.topbar p{margin:4px 0 0;color:var(--muted);font-size:11.5px}
+.page{display:none}
+.page.active{display:block;animation:pageIn .5s cubic-bezier(.16,1,.3,1) both}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* ✦ MULTI-IMAGE UPLOAD, GALLERY & MOTION TOKENS */
-:root{--dur-fast:180ms;--dur-base:260ms;--dur-modal:380ms}
-.dropzone{border:1.5px dashed #cba8ef4a;border-radius:14px;padding:18px;text-align:center;color:var(--muted);font-size:11.5px;cursor:pointer;transition:border-color var(--dur-base) var(--ease),background var(--dur-base) var(--ease)}
+.btn{border:1px solid var(--line);background:rgba(25,22,56,.6);color:#f8eaff;border-radius:12px;padding:9px 14px;font-size:12px;display:inline-flex;align-items:center;gap:7px;transition:transform .3s var(--ease),background .3s,border-color .3s}
+.btn:hover{transform:translateY(-2px);background:rgba(101,69,146,.32);border-color:#d6aaff70}
+.btn.primary{border-color:rgba(255,225,255,.4);color:#231633;font-weight:600;background:linear-gradient(115deg,#e9c2ff,#f7c7e6 55%,#ffd9bb)}
+.btn.primary:hover{box-shadow:0 10px 30px #e8aaff30}
+.btn.danger{border-color:rgba(232,99,124,.4);color:#ffd2db}
+.btn.danger:hover{background:rgba(232,99,124,.18)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.btn.sm{padding:6px 10px;font-size:11px;border-radius:9px}
+
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:22px}
+.kpi{border:1px solid var(--line);border-radius:17px;padding:16px 18px;background:linear-gradient(160deg,rgba(22,19,51,.75),rgba(16,15,36,.55));position:relative;overflow:hidden}
+.kpi .kpi-icon{font-size:17px;color:var(--pink);margin-bottom:10px;display:block}
+.kpi strong{display:block;font-size:24px;font-weight:600;font-family:'Playfair Display',serif}
+.kpi span{display:block;color:var(--muted);font-size:10.5px;margin-top:3px}
+
+.panel-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-bottom:16px}
+@media(max-width:980px){.panel-grid{grid-template-columns:1fr}}
+.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(160deg,rgba(22,19,51,.7),rgba(16,15,36,.5));padding:20px 22px}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px}
+.card-head h3{font-size:16px}
+.card-head p{margin:2px 0 0;color:var(--muted);font-size:10.5px}
+
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.search-input{border:1px solid var(--line);background:#17142f99;border-radius:12px;padding:10px 13px;color:var(--text);font-size:11.5px;min-width:200px;flex:1 1 200px}
+.select-input{border:1px solid var(--line);background:#17142f99;border-radius:12px;padding:10px 13px;color:var(--text);font-size:11.5px}
+.spacer{flex:1 1 auto}
+
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:720px}
+thead th{text-align:left;font-weight:600;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);padding:12px 14px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02);cursor:pointer;user-select:none;white-space:nowrap}
+thead th:hover{color:var(--text)}
+thead th.sorted{color:var(--pink)}
+tbody td{padding:11px 14px;border-bottom:1px solid rgba(206,174,255,.08);vertical-align:middle}
+tbody tr{transition:background .25s}
+tbody tr:hover{background:rgba(255,255,255,.03)}
+tbody tr:last-child td{border-bottom:none}
+.cell-title{font-weight:500;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cell-story{color:var(--muted);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11.5px}
+.mood-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.mood-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 3px rgba(255,255,255,.04)}
+.photo-tag{font-size:13px}
+.row-actions{display:flex;gap:6px;justify-content:flex-end}
+.icon-action{width:28px;height:28px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.03);display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);transition:all .25s}
+.icon-action:hover{color:#fff;border-color:#d6aaff70;background:rgba(101,69,146,.3)}
+.icon-action.danger:hover{color:#ffd2db;border-color:rgba(232,99,124,.5);background:rgba(232,99,124,.15)}
+.empty-row td{text-align:center;color:var(--muted);padding:38px 14px;font-size:12px}
+input[type=checkbox]{width:15px;height:15px;accent-color:var(--pink)}
+
+.legend{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.legend-row{display:flex;align-items:center;gap:9px;font-size:11.5px}
+.legend-row .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.legend-row .lbl{flex:1 1 auto;color:var(--muted)}
+.legend-row .val{font-variant-numeric:tabular-nums;color:var(--text);font-weight:500}
+.legend-row .pct{color:var(--faint);font-size:10px;width:36px;text-align:right}
+
+.chart-tooltip{position:fixed;z-index:60;pointer-events:none;background:#1c1838f0;border:1px solid #e0b7ff44;border-radius:10px;padding:7px 11px;font-size:11px;color:#f8eaff;box-shadow:0 10px 30px #0007;opacity:0;transition:opacity .15s;white-space:nowrap}
+.chart-tooltip.show{opacity:1}
+.bar-rect{transition:opacity .2s}
+.bar-rect:hover{opacity:.72}
+.stat-mini-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+.field label{font-size:11px;color:#d6c6e8}
+.field input,.field textarea,.field select{width:100%;border:1px solid #cba8ef30;border-radius:12px;padding:11px 13px;background:#100f27;color:#f8efff;font-size:12px}
+.field textarea{resize:vertical;min-height:90px;line-height:1.7}
+.hint{color:var(--muted);font-size:10px}
+
+.settings-form{display:flex;flex-direction:column;gap:20px;max-width:720px}
+.preset-row{display:flex;gap:12px;flex-wrap:wrap}
+.preset-card{border:1px solid var(--line);border-radius:14px;padding:10px;width:120px;background:rgba(255,255,255,.02);text-align:left;transition:all .25s}
+.preset-card.active{border-color:#e8bfff;box-shadow:0 0 0 1px #e8bfff50}
+.preset-swatch{height:34px;border-radius:9px;margin-bottom:8px}
+.preset-card span{font-size:10.5px;color:var(--muted)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:14px;padding:13px 16px;background:rgba(255,255,255,.02)}
+.toggle-row strong{display:block;font-size:12.5px;font-weight:500}
+.toggle-row span{display:block;color:var(--muted);font-size:10.5px;margin-top:2px}
+.switch{position:relative;width:42px;height:24px;border-radius:999px;background:#2a2550;border:1px solid var(--line);flex:0 0 auto;transition:background .25s}
+.switch.on{background:linear-gradient(120deg,#dcb3ff,#f0bfe9)}
+.switch i{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .25s var(--ease);box-shadow:0 2px 6px #0005}
+.switch.on i{transform:translateX(18px)}
+
+.modal-backdrop{position:fixed;inset:0;z-index:50;background:#060511c9;backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:18px;opacity:0;transition:opacity .3s}
+.modal-backdrop.open{display:flex}
+.modal-backdrop.visible{opacity:1}
+.modal{width:min(620px,100%);max-height:min(88vh,800px);overflow:auto;border:1px solid #e2bdff40;border-radius:22px;background:linear-gradient(145deg,#211a42f5,#111127f8);box-shadow:0 30px 90px #0009;transform:translateY(16px) scale(.98);transition:transform .4s var(--ease)}
+.modal-backdrop.visible .modal{transform:translateY(0) scale(1)}
+.modal-top{display:flex;align-items:center;justify-content:space-between;padding:20px 22px 0}
+.modal-top h3{font-size:22px}
+.close-btn{width:32px;height:32px;border:1px solid var(--line);border-radius:50%;background:#ffffff08;color:#fff;font-size:16px}
+.modal-body{padding:18px 22px 22px}
+.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+
+.toast{position:fixed;z-index:70;bottom:25px;left:50%;transform:translate(-50%,16px);padding:12px 17px;border:1px solid #e0b7ff50;border-radius:14px;background:#21183beF;color:#f9eaff;font-size:12px;box-shadow:0 12px 40px #0006;opacity:0;pointer-events:none;transition:all .35s var(--ease)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.hidden{display:none!important}
+.checkbar{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--muted)}
+
+@media(max-width:860px){
+ .shell{flex-direction:column}
+ .sidebar{position:static;width:100%;height:auto;flex-direction:row;overflow-x:auto;padding:14px}
+ .side-brand{display:none}
+ .nav-group{flex-direction:row;margin-bottom:0}
+ .nav-label{display:none}
+ .sidebar-foot{display:none}
+ .main{padding:20px 16px 40px}
+ .form-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.dropzone{border:1.5px dashed #cba8ef4a;border-radius:12px;padding:16px;text-align:center;color:var(--muted);font-size:11px;cursor:pointer;transition:border-color .25s,background .25s}
 .dropzone:hover,.dropzone.drag{border-color:#e8bfffb0;background:#1a1636a0}
-.dropzone .dz-icon{font-size:22px;display:block;margin-bottom:6px;color:#dcb3ff}
-.dropzone small{display:block;margin-top:4px;color:#8f82a8;font-size:10px}
-.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px;margin-top:12px}
-.photo-thumb{position:relative;aspect-ratio:1;border-radius:11px;overflow:hidden;border:1px solid var(--line);background:#17142f;animation:thumbIn var(--dur-base) var(--ease) both}
+.dropzone .dz-icon{font-size:19px;display:block;margin-bottom:5px;color:#dcb3ff}
+.dropzone small{display:block;margin-top:4px;color:#8f82a8;font-size:9.5px}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:7px;margin-top:10px}
+.photo-thumb{position:relative;aspect-ratio:1;border-radius:9px;overflow:hidden;border:1px solid var(--line);background:#17142f}
 .photo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.photo-thumb .ph-remove{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:#0c0b25cc;border:1px solid #fff4;color:#fff;font-size:11px;display:grid;place-items:center;transition:background var(--dur-fast),transform var(--dur-fast)}
-.photo-thumb .ph-remove:hover{background:#e8637c;transform:scale(1.1)}
-.photo-thumb .ph-cover{position:absolute;left:4px;bottom:4px;font-size:8.5px;letter-spacing:.05em;padding:2px 6px;border-radius:999px;background:#0c0b25cc;color:var(--gold);border:1px solid #fff2}
-@keyframes thumbIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
-.photo-count-label{font-size:10px;color:var(--muted);margin-top:8px;display:block}
-.submit-spinner{display:inline-block;width:13px;height:13px;border-radius:50%;border:2px solid #4a3a6a;border-top-color:#231633;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+.photo-thumb .ph-remove{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#0c0b25cc;border:1px solid #fff4;color:#fff;font-size:10px;display:grid;place-items:center}
+.photo-thumb .ph-remove:hover{background:var(--danger)}
+.photo-thumb .ph-cover{position:absolute;left:3px;bottom:3px;font-size:7.5px;padding:2px 5px;border-radius:999px;background:#0c0b25cc;color:var(--gold);border:1px solid #fff2}
+.photo-count-label{font-size:10px;color:var(--muted);margin-top:7px;display:block}
+.submit-spinner{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid #cba8ef55;border-top-color:#231633;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.card-photo-badge{position:absolute;left:10px;top:10px;z-index:2;font-size:9.5px;padding:3px 8px;border-radius:999px;background:#0c0b25c0;border:1px solid #fff3;color:#f3e2ff;letter-spacing:.03em;display:flex;align-items:center;gap:3px}
-.cover-fade{opacity:0;animation:coverFadeIn .5s var(--ease-premium) forwards}
-@keyframes coverFadeIn{to{opacity:1}}
-.gallery-stage{position:relative;width:100%}
-.detail-photo.gallery-fade{animation:galleryFade var(--dur-modal) var(--ease-premium) both}
-@keyframes galleryFade{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
-.gallery-nav{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:#0c0b25b0;border:1px solid #fff3;color:#fff;font-size:18px;display:grid;place-items:center;transition:background var(--dur-fast),transform var(--dur-fast);z-index:2}
-.gallery-nav:hover{background:#2a2060cc;transform:translateY(-50%) scale(1.08)}
-.gallery-nav.prev{left:10px}.gallery-nav.next{right:10px}
-.gallery-counter{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);font-size:10.5px;padding:4px 11px;border-radius:999px;background:#0c0b25b0;border:1px solid #fff2;color:#e9d6f7;z-index:2}
-@media(max-width:700px){.photo-grid{grid-template-columns:repeat(auto-fill,minmax(64px,1fr))}}
-@media(prefers-reduced-motion:reduce){.photo-thumb,.cover-fade,.detail-photo.gallery-fade,.submit-spinner{animation:none!important;opacity:1!important}}
-
 </style>
 </head>
 <body>
-<div id="introCurtain" aria-hidden="true"><div class="intro-mark">✿</div><div class="intro-sub">Đang mở khu vườn của bạn...</div></div>
-<div id="scrollProgress" aria-hidden="true"></div>
-<canvas id="sky" aria-hidden="true"></canvas><div class="ambient"></div><div class="grain"></div>
-<div id="petal-layer" aria-hidden="true"></div><div class="cursor-aura" aria-hidden="true"></div>
-<div class="app">
-<header class="topbar">
-  <div class="brand"><img class="brand-logo" src="assets/rin-logo-full.jpg" alt="鈴Rin ✧ Suzu鈴"><div><strong id="brandName" class="sr-only">鈴Rin ✧ Suzu鈴</strong><small id="brandTagline">A LITTLE WORLD OF YOURS</small></div></div>
-  <div class="top-actions">
-    <button class="ghost-btn" id="exportTop">↗ Sao lưu dữ liệu</button>
-    <button class="icon-btn" id="motionToggle" title="Bật/tắt chuyển động" aria-label="Bật/tắt chuyển động">✦</button>
-    <button class="icon-btn" id="addTop" title="Thêm kỷ niệm" aria-label="Thêm kỷ niệm">＋</button>
-    <a class="icon-btn" href="admin.html" title="Trang quản trị" aria-label="Trang quản trị">⚙</a>
+<div class="shell">
+ <aside class="sidebar">
+  <div class="side-brand"><img class="mark-logo" src="assets/rin-logo-full.jpg" alt="鈴Rin ✧ Suzu鈴"><div><strong id="sideBrandName">鈴Rin ✧ Suzu鈴</strong><small>QUẢN TRỊ</small></div></div>
+  <nav class="nav-group">
+   <div class="nav-label">Điều hướng</div>
+   <button class="nav-item active" data-page="overview"><span class="ic">◈</span> Tổng quan</button>
+   <button class="nav-item" data-page="memories"><span class="ic">✿</span> Kỷ niệm</button>
+   <button class="nav-item" data-page="stats"><span class="ic">▤</span> Thống kê</button>
+   <button class="nav-item" data-page="settings"><span class="ic">⚙</span> Cài đặt</button>
+  </nav>
+  <div class="sidebar-foot">
+   <a class="back-link" href="index.html">← Về trang chính</a>
   </div>
-</header>
-<section class="hero" id="home">
-  <div class="hero-copy">
-    <div class="eyebrow" id="heroEyebrow">NƠI NHỮNG ĐIỀU ĐẸP ĐẼ NỞ HOA</div>
-    <h1><span id="heroTitleLine1">鈴Rin</span><br><span id="heroTitleLine2">✧ Suzu鈴</span></h1>
-    <p id="heroDesc">Mỗi kỷ niệm là một bông hoa. Mỗi câu chuyện là một mảnh ghép nhỏ tạo nên khu vườn của riêng bạn.</p>
-    <button class="primary-btn" id="exploreBtn">✿ &nbsp; Khám phá khu vườn <span>↗</span></button>
-  </div>
-  <div class="hero-orbit"></div>
-  <div class="hero-note"><span id="heroQuote">“Có những khoảnh khắc nhỏ bé, nhưng khi nhớ lại, chúng lấp lánh như cả bầu trời.”</span><span id="heroQuoteSign">♡</span></div>
-</section>
-<section class="statsbar" aria-label="Thống kê khu vườn">
-  <div class="stat"><span class="stat-icon">✿</span><div><strong id="memoryCount">0</strong><small>kỷ niệm</small></div></div>
-  <div class="stat"><span class="stat-icon">▧</span><div><strong id="photoCount">0</strong><small>hình ảnh</small></div></div>
-  <div class="stat"><span class="stat-icon">✦</span><div><strong id="moodCount">0</strong><small>cảm xúc</small></div></div>
-  <div class="mood-filters" id="filters">
-    <button class="chip active" data-mood="all">✿ Tất cả</button>
-    <button class="chip" data-mood="happy">☀ Vui vẻ</button>
-    <button class="chip" data-mood="peace">☾ Bình yên</button>
-    <button class="chip" data-mood="sad">☁ Trầm lắng</button>
-    <button class="chip" data-mood="surprise">✧ Bất ngờ</button>
-  </div>
-</section>
-<section id="memories">
-  <div class="section-head"><div><h2>Những bông hoa của bạn</h2><p>Mỗi bông hoa giữ lại một khoảnh khắc đáng nhớ.</p></div><input class="search" id="search" type="search" placeholder="⌕  Tìm một kỷ niệm..." aria-label="Tìm kỷ niệm"></div>
-  <div class="garden-grid" id="gardenGrid"></div>
-</section>
-<p class="footer-note" id="footerQuote">“Ký ức không chỉ ở quá khứ, mà còn là những bông hoa ta giữ trong tim.” <span>♡</span></p>
-</div>
-<div class="modal-backdrop" id="formBackdrop" role="dialog" aria-modal="true" aria-labelledby="formHeading">
- <div class="modal"><div class="modal-top"><h3 id="formHeading">Gieo một kỷ niệm</h3><button class="close-btn" data-close="formBackdrop" aria-label="Đóng">×</button></div>
- <form class="form-body" id="memoryForm">
-  <input type="hidden" id="memoryId">
-  <div class="form-grid">
-   <div class="field full"><label for="title">Tên kỷ niệm *</label><input id="title" maxlength="90" required placeholder="Ví dụ: Một chiều hoàng hôn đáng nhớ"></div>
-   <div class="field"><label for="date">Ngày tháng</label><input id="date" type="date"></div>
-   <div class="field"><label for="mood">Cảm xúc</label><select id="mood"><option value="happy">☀ Vui vẻ</option><option value="peace">☾ Bình yên</option><option value="sad">☁ Trầm lắng</option><option value="surprise">✧ Bất ngờ</option></select></div>
-   <div class="field full"><label for="story">Câu chuyện của bạn</label><textarea id="story" maxlength="5000" placeholder="Hôm ấy đã có chuyện gì đặc biệt?"></textarea></div>
-   <div class="field full"><label>Hình ảnh (không bắt buộc, có thể chọn nhiều ảnh)</label>
-    <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Chọn hoặc kéo thả ảnh vào đây">
-     <span class="dz-icon">▧</span>Nhấn để chọn ảnh hoặc kéo thả vào đây<small>JPG, PNG, WebP · tối đa 12 ảnh, mỗi ảnh dưới 8&nbsp;MB</small>
-    </div>
-    <input id="photo" type="file" accept="image/jpeg,image/png,image/webp" multiple class="hidden">
-    <div class="photo-grid" id="photoGrid"></div>
-    <small class="photo-count-label" id="photoCountLabel"></small>
+ </aside>
+
+ <main class="main">
+
+  <!-- OVERVIEW -->
+  <section class="page active" id="page-overview">
+   <div class="topbar"><div><h1>Tổng quan</h1><p>Một cái nhìn nhanh về khu vườn của bạn.</p></div>
+    <button class="btn primary" id="ovAddBtn">✿ Thêm kỷ niệm</button>
    </div>
-  </div>
-  <div class="form-actions"><button type="button" class="ghost-btn" data-close="formBackdrop">Để sau</button><button class="primary-btn" type="submit" id="formSubmitBtn">✿ Gieo vào khu vườn</button></div>
- </form></div>
+   <div class="kpi-row">
+    <div class="kpi"><span class="kpi-icon">✿</span><strong id="kpiTotal">0</strong><span>tổng số kỷ niệm</span></div>
+    <div class="kpi"><span class="kpi-icon">▧</span><strong id="kpiPhotos">0</strong><span>có hình ảnh</span></div>
+    <div class="kpi"><span class="kpi-icon">✦</span><strong id="kpiMoods">0</strong><span>loại cảm xúc</span></div>
+    <div class="kpi"><span class="kpi-icon">⌁</span><strong id="kpiStorage">0 KB</strong><span>dung lượng đã dùng</span></div>
+    <div class="kpi"><span class="kpi-icon">☾</span><strong id="kpiLatest">—</strong><span>kỷ niệm gần nhất</span></div>
+   </div>
+   <div class="panel-grid">
+    <div class="card">
+     <div class="card-head"><div><h3>Kỷ niệm theo tháng</h3><p>12 tháng gần nhất</p></div></div>
+     <div id="barChartOverview"></div>
+    </div>
+    <div class="card">
+     <div class="card-head"><div><h3>Phân bố cảm xúc</h3><p>Theo tỉ lệ phần trăm</p></div></div>
+     <div id="donutChartOverview"></div>
+    </div>
+   </div>
+   <div class="card">
+    <div class="card-head"><div><h3>Kỷ niệm mới nhất</h3><p>5 mục được thêm/sửa gần đây</p></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Tên</th><th>Ngày</th><th>Cảm xúc</th><th>Ảnh</th></tr></thead><tbody id="recentBody"></tbody></table></div>
+   </div>
+  </section>
+
+  <!-- MEMORIES -->
+  <section class="page" id="page-memories">
+   <div class="topbar"><div><h1>Kỷ niệm</h1><p>Quản lý toàn bộ dữ liệu kỷ niệm trong khu vườn.</p></div>
+    <button class="btn primary" id="memAddBtn">✿ Thêm kỷ niệm</button>
+   </div>
+   <div class="toolbar">
+    <input class="search-input" id="memSearch" type="search" placeholder="⌕ Tìm theo tên hoặc nội dung...">
+    <select class="select-input" id="memMoodFilter">
+     <option value="all">Tất cả cảm xúc</option>
+     <option value="happy">☀ Vui vẻ</option>
+     <option value="peace">☾ Bình yên</option>
+     <option value="sad">☁ Trầm lắng</option>
+     <option value="surprise">✧ Bất ngờ</option>
+    </select>
+    <span class="spacer"></span>
+    <span class="checkbar" id="selectedBar">0 mục được chọn</span>
+    <button class="btn danger sm" id="bulkDeleteBtn" disabled>🗑 Xoá đã chọn</button>
+   </div>
+   <div class="table-wrap">
+    <table>
+     <thead><tr>
+      <th style="width:34px"><input type="checkbox" id="selectAll"></th>
+      <th data-sort="title">Tên kỷ niệm</th>
+      <th data-sort="date">Ngày</th>
+      <th data-sort="mood">Cảm xúc</th>
+      <th>Ảnh</th>
+      <th>Nội dung</th>
+      <th style="width:90px"></th>
+     </tr></thead>
+     <tbody id="memTableBody"></tbody>
+    </table>
+   </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="page" id="page-stats">
+   <div class="topbar"><div><h1>Thống kê</h1><p>Phân tích chi tiết dữ liệu khu vườn ký ức.</p></div></div>
+   <div class="panel-grid">
+    <div class="card">
+     <div class="card-head"><div><h3>Kỷ niệm theo tháng</h3><p>12 tháng gần nhất, theo ngày đã lưu</p></div></div>
+     <div id="barChartStats"></div>
+    </div>
+    <div class="card">
+     <div class="card-head"><div><h3>Phân bố cảm xúc</h3><p>Số lượng &amp; tỉ lệ theo từng loại</p></div></div>
+     <div id="donutChartStats"></div>
+     <div class="legend" id="legendStats"></div>
+    </div>
+   </div>
+   <div class="stat-mini-row">
+    <div class="kpi"><span class="kpi-icon">☀</span><strong id="statTopMood">—</strong><span>cảm xúc phổ biến nhất</span></div>
+    <div class="kpi"><span class="kpi-icon">▤</span><strong id="statBusiestMonth">—</strong><span>tháng nhiều kỷ niệm nhất</span></div>
+    <div class="kpi"><span class="kpi-icon">▧</span><strong id="statPhotoRatio">0%</strong><span>kỷ niệm có hình ảnh</span></div>
+    <div class="kpi"><span class="kpi-icon">✎</span><strong id="statAvgLen">0</strong><span>độ dài câu chuyện TB (ký tự)</span></div>
+   </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="page" id="page-settings">
+   <div class="topbar"><div><h1>Cài đặt</h1><p>Tuỳ chỉnh nội dung &amp; giao diện trang chính — không cần sửa code.</p></div></div>
+   <div class="card">
+    <form class="settings-form" id="settingsForm">
+     <div class="form-grid">
+      <div class="field"><label for="setBrandName">Tên thương hiệu</label><input id="setBrandName" maxlength="60"></div>
+      <div class="field"><label for="setBrandTagline">Khẩu hiệu nhỏ (trên cùng)</label><input id="setBrandTagline" maxlength="60"></div>
+      <div class="field full"><label for="setEyebrow">Dòng giới thiệu (phía trên tiêu đề)</label><input id="setEyebrow" maxlength="80"></div>
+      <div class="field"><label for="setTitle1">Tiêu đề — dòng 1</label><input id="setTitle1" maxlength="40"></div>
+      <div class="field"><label for="setTitle2">Tiêu đề — dòng 2</label><input id="setTitle2" maxlength="40"></div>
+      <div class="field full"><label for="setDesc">Mô tả ngắn dưới tiêu đề</label><textarea id="setDesc" maxlength="240"></textarea></div>
+      <div class="field full"><label for="setHeroQuote">Trích dẫn trong thẻ nổi (hero)</label><textarea id="setHeroQuote" maxlength="200"></textarea></div>
+      <div class="field"><label for="setHeroSign">Ký hiệu cuối trích dẫn hero</label><input id="setHeroSign" maxlength="6"></div>
+      <div class="field full"><label for="setFooterQuote">Trích dẫn ở chân trang</label><textarea id="setFooterQuote" maxlength="200"></textarea></div>
+     </div>
+
+     <div>
+      <label class="hint" style="display:block;margin-bottom:10px;font-size:11px;color:#d6c6e8">Bảng màu chủ đạo</label>
+      <div class="preset-row" id="presetRow"></div>
+     </div>
+
+     <div class="toggle-row">
+      <div><strong>Hiệu ứng chuyển động mặc định</strong><span>Bật cánh hoa rơi, ánh sáng theo con trỏ... khi khách ghé thăm lần đầu</span></div>
+      <button type="button" class="switch on" id="motionSwitch"><i></i></button>
+     </div>
+
+     <div class="modal-actions" style="margin-top:0">
+      <button type="button" class="btn" id="settingsReset">Khôi phục mặc định</button>
+      <button type="submit" class="btn primary">✓ Lưu thay đổi</button>
+     </div>
+    </form>
+   </div>
+  </section>
+
+ </main>
 </div>
-<div class="modal-backdrop" id="detailBackdrop" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
- <div class="modal"><div class="detail-hero" id="detailHero"><span id="detailSymbol">✿</span></div><div class="detail-content"><div class="eyebrow" id="detailMood">MỘT KHOẢNH KHẮC</div><h3 id="detailTitle"></h3><div class="detail-meta" id="detailMeta"></div>
-  <div class="gallery-stage hidden" id="detailGallery">
-   <img class="detail-photo" id="detailPhoto" alt="Ảnh kỷ niệm">
-   <button type="button" class="gallery-nav prev hidden" id="galleryPrev" aria-label="Ảnh trước">‹</button>
-   <button type="button" class="gallery-nav next hidden" id="galleryNext" aria-label="Ảnh sau">›</button>
-   <div class="gallery-counter hidden" id="galleryCounter"></div>
-  </div>
-  <div class="detail-story" id="detailStory"></div><div class="detail-actions"><button class="ghost-btn danger" id="deleteMemory">Xóa kỷ niệm</button><button class="ghost-btn" id="editMemory">✎ Chỉnh sửa</button><button class="primary-btn" data-close="detailBackdrop">Cất lại trong tim ♡</button></div></div></div>
+
+<!-- Memory edit/create modal -->
+<div class="modal-backdrop" id="memModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="memModalTitle">
+ <div class="modal">
+  <div class="modal-top"><h3 id="memModalTitle">Gieo một kỷ niệm</h3><button class="close-btn" data-close="memModalBackdrop" aria-label="Đóng">×</button></div>
+  <form class="modal-body" id="memForm">
+   <input type="hidden" id="mId">
+   <div class="form-grid">
+    <div class="field full"><label for="mTitle">Tên kỷ niệm *</label><input id="mTitle" maxlength="90" required placeholder="Ví dụ: Một chiều hoàng hôn đáng nhớ"></div>
+    <div class="field"><label for="mDate">Ngày tháng</label><input id="mDate" type="date"></div>
+    <div class="field"><label for="mMood">Cảm xúc</label><select id="mMood"><option value="happy">☀ Vui vẻ</option><option value="peace">☾ Bình yên</option><option value="sad">☁ Trầm lắng</option><option value="surprise">✧ Bất ngờ</option></select></div>
+    <div class="field full"><label for="mStory">Câu chuyện</label><textarea id="mStory" maxlength="5000" placeholder="Hôm ấy đã có chuyện gì đặc biệt?"></textarea></div>
+    <div class="field full"><label>Hình ảnh (không bắt buộc, có thể chọn nhiều ảnh)</label>
+     <div class="dropzone" id="mDropzone" tabindex="0" role="button" aria-label="Chọn hoặc kéo thả ảnh vào đây">
+      <span class="dz-icon">▧</span>Nhấn để chọn ảnh hoặc kéo thả vào đây<small>JPG, PNG, WebP · tối đa 12 ảnh, mỗi ảnh dưới 8&nbsp;MB</small>
+     </div>
+     <input id="mPhoto" type="file" accept="image/jpeg,image/png,image/webp" multiple class="hidden">
+     <div class="photo-grid" id="mPhotoGrid"></div>
+     <small class="photo-count-label" id="mPhotoCountLabel"></small>
+    </div>
+   </div>
+   <div class="modal-actions"><button type="button" class="btn" data-close="memModalBackdrop">Huỷ</button><button class="btn primary" type="submit" id="mSubmitBtn">✓ Lưu kỷ niệm</button></div>
+  </form>
+ </div>
 </div>
+
+<div class="chart-tooltip" id="chartTooltip"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+
+<div id="adminAuthGate" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at 50% 30%,#2c2360,#0b0b20 72%);">
+ <form id="adminLoginForm" style="width:min(420px,100%);padding:28px;border:1px solid rgba(206,174,255,.25);border-radius:22px;background:rgba(19,18,47,.96);box-shadow:0 25px 80px #0008;color:#f7efff;font-family:'Be Vietnam Pro',sans-serif">
+  <div style="font-size:28px;margin-bottom:8px">鈴Rin ✧ Suzu鈴</div><h2 style="font-size:22px;margin:0 0 8px">Đăng nhập quản trị</h2><p style="color:#b9accf;font-size:12px;line-height:1.7;margin:0 0 18px">Chỉ tài khoản quản trị được phép thay đổi kỷ niệm và ảnh.</p>
+  <label style="display:block;font-size:12px;margin-bottom:6px" for="adminEmail">Email</label><input id="adminEmail" type="email" autocomplete="username" required style="width:100%;padding:12px;border-radius:10px;border:1px solid #cba8ef50;background:#100f27;color:#fff;margin-bottom:13px">
+  <label style="display:block;font-size:12px;margin-bottom:6px" for="adminPassword">Mật khẩu Supabase Auth</label><input id="adminPassword" type="password" autocomplete="current-password" required style="width:100%;padding:12px;border-radius:10px;border:1px solid #cba8ef50;background:#100f27;color:#fff;margin-bottom:16px">
+  <button type="submit" id="adminLoginBtn" style="width:100%;padding:12px;border:0;border-radius:999px;background:linear-gradient(115deg,#e9c2ff,#f7c7e6 55%,#ffd9bb);color:#231633;font-weight:700;cursor:pointer">Đăng nhập</button><p id="adminLoginError" role="alert" style="color:#ffb5c3;font-size:12px;line-height:1.6"></p>
+ </form>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (() => {
 'use strict';
 const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
 /* Supabase cloud storage */
 const SUPABASE_URL = 'https://gvibphifwtojmqnyrtpg.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Y1E5NTIdG4uS35t1qiYQBA_6zoxdayS';
@@ -245,9 +419,7 @@ async function cloudSignedPhotoUrl(id) {
 }
 
 
-
-
-/* ---------- image store (IndexedDB) ---------- */
+/* ---------- image store (IndexedDB), shared schema with index.html ---------- */
 const IMG_DB_NAME='rin-memory-garden-images', IMG_STORE='images';
 let imgDbPromise=null;
 function openImageDB(){
@@ -294,123 +466,96 @@ function dataURLtoBlob(dataURL){
  for(let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
  return new Blob([arr],{type:mime});
 }
-
-const SETTINGS_KEY = 'rin-memory-garden-settings-v1';
-const ACCENT_PRESETS = {
- lilac:{pink:'#f0a9ed',lilac:'#c9a8ff',gold:'#ffd6a5'},
- rose:{pink:'#ffb3d6',lilac:'#e3a8ff',gold:'#ffd9c2'},
- azure:{pink:'#b9c9ff',lilac:'#8fb3ff',gold:'#c9e4ff'},
- sunset:{pink:'#ffcf9e',lilac:'#e3b8ff',gold:'#ffe29e'}
-};
-function loadSettings(){
- try{const raw=localStorage.getItem(SETTINGS_KEY);if(raw)return JSON.parse(raw);}catch(e){}
- return {};
-}
-function applySettings(){
- const s=loadSettings();
- if(s.brandName) $('#brandName').textContent=s.brandName;
- if(s.brandTagline) $('#brandTagline').textContent=s.brandTagline;
- if(s.eyebrow) $('#heroEyebrow').textContent=s.eyebrow;
- if(s.heroTitleLine1) $('#heroTitleLine1').textContent=s.heroTitleLine1;
- if(s.heroTitleLine2) $('#heroTitleLine2').textContent=s.heroTitleLine2;
- if(s.heroDesc) $('#heroDesc').textContent=s.heroDesc;
- if(s.heroQuote) $('#heroQuote').textContent='“'+s.heroQuote.replace(/^[“"]|[”"]$/g,'')+'”';
- if(s.heroQuoteSign) $('#heroQuoteSign').textContent=s.heroQuoteSign;
- if(s.footerQuote){const el=$('#footerQuote');const signSpan=el.querySelector('span');el.firstChild.textContent='“'+s.footerQuote.replace(/^[“"]|[”"]$/g,'')+'” ';}
- if(document.title && s.brandName) document.title=s.brandName+' ✦';
- const preset=ACCENT_PRESETS[s.accent]||ACCENT_PRESETS.lilac;
- const root=document.documentElement.style;
- root.setProperty('--pink',preset.pink);
- root.setProperty('--lilac',preset.lilac);
- root.setProperty('--gold',preset.gold);
- if(typeof s.motionDefaultOn==='boolean'){window.__motionDefaultOn=s.motionDefaultOn;}
-}
-applySettings();
-$('#addTop')?.classList.add('hidden');
-$('#editMemory')?.classList.add('hidden');
-
-const grid = $('#gardenGrid');
-const MOODS = {
- happy:{label:'Vui vẻ',icon:'☀',className:'happy'},
- peace:{label:'Bình yên',icon:'☾',className:'peace'},
- sad:{label:'Trầm lắng',icon:'☁',className:'sad'},
- surprise:{label:'Bất ngờ',icon:'✧',className:'surprise'}
-};
-const symbols=['✿','✧','❀','✦','☾','❋','♡','✺'];
-const artClasses=['art-1','art-2','art-3','art-4','art-5','art-6','art-7','art-8'];
-const starter = [
- {id:'demo1',title:'Một đêm ngắm sao',date:'2025-01-18',mood:'peace',story:'Có những buổi tối chẳng cần làm gì nhiều. Chỉ cần ngẩng đầu nhìn trời, nghe một bản nhạc dịu dàng và cảm thấy lòng mình nhẹ tênh.',symbol:'✦',demo:true},
- {id:'demo2',title:'Chiều vàng bên biển',date:'2025-03-20',mood:'happy',story:'Mặt trời từ từ chìm xuống đường chân trời. Gió biển mằn mặn, tiếng sóng vỗ bờ và tất cả mọi người đều cười thật tươi.',symbol:'☼',demo:true},
- {id:'demo3',title:'Một tối thật bình yên',date:'2025-05-09',mood:'peace',story:'Một tách trà ấm, một góc bàn quen thuộc và khoảng thời gian dành riêng cho bản thân.',symbol:'☕',demo:true},
- {id:'demo4',title:'Ngày bầu trời trong xanh',date:'2025-06-12',mood:'surprise',story:'Một ngày bình thường bỗng trở nên đặc biệt bởi một điều bất ngờ nho nhỏ.',symbol:'☁',demo:true}
-];
-let memories = load();
-let activeMood='all', selectedId=null, toastTimer;
-function load(){
- try { const raw=localStorage.getItem('rin-memory-garden-v1'); if(raw!==null){const parsed=JSON.parse(raw);return Array.isArray(parsed)?parsed:[];} } catch(e){}
- return starter.map(x=>({...x}));
-}
-function save(){try{localStorage.setItem('rin-memory-garden-v1',JSON.stringify(memories));return true;}catch(e){showToast('Bộ nhớ trình duyệt gần đầy. Hãy dùng ảnh nhỏ hơn hoặc xuất bản sao lưu.');return false;}}
-function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function fmtDate(d){if(!d)return 'Một ngày đáng nhớ';const dt=new Date(d+'T12:00:00');return Number.isNaN(+dt)?d:dt.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});}
-function render(){
- const q=$('#search').value.trim().toLocaleLowerCase('vi');
- const list=memories.filter(m=>(activeMood==='all'||m.mood===activeMood)&&(!q||(m.title+' '+m.story).toLocaleLowerCase('vi').includes(q)));
- animateCount($('#memoryCount'),memories.length);
- animateCount($('#photoCount'),memories.filter(hasPhoto).length);
- animateCount($('#moodCount'),new Set(memories.map(m=>m.mood)).size);
- grid.innerHTML='';
- /* Public page is read-only; additions are managed in admin.html. */
- list.forEach((m,i)=>{
-  const card=document.createElement('article');card.className='memory-card';card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label','Mở kỷ niệm '+m.title);card.style.animationDelay=Math.min(i*.055,.35)+'s';card.dataset.id=m.id;card.style.viewTransitionName='card-'+m.id;
-  const mood=MOODS[m.mood]||MOODS.peace;
-  const photoTotal=photoCountOf(m);
-  const badge=photoTotal>1?`<span class="card-photo-badge">▧ ×${photoTotal}</span>`:'';
-  const art=m.photo?`<div class="card-art" style="background-image:linear-gradient(0deg,#0e0b25a8,transparent 70%),url('${m.photo}');background-size:cover;background-position:center">${badge}<div class="art-symbol">${esc(m.symbol||'✿')}</div></div>`:`<div class="card-art ${artClasses[Math.abs(hash(m.id))%artClasses.length]}">${badge}<div class="art-symbol">${esc(m.symbol||symbols[i%symbols.length])}</div></div>`;
-  card.innerHTML=art+`<button class="card-heart" title="Mở kỷ niệm" aria-label="Mở kỷ niệm">♡</button><div class="card-body"><h3 class="card-title">${esc(m.title)}</h3><div class="card-date">${fmtDate(m.date)}</div><div class="card-foot"><span class="mood-label">${mood.icon} ${mood.label}</span><span>↗</span></div></div>`;
-  card.addEventListener('click',()=>openDetail(m.id));card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openDetail(m.id);}});
-  card.querySelector('.card-heart').addEventListener('click',e=>{e.stopPropagation();openDetail(m.id);});
-  grid.appendChild(card);
-  if(!m.photo && m.photos && m.photos.length){
-   getCoverUrl(m.photos[0].id).then(url=>{
-    if(!url) return;
-    const liveCard=grid.querySelector('[data-id="'+m.id+'"]'); if(!liveCard) return;
-    const artEl=liveCard.querySelector('.card-art'); if(!artEl) return;
-    artEl.style.backgroundImage=`linear-gradient(0deg,#0e0b25a8,transparent 70%),url('${url}')`;
-    artEl.style.backgroundSize='cover'; artEl.style.backgroundPosition='center';
-    artEl.classList.add('cover-fade');
-   });
-  }
- });
- if(list.length===0){const empty=document.createElement('div');empty.className='empty-card';empty.innerHTML='<span class="plus">☾</span><strong>Chưa tìm thấy kỷ niệm</strong><small>Thử một từ khóa khác hoặc chọn cảm xúc khác nhé.</small>';grid.appendChild(empty);}
-}
-function hash(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return h;}
 function photoCountOf(m){if(m.photos&&m.photos.length)return m.photos.length;return m.photo?1:0;}
 function hasPhoto(m){return photoCountOf(m)>0;}
-function animateCount(el,target){
- const current=parseInt(el.textContent,10)||0;
- if(current===target){el.textContent=target;return;}
- if(reducedMotion){el.textContent=target;return;}
- el.classList.remove('count-pop');void el.offsetWidth;el.classList.add('count-pop');
- const start=performance.now(),from=current,dur=550;
- (function step(t){const p=Math.min(1,(t-start)/dur),eased=1-Math.pow(1-p,3);el.textContent=Math.round(from+(target-from)*eased);if(p<1)requestAnimationFrame(step);else el.textContent=target;})(start);
+
+const DATA_KEY = 'rin-memory-garden-v1';
+const SETTINGS_KEY = 'rin-memory-garden-settings-v1';
+const MOODS = {
+ happy:{label:'Vui vẻ',icon:'☀',color:'var(--mood-happy)'},
+ peace:{label:'Bình yên',icon:'☾',color:'var(--mood-peace)'},
+ sad:{label:'Trầm lắng',icon:'☁',color:'var(--mood-sad)'},
+ surprise:{label:'Bất ngờ',icon:'✧',color:'var(--mood-surprise)'}
+};
+const MOOD_HEX = {happy:'#c9801f',peace:'#6e8fe0',sad:'#6456a8',surprise:'#e0599e'};
+const ACCENT_PRESETS = {
+ lilac:{pink:'#f0a9ed',lilac:'#c9a8ff',gold:'#ffd6a5',label:'Tím dạ quang'},
+ rose:{pink:'#ffb3d6',lilac:'#e3a8ff',gold:'#ffd9c2',label:'Hồng phấn mơ màng'},
+ azure:{pink:'#b9c9ff',lilac:'#8fb3ff',gold:'#c9e4ff',label:'Lam dạ khúc'},
+ sunset:{pink:'#ffcf9e',lilac:'#e3b8ff',gold:'#ffe29e',label:'Hoàng hôn ánh kim'}
+};
+const DEFAULT_SETTINGS = {
+ brandName:'鈴Rin ✧ Suzu鈴',brandTagline:'A LITTLE WORLD OF YOURS',
+ eyebrow:'NƠI NHỮNG ĐIỀU ĐẸP ĐẼ NỞ HOA',
+ heroTitleLine1:'鈴Rin',heroTitleLine2:'✧ Suzu鈴',
+ heroDesc:'Mỗi kỷ niệm là một bông hoa. Mỗi câu chuyện là một mảnh ghép nhỏ tạo nên khu vườn của riêng bạn.',
+ heroQuote:'Có những khoảnh khắc nhỏ bé, nhưng khi nhớ lại, chúng lấp lánh như cả bầu trời.',
+ heroQuoteSign:'♡',
+ footerQuote:'Ký ức không chỉ ở quá khứ, mà còn là những bông hoa ta giữ trong tim.',
+ accent:'lilac', motionDefaultOn:true
+};
+
+function loadMemories(){
+ try{const raw=localStorage.getItem(DATA_KEY);if(raw){const p=JSON.parse(raw);return Array.isArray(p)?p:[];}}catch(e){}
+ return [];
 }
-function withTransition(fn){
- if(reducedMotion||!document.startViewTransition){fn();return;}
- document.startViewTransition(fn);
+function saveMemories(list){
+ try{localStorage.setItem(DATA_KEY,JSON.stringify(list));return true;}
+ catch(e){showToast('Bộ nhớ trình duyệt gần đầy. Hãy dùng ảnh nhỏ hơn hoặc xuất bản sao lưu.');return false;}
 }
+function loadSettings(){
+ try{const raw=localStorage.getItem(SETTINGS_KEY);if(raw)return {...DEFAULT_SETTINGS,...JSON.parse(raw)};}catch(e){}
+ return {...DEFAULT_SETTINGS};
+}
+function saveSettings(s){
+ try{localStorage.setItem(SETTINGS_KEY,JSON.stringify(s));return true;}catch(e){return false;}
+}
+
+let memories = loadMemories();
+let settings = loadSettings();
+
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmtDate(d){if(!d)return '—';const dt=new Date(d+'T12:00:00');return Number.isNaN(+dt)?d:dt.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});}
+
+let toastTimer;
 function showToast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2800);}
+
+function applyAccentToPage(){
+ const preset = ACCENT_PRESETS[settings.accent]||ACCENT_PRESETS.lilac;
+ document.documentElement.style.setProperty('--pink',preset.pink);
+ document.documentElement.style.setProperty('--lilac',preset.lilac);
+ document.documentElement.style.setProperty('--gold',preset.gold);
+ $('#sideBrandName').textContent = settings.brandName || DEFAULT_SETTINGS.brandName;
+}
+
+/* ---------- navigation ---------- */
+function goPage(name){
+ $$('.nav-item').forEach(b=>b.classList.toggle('active', b.dataset.page===name));
+ $$('.page').forEach(p=>p.classList.toggle('active', p.id==='page-'+name));
+ if(name==='overview') renderOverview();
+ if(name==='memories') renderMemTable();
+ if(name==='stats') renderStats();
+ if(name==='settings') fillSettingsForm();
+ location.hash = name;
+}
+$$('.nav-item').forEach(b=>b.addEventListener('click',()=>goPage(b.dataset.page)));
+window.addEventListener('hashchange',()=>{
+ const n=(location.hash||'#overview').slice(1);
+ if(['overview','memories','stats','settings'].includes(n)) goPage(n);
+});
+
+/* ---------- modal ---------- */
 function openModal(id){const el=$('#'+id);el.classList.add('open');requestAnimationFrame(()=>el.classList.add('visible'));document.body.style.overflow='hidden';}
-function closeModal(id){const el=$('#'+id);el.classList.remove('visible');setTimeout(()=>{el.classList.remove('open');if(!document.querySelector('.modal-backdrop.open'))document.body.style.overflow='';},300);}
-document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
-document.querySelectorAll('.modal-backdrop').forEach(b=>b.addEventListener('click',e=>{if(e.target===b)closeModal(b.id);}));
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-backdrop.open').forEach(m=>closeModal(m.id));});
+function closeModal(id){const el=$('#'+id);el.classList.remove('visible');setTimeout(()=>{el.classList.remove('open');document.body.style.overflow='';},250);}
+$$('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
+$$('.modal-backdrop').forEach(b=>b.addEventListener('click',e=>{if(e.target===b)closeModal(b.id);}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$$('.modal-backdrop.open').forEach(m=>closeModal(m.id));});
+
 /* ---------- multi-image picker ---------- */
 const MAX_PHOTOS=12, MAX_PHOTO_MB=8;
-let pendingPhotos=[]; // {kind:'existing'|'legacy'|'new', id?, file?, url}
-let removedExistingIds=[];
+let pendingPhotos=[]; let removedExistingIds=[];
 function renderPhotoGrid(){
- const gridEl=$('#photoGrid');
+ const gridEl=$('#mPhotoGrid');
  gridEl.innerHTML=pendingPhotos.map((p,i)=>`<div class="photo-thumb"><img src="${p.url}" alt="">${i===0?'<span class="ph-cover">BÌA</span>':''}<button type="button" class="ph-remove" data-i="${i}" aria-label="Bỏ ảnh này">×</button></div>`).join('');
  gridEl.querySelectorAll('.ph-remove').forEach(b=>b.addEventListener('click',()=>{
   const i=+b.dataset.i; const [removed]=pendingPhotos.splice(i,1);
@@ -419,7 +564,7 @@ function renderPhotoGrid(){
   renderPhotoGrid();
  }));
  const n=pendingPhotos.length;
- $('#photoCountLabel').textContent=n?`Đã chọn ${n} ảnh${n>1?' · ảnh đầu tiên là ảnh bìa':''}`:'';
+ $('#mPhotoCountLabel').textContent=n?`Đã chọn ${n} ảnh${n>1?' · ảnh đầu tiên là ảnh bìa':''}`:'';
 }
 function resetPhotoPicker(){
  pendingPhotos.forEach(p=>{if(p.kind==='new')URL.revokeObjectURL(p.url);});
@@ -439,19 +584,28 @@ function addFilesToPending(fileList){
  if(rejected) showToast(rejected===1?'Có 1 tệp không phải ảnh, đã bỏ qua.':`Có ${rejected} tệp không phải ảnh, đã bỏ qua.`);
  if(added) renderPhotoGrid();
 }
-const dropzone=$('#dropzone'), photoInput=$('#photo');
-dropzone.addEventListener('click',()=>photoInput.click());
-dropzone.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();photoInput.click();}});
-photoInput.addEventListener('change',()=>{addFilesToPending(photoInput.files);photoInput.value='';});
-['dragenter','dragover'].forEach(ev=>dropzone.addEventListener(ev,e=>{e.preventDefault();dropzone.classList.add('drag');}));
-['dragleave','drop'].forEach(ev=>dropzone.addEventListener(ev,e=>{e.preventDefault();dropzone.classList.remove('drag');}));
-dropzone.addEventListener('drop',e=>{if(e.dataTransfer?.files?.length)addFilesToPending(e.dataTransfer.files);});
+const mDropzone=$('#mDropzone'), mPhotoInput=$('#mPhoto');
+mDropzone.addEventListener('click',()=>mPhotoInput.click());
+mDropzone.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();mPhotoInput.click();}});
+mPhotoInput.addEventListener('change',()=>{addFilesToPending(mPhotoInput.files);mPhotoInput.value='';});
+['dragenter','dragover'].forEach(ev=>mDropzone.addEventListener(ev,e=>{e.preventDefault();mDropzone.classList.add('drag');}));
+['dragleave','drop'].forEach(ev=>mDropzone.addEventListener(ev,e=>{e.preventDefault();mDropzone.classList.remove('drag');}));
+mDropzone.addEventListener('drop',e=>{if(e.dataTransfer?.files?.length)addFilesToPending(e.dataTransfer.files);});
 
-function openCreate(){selectedId=null;$('#memoryForm').reset();$('#memoryId').value='';$('#date').value=new Date().toISOString().slice(0,10);$('#formHeading').textContent='Gieo một kỷ niệm';resetPhotoPicker();openModal('formBackdrop');}
+let editingId=null;
+function openCreate(){
+ editingId=null; $('#memForm').reset(); $('#mId').value=''; $('#mDate').value=new Date().toISOString().slice(0,10);
+ $('#memModalTitle').textContent='Gieo một kỷ niệm'; resetPhotoPicker();
+ openModal('memModalBackdrop');
+}
 async function openEdit(id){
- const m=memories.find(x=>x.id===id);if(!m)return;selectedId=id;$('#memoryForm').reset();$('#memoryId').value=m.id;$('#title').value=m.title;$('#date').value=m.date||'';$('#mood').value=m.mood||'peace';$('#story').value=m.story||'';
+ const m=memories.find(x=>x.id===id); if(!m) return;
+ editingId=id; $('#memForm').reset();
+ $('#mId').value=m.id; $('#mTitle').value=m.title; $('#mDate').value=m.date||''; $('#mMood').value=m.mood||'peace';
+ $('#mStory').value=m.story||'';
  resetPhotoPicker();
- $('#formHeading').textContent='Chăm chút kỷ niệm';closeModal('detailBackdrop');setTimeout(()=>openModal('formBackdrop'),180);
+ $('#memModalTitle').textContent='Chỉnh sửa kỷ niệm';
+ openModal('memModalBackdrop');
  if(m.photos&&m.photos.length){
   for(const p of m.photos){const url=await getCoverUrl(p.id); if(url) pendingPhotos.push({kind:'existing',id:p.id,url});}
   renderPhotoGrid();
@@ -460,72 +614,16 @@ async function openEdit(id){
   renderPhotoGrid();
  }
 }
-let galleryState={photos:[],legacySrc:null,index:0};
-async function showGalleryIndex(i){
- const total=galleryState.photos.length;
- const photo=$('#detailPhoto'),prev=$('#galleryPrev'),next=$('#galleryNext'),counter=$('#galleryCounter');
- if(total>0){
-  galleryState.index=((i%total)+total)%total;
-  const url=await getCoverUrl(galleryState.photos[galleryState.index].id);
-  photo.src=url||'';
-  prev.classList.toggle('hidden',total<=1); next.classList.toggle('hidden',total<=1); counter.classList.toggle('hidden',total<=1);
-  counter.textContent=(galleryState.index+1)+' / '+total;
- } else if(galleryState.legacySrc){
-  photo.src=galleryState.legacySrc;
-  prev.classList.add('hidden'); next.classList.add('hidden'); counter.classList.add('hidden');
- }
- if(!reducedMotion){photo.classList.remove('gallery-fade');void photo.offsetWidth;photo.classList.add('gallery-fade');}
-}
-$('#galleryPrev').addEventListener('click',e=>{e.stopPropagation();showGalleryIndex(galleryState.index-1);});
-$('#galleryNext').addEventListener('click',e=>{e.stopPropagation();showGalleryIndex(galleryState.index+1);});
-document.addEventListener('keydown',e=>{
- if(!$('#detailBackdrop').classList.contains('open')) return;
- if(e.key==='ArrowLeft') showGalleryIndex(galleryState.index-1);
- if(e.key==='ArrowRight') showGalleryIndex(galleryState.index+1);
-});
-(()=>{
- let touchX=null;
- const stage=$('#detailGallery');
- stage.addEventListener('touchstart',e=>{touchX=e.touches[0].clientX;},{passive:true});
- stage.addEventListener('touchend',e=>{
-  if(touchX===null) return;
-  const dx=e.changedTouches[0].clientX-touchX; touchX=null;
-  if(Math.abs(dx)<40) return;
-  showGalleryIndex(galleryState.index+(dx<0?1:-1));
- },{passive:true});
-})();
-function openDetail(id){
- const m=memories.find(x=>x.id===id);if(!m)return;selectedId=id;
- const mood=MOODS[m.mood]||MOODS.peace;
- const withPhotos=hasPhoto(m);
- const fill=()=>{$('#detailSymbol').textContent=m.symbol||'✿';$('#detailTitle').textContent=m.title;$('#detailMood').textContent=mood.icon+'  '+mood.label.toLocaleUpperCase('vi');$('#detailMeta').textContent=fmtDate(m.date);$('#detailStory').textContent=m.story||'Một khoảnh khắc được giữ lại trong khu vườn của bạn.';
-  $('#detailHero').classList.toggle('hidden',withPhotos);
-  const stage=$('#detailGallery');
-  if(m.photos&&m.photos.length){galleryState={photos:m.photos,legacySrc:null,index:0};stage.classList.remove('hidden');showGalleryIndex(0);}
-  else if(m.photo){galleryState={photos:[],legacySrc:m.photo,index:0};stage.classList.remove('hidden');showGalleryIndex(0);}
-  else{galleryState={photos:[],legacySrc:null,index:0};stage.classList.add('hidden');$('#detailPhoto').removeAttribute('src');}
-  $('#deleteMemory').classList.add('hidden');};
- const card=document.querySelector('[data-id="'+id+'"]');
- const hero=$('#detailHero');
- if(!withPhotos&&!reducedMotion&&document.startViewTransition&&card&&hero){
-  card.style.viewTransitionName='morph-card';
-  const t=document.startViewTransition(()=>{
-   card.style.viewTransitionName='';
-   hero.style.viewTransitionName='morph-card';
-   fill();
-   $('#detailBackdrop').classList.add('open','visible');
-   document.body.style.overflow='hidden';
-  });
-  t.finished.finally(()=>{hero.style.viewTransitionName='';});
- } else {
-  withTransition(()=>{fill();openModal('detailBackdrop');});
- }
-}
-$('#memoryForm').addEventListener('submit',async e=>{
- e.preventDefault();showToast('Trang này chỉ xem kỷ niệm. Hãy dùng trang quản trị để chỉnh sửa.');return;
- const title=$('#title').value.trim();if(!title){showToast('Đặt tên cho kỷ niệm trước nhé.');return;}
- const old=memories.find(x=>x.id===$('#memoryId').value);
- const submitBtn=$('#formSubmitBtn'); const originalLabel=submitBtn.innerHTML;
+$('#ovAddBtn').addEventListener('click',openCreate);
+$('#memAddBtn').addEventListener('click',openCreate);
+
+const symbols=['✿','✧','❀','✦','☾','❋','♡','✺'];
+$('#memForm').addEventListener('submit', async e=>{
+ e.preventDefault();
+ const title=$('#mTitle').value.trim();
+ if(!title){showToast('Đặt tên cho kỷ niệm trước nhé.');return;}
+ const old=memories.find(x=>x.id===$('#mId').value);
+ const submitBtn=$('#mSubmitBtn'); const originalLabel=submitBtn.innerHTML;
  const photosToProcess=pendingPhotos.slice();
  let newPhotos=[];
  if(photosToProcess.length){
@@ -546,178 +644,353 @@ $('#memoryForm').addEventListener('submit',async e=>{
    return;
   }
  }
- const item={id:old?.id||'m_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7),title,date:$('#date').value,mood:$('#mood').value,story:$('#story').value.trim(),photos:newPhotos,symbol:old?.symbol||symbols[Math.floor(Math.random()*symbols.length)]};
- if(old){memories=memories.map(x=>x.id===old.id?item:x);}else{memories.unshift(item);burst();showToast('Một bông hoa mới vừa nở trong khu vườn ✨');}
- const ok=save();
+ const item={id:old?.id||'m_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7),
+  title,date:$('#mDate').value,mood:$('#mMood').value,story:$('#mStory').value.trim(),photos:newPhotos,
+  symbol:old?.symbol||symbols[Math.floor(Math.random()*symbols.length)]};
+ try { await cloudSaveMemory(item); }
+ catch(err) { console.error(err); submitBtn.disabled=false; submitBtn.innerHTML=originalLabel; showToast('Không lưu được lên Supabase: '+(err.message||'hãy kiểm tra SQL/RLS và đăng nhập')); return; }
+ if(old){memories=memories.map(x=>x.id===old.id?item:x);showToast('Đã cập nhật kỷ niệm.');}
+ else{memories.unshift(item);showToast('Đã thêm kỷ niệm mới ✨');}
+ saveMemories(memories);
  submitBtn.disabled=false; submitBtn.innerHTML=originalLabel;
- if(!ok) return;
- if(old) showToast('Đã cập nhật kỷ niệm.');
- removedExistingIds.forEach(id=>idbDeleteImage(id));
- removedExistingIds=[];
- withTransition(render);closeModal('formBackdrop');
+ removedExistingIds.forEach(id=>idbDeleteImage(id)); removedExistingIds=[];
+ closeModal('memModalBackdrop');
+ refreshCurrentPage();
 });
-$('#editMemory').addEventListener('click',()=>{if(selectedId)openEdit(selectedId);});
-$('#deleteMemory').addEventListener('click',()=>{showToast('Chỉ quản trị viên mới được xóa kỷ niệm.');return; const m=memories.find(x=>x.id===selectedId);if(!m)return;if(!confirm('Xóa kỷ niệm “'+m.title+'” khỏi khu vườn?'))return;if(m.photos)m.photos.forEach(p=>idbDeleteImage(p.id));memories=memories.filter(x=>x.id!==selectedId);save();withTransition(render);closeModal('detailBackdrop');showToast('Kỷ niệm đã được gỡ khỏi khu vườn.');});
-$('#addTop').addEventListener('click',openCreate);
-$('#exploreBtn').addEventListener('click',()=>$('#memories').scrollIntoView({behavior:reducedMotion?'auto':'smooth',block:'start'}));
-let searchDebounce;$('#search').addEventListener('input',()=>{clearTimeout(searchDebounce);searchDebounce=setTimeout(()=>withTransition(render),120);});
-$('#filters').addEventListener('click',e=>{const b=e.target.closest('[data-mood]');if(!b)return;activeMood=b.dataset.mood;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c===b));withTransition(render);});
-function blobToDataURL(blob){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(blob);});}
-async function downloadJSON(){
- showToast('Đang chuẩn bị bản sao lưu...');
- const exportMemories=[];
- for(const m of memories){
-  const copy={...m};
-  if(m.photos&&m.photos.length){
-   const datas=[];
-   for(const p of m.photos){try{const blob=await idbGetImage(p.id);if(blob)datas.push(await blobToDataURL(blob));}catch(e){}}
-   delete copy.photos; copy.photosData=datas;
-  }
-  exportMemories.push(copy);
- }
- const blob=new Blob([JSON.stringify({app:'鈴Rin ✧ Suzu鈴',version:2,exportedAt:new Date().toISOString(),memories:exportMemories},null,2)],{type:'application/json'});
- const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='khu-vuon-ky-uc-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
- showToast('Đã tạo bản sao lưu JSON. Hãy giữ tệp ở nơi an toàn.');
+
+async function deleteMemory(id){
+ const m=memories.find(x=>x.id===id); if(!m) return;
+ if(!confirm('Xoá kỷ niệm "'+m.title+'"? Hành động này không thể hoàn tác.')) return;
+ try { await cloudDeleteMemory(id); } catch(err) { showToast('Không thể xóa trên Supabase: '+(err.message||'')); return; }
+ if(m.photos) m.photos.filter(p=>!String(p.id).startsWith('cloud:')).forEach(p=>idbDeleteImage(p.id));
+ memories=memories.filter(x=>x.id!==id);
+ saveMemories(memories);
+ selected.delete(id);
+ showToast('Đã xoá kỷ niệm.');
+ refreshCurrentPage();
 }
-$('#exportTop').addEventListener('click',downloadJSON);
-const importBtn=document.createElement('button');importBtn.className='ghost-btn';importBtn.textContent='↙ Khôi phục';importBtn.title='Nhập bản sao lưu JSON';$('.top-actions').insertBefore(importBtn,$('#motionToggle'));
-const importInput=document.createElement('input');importInput.type='file';importInput.accept='application/json,.json';importInput.hidden=true;document.body.appendChild(importInput);
-importBtn.addEventListener('click',()=>importInput.click());
-importInput.addEventListener('change',async()=>{
- const f=importInput.files[0];if(!f)return;
- try{
-  const data=JSON.parse(await f.text());
-  const arr=Array.isArray(data)?data:data.memories;
-  if(!Array.isArray(arr)||!arr.every(m=>m&&typeof m.title==='string'&&typeof m.id==='string'))throw Error('invalid');
-  if(!confirm('Khôi phục '+arr.length+' kỷ niệm? Dữ liệu hiện tại sẽ được thay thế.'))return;
-  showToast('Đang khôi phục dữ liệu...');
-  const restored=[];
-  for(const m of arr){
-   const copy={...m};
-   if(Array.isArray(copy.photosData)&&copy.photosData.length){
-    const photos=[];
-    for(const dataURL of copy.photosData){
-     try{const blob=dataURLtoBlob(dataURL);const id='img_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);await idbPutImage(id,blob);photos.push({id});}catch(e){}
-    }
-    delete copy.photosData; copy.photos=photos;
-   }
-   restored.push(copy);
-  }
-  memories=restored;save();withTransition(render);showToast('Đã khôi phục khu vườn của bạn.');
- }catch(e){showToast('Tệp sao lưu không hợp lệ.');}
- finally{importInput.value='';}
+
+function refreshCurrentPage(){
+ const n=(location.hash||'#overview').slice(1);
+ if(n==='overview') renderOverview();
+ else if(n==='memories') renderMemTable();
+ else if(n==='stats') renderStats();
+}
+
+/* ---------- stats helpers ---------- */
+function computeStats(){
+ const total=memories.length;
+ const withPhoto=memories.filter(hasPhoto).length;
+ const moodCounts={happy:0,peace:0,sad:0,surprise:0};
+ memories.forEach(m=>{ if(moodCounts[m.mood]!==undefined) moodCounts[m.mood]++; else moodCounts.peace++; });
+ const moodTypes=Object.values(moodCounts).filter(c=>c>0).length;
+ const bytes=new Blob([JSON.stringify(memories)]).size;
+ const sorted=[...memories].filter(m=>m.date).sort((a,b)=> b.date.localeCompare(a.date));
+ const latest=sorted[0];
+ const avgLen = total? Math.round(memories.reduce((s,m)=>s+(m.story||'').length,0)/total) : 0;
+
+ const months=[];
+ const now=new Date();
+ for(let i=11;i>=0;i--){
+  const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+  months.push({key:d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'),label:'Th'+(d.getMonth()+1)+'/'+String(d.getFullYear()).slice(2),count:0});
+ }
+ memories.forEach(m=>{
+  if(!m.date) return;
+  const key=m.date.slice(0,7);
+  const slot=months.find(x=>x.key===key);
+  if(slot) slot.count++;
+ });
+ const busiest = months.reduce((a,b)=> b.count>a.count? b:a, months[0]);
+ const topMoodKey = Object.entries(moodCounts).sort((a,b)=>b[1]-a[1])[0];
+
+ return {total,withPhoto,moodCounts,moodTypes,bytes,latest,avgLen,months,busiest,topMoodKey};
+}
+
+function fmtBytes(b){ if(b<1024) return b+' B'; if(b<1024*1024) return (b/1024).toFixed(1)+' KB'; return (b/1024/1024).toFixed(2)+' MB'; }
+
+/* ---------- charts ---------- */
+function renderBarChart(container, months){
+ const max = Math.max(1, ...months.map(m=>m.count));
+ const w=560, h=190, padB=26, padT=10, barGap=6;
+ const barW = (w - barGap*(months.length-1)) / months.length;
+ let bars='';
+ months.forEach((m,i)=>{
+  const bh = m.count===0 ? 2 : Math.round((m.count/max) * (h-padB-padT));
+  const x = i*(barW+barGap);
+  const y = h-padB-bh;
+  bars += `<rect class="bar-rect" data-label="${m.label}" data-count="${m.count}" x="${x.toFixed(1)}" y="${y}" width="${barW.toFixed(1)}" height="${bh}" rx="4" fill="var(--lilac)" opacity="${m.count===0?.25:.85}"></rect>`;
+  if(i%2===0 || months.length<=8) bars += `<text x="${(x+barW/2).toFixed(1)}" y="${h-8}" font-size="9" fill="#8f82a8" text-anchor="middle">${m.label}</text>`;
+ });
+ container.innerHTML = `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:auto;overflow:visible" role="img" aria-label="Biểu đồ kỷ niệm theo tháng">
+  <line x1="0" y1="${h-padB}" x2="${w}" y2="${h-padB}" stroke="rgba(206,174,255,.18)" stroke-width="1"></line>
+  ${bars}
+ </svg>`;
+ const tooltip = $('#chartTooltip');
+ container.querySelectorAll('.bar-rect').forEach(rect=>{
+  rect.addEventListener('mousemove', e=>{
+   tooltip.textContent = `${rect.dataset.label}: ${rect.dataset.count} kỷ niệm`;
+   tooltip.style.left = e.clientX+14+'px'; tooltip.style.top = e.clientY+12+'px';
+   tooltip.classList.add('show');
+  });
+  rect.addEventListener('mouseleave', ()=> tooltip.classList.remove('show'));
+ });
+}
+
+function renderDonutChart(container, moodCounts, legendEl){
+ const entries = Object.entries(moodCounts);
+ const total = entries.reduce((s,[,v])=>s+v,0);
+ const r=52, cx=64, cy=64, sw=20, circ=2*Math.PI*r;
+ let offset=0, segs='';
+ const tooltip=$('#chartTooltip');
+ if(total===0){
+  container.innerHTML = `<div style="text-align:center;color:var(--muted);font-size:11.5px;padding:30px 0">Chưa có dữ liệu để thống kê.</div>`;
+  if(legendEl) legendEl.innerHTML='';
+  return;
+ }
+ entries.forEach(([key,count])=>{
+  if(count===0) return;
+  const frac = count/total;
+  const len = frac*circ;
+  segs += `<circle class="bar-rect" data-label="${MOODS[key].label}" data-count="${count}" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${MOOD_HEX[key]}" stroke-width="${sw}" stroke-dasharray="${len.toFixed(2)} ${(circ-len).toFixed(2)}" stroke-dashoffset="${(-offset).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})"></circle>`;
+  offset += len;
+ });
+ container.innerHTML = `<div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap">
+  <svg viewBox="0 0 128 128" style="width:128px;height:128px;flex:0 0 auto" role="img" aria-label="Biểu đồ phân bố cảm xúc">
+   ${segs}
+   <text x="64" y="60" text-anchor="middle" font-size="22" fill="#f7efff" font-family="Playfair Display, serif">${total}</text>
+   <text x="64" y="76" text-anchor="middle" font-size="8.5" fill="#8f82a8">kỷ niệm</text>
+  </svg>
+ </div>`;
+ container.querySelectorAll('.bar-rect').forEach(seg=>{
+  seg.addEventListener('mousemove', e=>{
+   tooltip.textContent = `${seg.dataset.label}: ${seg.dataset.count} (${Math.round(seg.dataset.count/total*100)}%)`;
+   tooltip.style.left = e.clientX+14+'px'; tooltip.style.top = e.clientY+12+'px';
+   tooltip.classList.add('show');
+  });
+  seg.addEventListener('mouseleave', ()=> tooltip.classList.remove('show'));
+ });
+ if(legendEl){
+  legendEl.innerHTML = entries.map(([key,count])=>{
+   const pct = total? Math.round(count/total*100) : 0;
+   return `<div class="legend-row"><span class="dot" style="background:${MOOD_HEX[key]}"></span><span class="lbl">${MOODS[key].icon} ${MOODS[key].label}</span><span class="val">${count}</span><span class="pct">${pct}%</span></div>`;
+  }).join('');
+ }
+}
+
+/* ---------- overview ---------- */
+function renderOverview(){
+ const s = computeStats();
+ $('#kpiTotal').textContent = s.total;
+ $('#kpiPhotos').textContent = s.withPhoto;
+ $('#kpiMoods').textContent = s.moodTypes;
+ $('#kpiStorage').textContent = fmtBytes(s.bytes);
+ $('#kpiLatest').textContent = s.latest ? fmtDate(s.latest.date) : '—';
+ renderBarChart($('#barChartOverview'), s.months);
+ renderDonutChart($('#donutChartOverview'), s.moodCounts, null);
+
+ const recent = [...memories].sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,5);
+ const body = $('#recentBody');
+ body.innerHTML = recent.length ? recent.map(m=>{
+  const mood = MOODS[m.mood]||MOODS.peace;
+  const pc=photoCountOf(m);
+  return `<tr><td class="cell-title">${esc(m.title)}</td><td>${fmtDate(m.date)}</td><td><span class="mood-badge"><span class="mood-dot" style="background:${MOOD_HEX[m.mood]||MOOD_HEX.peace}"></span>${mood.icon} ${mood.label}</span></td><td class="photo-tag">${pc?'▧'+(pc>1?' ×'+pc:''):'—'}</td></tr>`;
+ }).join('') : `<tr class="empty-row"><td colspan="4">Chưa có kỷ niệm nào. Hãy thêm kỷ niệm đầu tiên!</td></tr>`;
+}
+
+/* ---------- memories table ---------- */
+let sortKey='date', sortDir=-1;
+let selected = new Set();
+
+function getFilteredSorted(){
+ const q = $('#memSearch').value.trim().toLocaleLowerCase('vi');
+ const moodFilter = $('#memMoodFilter').value;
+ let list = memories.filter(m=>
+  (moodFilter==='all'||m.mood===moodFilter) &&
+  (!q || (m.title+' '+(m.story||'')).toLocaleLowerCase('vi').includes(q))
+ );
+ list.sort((a,b)=>{
+  let av=a[sortKey]||'', bv=b[sortKey]||'';
+  if(sortKey==='date'){ av=av||'0000'; bv=bv||'0000'; }
+  return av>bv ? sortDir : av<bv ? -sortDir : 0;
+ });
+ return list;
+}
+
+function renderMemTable(){
+ const list = getFilteredSorted();
+ const body = $('#memTableBody');
+ body.innerHTML = list.length ? list.map(m=>{
+  const mood = MOODS[m.mood]||MOODS.peace;
+  const story = (m.story||'').replace(/\s+/g,' ').trim();
+  return `<tr data-id="${m.id}">
+   <td><input type="checkbox" class="rowCheck" data-id="${m.id}" ${selected.has(m.id)?'checked':''}></td>
+   <td class="cell-title">${esc(m.title)}</td>
+   <td>${fmtDate(m.date)}</td>
+   <td><span class="mood-badge"><span class="mood-dot" style="background:${MOOD_HEX[m.mood]||MOOD_HEX.peace}"></span>${mood.icon} ${mood.label}</span></td>
+   <td class="photo-tag">${photoCountOf(m)?'▧'+(photoCountOf(m)>1?' ×'+photoCountOf(m):''):'—'}</td>
+   <td class="cell-story">${esc(story)||'—'}</td>
+   <td><div class="row-actions">
+    <button class="icon-action editBtn" data-id="${m.id}" title="Sửa" aria-label="Sửa">✎</button>
+    <button class="icon-action danger delBtn" data-id="${m.id}" title="Xoá" aria-label="Xoá">🗑</button>
+   </div></td>
+  </tr>`;
+ }).join('') : `<tr class="empty-row"><td colspan="7">Không tìm thấy kỷ niệm phù hợp.</td></tr>`;
+
+ body.querySelectorAll('.editBtn').forEach(b=>b.addEventListener('click',()=>openEdit(b.dataset.id)));
+ body.querySelectorAll('.delBtn').forEach(b=>b.addEventListener('click',()=>deleteMemory(b.dataset.id)));
+ body.querySelectorAll('.rowCheck').forEach(c=>c.addEventListener('change',()=>{
+  if(c.checked) selected.add(c.dataset.id); else selected.delete(c.dataset.id);
+  updateSelectedBar();
+ }));
+ updateSelectedBar();
+ $$('thead th[data-sort]').forEach(th=>th.classList.toggle('sorted', th.dataset.sort===sortKey));
+}
+function updateSelectedBar(){
+ $('#selectedBar').textContent = selected.size+' mục được chọn';
+ $('#bulkDeleteBtn').disabled = selected.size===0;
+}
+$('#memSearch').addEventListener('input', renderMemTable);
+$('#memMoodFilter').addEventListener('change', renderMemTable);
+$$('thead th[data-sort]').forEach(th=>th.addEventListener('click',()=>{
+ const key=th.dataset.sort;
+ if(sortKey===key) sortDir*=-1; else { sortKey=key; sortDir=1; }
+ renderMemTable();
+}));
+$('#selectAll').addEventListener('change', e=>{
+ const list=getFilteredSorted();
+ if(e.target.checked) list.forEach(m=>selected.add(m.id));
+ else list.forEach(m=>selected.delete(m.id));
+ renderMemTable();
 });
-let reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if(typeof window.__motionDefaultOn==='boolean'&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){reducedMotion=!window.__motionDefaultOn;}
-$('#motionToggle').addEventListener('click',()=>{reducedMotion=!reducedMotion;document.body.classList.toggle('reduced',reducedMotion);$('#motionToggle').textContent=reducedMotion?'◌':'✦';showToast(reducedMotion?'Đã giảm chuyển động.':'Đã bật chuyển động đầy đủ.');if(!reducedMotion)animate();});
-if(reducedMotion)document.body.classList.add('reduced');
-function burst(){if(reducedMotion)return;for(let i=0;i<28;i++){const p=document.createElement('i');p.style.cssText=`position:fixed;z-index:30;pointer-events:none;left:${40+Math.random()*20}%;top:${48+Math.random()*12}%;width:${3+Math.random()*4}px;height:${3+Math.random()*4}px;border-radius:50%;background:${['#f5c5ff','#ffe3b3','#d9c1ff'][i%3]};box-shadow:0 0 12px #e8baff;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity 1.2s;`;document.body.appendChild(p);requestAnimationFrame(()=>{p.style.transform=`translate(${(Math.random()-.5)*360}px,${(Math.random()-.7)*260}px) scale(.1)`;p.style.opacity='0';});setTimeout(()=>p.remove(),1300);}}
-/* Smooth ambient particle field: bounded count, device-pixel-ratio capped for stable performance. */
-const canvas=$('#sky'),ctx=canvas.getContext('2d',{alpha:true});let W=0,H=0,dpr=1,particles=[],last=0,raf=0,mouse={x:.5,y:.5},scrollY=0;
-function resize(){W=innerWidth;H=innerHeight;dpr=Math.min(devicePixelRatio||1,1.5);canvas.width=Math.floor(W*dpr);canvas.height=Math.floor(H*dpr);canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0);const count=Math.min(105,Math.max(35,Math.floor(W*H/14500)));particles=Array.from({length:count},()=>({x:Math.random()*W,y:Math.random()*H,r:.35+Math.random()*1.4,a:.15+Math.random()*.6,phase:Math.random()*Math.PI*2,speed:.08+Math.random()*.28,drift:(Math.random()-.5)*.13,hue:Math.random()<.22?310:260}));}
-function animate(t=0){if(reducedMotion||document.hidden){cancelAnimationFrame(raf);return;}raf=requestAnimationFrame(animate);if(t-last<28)return;last=t;ctx.clearRect(0,0,W,H);for(const p of particles){p.phase+=.012*p.speed;p.y-=p.speed*.15;if(p.y<-5){p.y=H+5;p.x=Math.random()*W;}const x=p.x+Math.sin(p.phase)*7+((mouse.x-.5)*9),y=p.y+Math.cos(p.phase*.8)*4;const alpha=p.a*(.65+.35*Math.sin(p.phase*2));ctx.beginPath();ctx.fillStyle=`hsla(${p.hue},80%,85%,${alpha})`;ctx.shadowBlur=p.r>1.1?9:0;ctx.shadowColor='#d9a7ff';ctx.arc(x,y,p.r,0,Math.PI*2);ctx.fill();}ctx.shadowBlur=0;}
-window.addEventListener('resize',resize,{passive:true});window.addEventListener('pointermove',e=>{mouse.x=e.clientX/W;mouse.y=e.clientY/H;},{passive:true});window.addEventListener('scroll',()=>{scrollY=window.scrollY;document.documentElement.style.setProperty('--scroll',scrollY);},{passive:true});document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!reducedMotion)animate();});resize();if(!reducedMotion)animate();
-render();
-(async()=>{ try { const remote=await cloudLoadMemories(false); memories=remote; render(); } catch(err) { console.warn('Supabase read failed; using local cached data.',err); showToast('Chưa tải được dữ liệu trực tuyến. Đang hiển thị dữ liệu đã lưu trên thiết bị này.'); } })();
+$('#bulkDeleteBtn').addEventListener('click',async()=>{
+ if(selected.size===0) return;
+ if(!confirm('Xoá '+selected.size+' kỷ niệm đã chọn? Hành động này không thể hoàn tác.')) return;
+ const idsToDelete=[...selected];
+ try { for(const id of idsToDelete) await cloudDeleteMemory(id); }
+ catch(err) { showToast('Không thể xóa trên Supabase: '+(err.message||'')); return; }
+ memories.filter(m=>selected.has(m.id)).forEach(m=>{if(m.photos)m.photos.filter(p=>!String(p.id).startsWith('cloud:')).forEach(p=>idbDeleteImage(p.id));});
+ memories = memories.filter(m=>!selected.has(m.id));
+ selected.clear();
+ saveMemories(memories);
+ showToast('Đã xoá các kỷ niệm đã chọn.');
+ renderMemTable();
+});
+
+/* ---------- stats page ---------- */
+function renderStats(){
+ const s = computeStats();
+ renderBarChart($('#barChartStats'), s.months);
+ renderDonutChart($('#donutChartStats'), s.moodCounts, $('#legendStats'));
+ $('#statTopMood').textContent = s.total ? (MOODS[s.topMoodKey[0]].icon+' '+MOODS[s.topMoodKey[0]].label) : '—';
+ $('#statBusiestMonth').textContent = s.busiest && s.busiest.count>0 ? s.busiest.label : '—';
+ $('#statPhotoRatio').textContent = s.total ? Math.round(s.withPhoto/s.total*100)+'%' : '0%';
+ $('#statAvgLen').textContent = s.avgLen;
+}
+
+/* ---------- settings page ---------- */
+function fillSettingsForm(){
+ $('#setBrandName').value = settings.brandName;
+ $('#setBrandTagline').value = settings.brandTagline;
+ $('#setEyebrow').value = settings.eyebrow;
+ $('#setTitle1').value = settings.heroTitleLine1;
+ $('#setTitle2').value = settings.heroTitleLine2;
+ $('#setDesc').value = settings.heroDesc;
+ $('#setHeroQuote').value = settings.heroQuote;
+ $('#setHeroSign').value = settings.heroQuoteSign;
+ $('#setFooterQuote').value = settings.footerQuote;
+ renderPresetRow();
+ $('#motionSwitch').classList.toggle('on', settings.motionDefaultOn!==false);
+}
+function renderPresetRow(){
+ const row = $('#presetRow');
+ row.innerHTML = Object.entries(ACCENT_PRESETS).map(([key,p])=>`
+  <button type="button" class="preset-card ${settings.accent===key?'active':''}" data-preset="${key}">
+   <div class="preset-swatch" style="background:linear-gradient(115deg,${p.pink},${p.lilac} 55%,${p.gold})"></div>
+   <span>${p.label}</span>
+  </button>`).join('');
+ row.querySelectorAll('.preset-card').forEach(card=>card.addEventListener('click',()=>{
+  settings.accent = card.dataset.preset;
+  renderPresetRow();
+  applyAccentToPage();
+ }));
+}
+$('#motionSwitch').addEventListener('click',()=>{
+ $('#motionSwitch').classList.toggle('on');
+});
+$('#settingsForm').addEventListener('submit', e=>{
+ e.preventDefault();
+ settings = {
+  ...settings,
+  brandName: $('#setBrandName').value.trim() || DEFAULT_SETTINGS.brandName,
+  brandTagline: $('#setBrandTagline').value.trim() || DEFAULT_SETTINGS.brandTagline,
+  eyebrow: $('#setEyebrow').value.trim() || DEFAULT_SETTINGS.eyebrow,
+  heroTitleLine1: $('#setTitle1').value.trim() || DEFAULT_SETTINGS.heroTitleLine1,
+  heroTitleLine2: $('#setTitle2').value.trim() || DEFAULT_SETTINGS.heroTitleLine2,
+  heroDesc: $('#setDesc').value.trim() || DEFAULT_SETTINGS.heroDesc,
+  heroQuote: $('#setHeroQuote').value.trim() || DEFAULT_SETTINGS.heroQuote,
+  heroQuoteSign: $('#setHeroSign').value.trim() || DEFAULT_SETTINGS.heroQuoteSign,
+  footerQuote: $('#setFooterQuote').value.trim() || DEFAULT_SETTINGS.footerQuote,
+  motionDefaultOn: $('#motionSwitch').classList.contains('on')
+ };
+ saveSettings(settings);
+ applyAccentToPage();
+ showToast('Đã lưu cài đặt. Mở lại trang chính để xem thay đổi.');
+});
+$('#settingsReset').addEventListener('click',()=>{
+ if(!confirm('Khôi phục toàn bộ cài đặt giao diện về mặc định?')) return;
+ settings = {...DEFAULT_SETTINGS};
+ saveSettings(settings);
+ fillSettingsForm();
+ applyAccentToPage();
+ showToast('Đã khôi phục cài đặt mặc định.');
+});
+
+/* ---------- init / secure Supabase Auth ---------- */
+applyAccentToPage();
+const authGate = $('#adminAuthGate');
+const loginForm = $('#adminLoginForm');
+async function bootAdmin(){
+ const {data:{session}} = await sb.auth.getSession();
+ if(!session || session.user?.id !== ADMIN_UID){
+  if(session) await sb.auth.signOut();
+  authGate.style.display='flex'; return;
+ }
+ authGate.style.display='none';
+ try {
+  const localBeforeCloud=[...memories];
+  let remote=await cloudLoadMemories(true);
+  const remoteIds=new Set(remote.map(m=>String(m.id)));
+  const localOnly=localBeforeCloud.filter(m=>!m.demo && !remoteIds.has(String(m.id)));
+  if(localOnly.length && confirm('Tìm thấy '+localOnly.length+' kỷ niệm chỉ có trên trình duyệt này. Tải thêm chúng lên Supabase mà không ghi đè dữ liệu trực tuyến?')){
+   for(const m of localOnly){
+    const copy={...m,photos:[...(m.photos||[])]};
+    for(let i=0;i<copy.photos.length;i++){
+     const ph=copy.photos[i];
+     if(String(ph.id).startsWith('cloud:')) continue;
+     const blob=await idbGetImage(ph.id);
+     if(blob) copy.photos[i]=await cloudUploadBlob(blob,'legacy-memory.jpg');
+    }
+    await cloudSaveMemory(copy);
+   }
+   remote=await cloudLoadMemories(true);
+  }
+  memories=remote;saveMemories(memories);
+ } catch(err) { console.error(err); showToast('Lỗi tải dữ liệu Supabase: '+(err.message||'')); }
+ const startPage = (location.hash||'#overview').slice(1);
+ goPage(['overview','memories','stats','settings'].includes(startPage) ? startPage : 'overview');
+}
+loginForm.addEventListener('submit', async e=>{
+ e.preventDefault(); const btn=$('#adminLoginBtn'), error=$('#adminLoginError'); btn.disabled=true; btn.textContent='Đang đăng nhập…'; error.textContent='';
+ const {data,error:authError}=await sb.auth.signInWithPassword({email:$('#adminEmail').value.trim(),password:$('#adminPassword').value});
+ btn.disabled=false;btn.textContent='Đăng nhập';
+ if(authError){error.textContent='Đăng nhập thất bại: '+authError.message;return;}
+ if(data.user?.id!==ADMIN_UID){await sb.auth.signOut();error.textContent='Tài khoản này không có quyền quản trị.';return;}
+ await bootAdmin();
+});
+sb.auth.onAuthStateChange((_event,session)=>{if(!session && authGate) authGate.style.display='flex';});
+bootAdmin();
 })();
 </script>
-
-<script>
-/* Premium ambient motion: lightweight, pointer-aware, and reduced-motion friendly */
-(() => {
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const petalLayer = document.getElementById('petal-layer');
-  const aura = document.querySelector('.cursor-aura');
-  const motionButton = document.getElementById('motionToggle');
-  let motionOn = !reduce.matches;
-  const makePetals = () => {
-    if (!petalLayer || reduce.matches || !motionOn) { if(petalLayer) petalLayer.innerHTML=''; return; }
-    petalLayer.innerHTML = '';
-    const count = window.innerWidth < 700 ? 9 : 17;
-    const symbols = ['✦','✧','❀','✿','·'];
-    for(let i=0;i<count;i++){
-      const p=document.createElement('span');
-      p.className='falling-petal'; p.textContent=symbols[Math.floor(Math.random()*symbols.length)];
-      p.style.setProperty('--left',Math.random()*100+'%');
-      p.style.setProperty('--size',(8+Math.random()*13)+'px');
-      p.style.setProperty('--duration',(13+Math.random()*20)+'s');
-      p.style.setProperty('--delay',(-Math.random()*28)+'s');
-      p.style.setProperty('--sway',((Math.random()-.5)*180)+'px');
-      p.style.setProperty('--spin',((Math.random()-.5)*520)+'deg');
-      p.style.setProperty('--petal-color',['#f3b9ec','#d6c2ff','#ffe0bd','#d5e3ff'][Math.floor(Math.random()*4)]);
-      petalLayer.appendChild(p);
-    }
-  };
-  const reveal = () => {
-    const selectors = ['.section-title','.memory-card','.toolbar','.empty-state','.hero-orbit'];
-    document.querySelectorAll(selectors.join(',')).forEach((el,i)=>{
-      if(el.dataset.motionReveal) return;
-      el.dataset.motionReveal='1'; el.classList.add('reveal-ready');
-      el.style.transitionDelay=(Math.min(i%6,5)*65)+'ms';
-    });
-    if(!('IntersectionObserver' in window) || reduce.matches) {
-      document.querySelectorAll('.reveal-ready').forEach(el=>el.classList.add('is-visible')); return;
-    }
-    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
-      if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}
-    }),{threshold:.08,rootMargin:'0px 0px -35px 0px'});
-    document.querySelectorAll('.reveal-ready:not(.is-visible)').forEach(el=>observer.observe(el));
-  };
-  let rafId=0, px=innerWidth/2, py=innerHeight/3;
-  window.addEventListener('pointermove',e=>{
-    if(e.pointerType==='touch') return;
-    px=e.clientX;py=e.clientY;
-    if(!rafId) rafId=requestAnimationFrame(()=>{document.documentElement.style.setProperty('--pointer-x',px+'px');document.documentElement.style.setProperty('--pointer-y',py+'px');if(aura)aura.style.transform=`translate(${px}px,${py}px) translate(-50%,-50%)`;rafId=0;});
-  },{passive:true});
-  // Subtle 3D tilt, limited to desktop pointer devices.
-  document.addEventListener('pointermove',e=>{
-    if(!motionOn || !matchMedia('(hover:hover) and (pointer:fine)').matches) return;
-    const card=e.target.closest('.memory-card'); if(!card) return;
-    const r=card.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
-    card.style.transform=`perspective(900px) rotateX(${(-y*3.2).toFixed(2)}deg) rotateY(${(x*4).toFixed(2)}deg) translateY(-3px)`;
-  },{passive:true});
-  document.addEventListener('pointerout',e=>{
-    const card=e.target.closest && e.target.closest('.memory-card');
-    if(card && !card.contains(e.relatedTarget)) card.style.transform='';
-  },{passive:true});
-  const observer = new MutationObserver(()=>{reveal();});
-  observer.observe(document.querySelector('.app')||document.body,{childList:true,subtree:true});
-  if(motionButton) motionButton.addEventListener('click',()=>{motionOn=!motionOn;document.body.classList.toggle('motion-paused',!motionOn);if(!motionOn){petalLayer.innerHTML='';document.querySelectorAll('.memory-card').forEach(c=>c.style.transform='');}else makePetals();motionButton.title=motionOn?'Tắt/bật chuyển động':'Bật chuyển động';});
-  reduce.addEventListener?.('change',()=>{motionOn=!reduce.matches;makePetals();});
-  makePetals(); reveal();
-
-  // Intro curtain: a brief, elegant scene transition into the garden, shown once per session.
-  const curtain = document.getElementById('introCurtain');
-  if(curtain){
-    let alreadyShown=false;
-    try{ alreadyShown = sessionStorage.getItem('kvku-intro-shown')==='1'; }catch(e){}
-    if(reduce.matches || alreadyShown){
-      curtain.remove();
-    } else {
-      try{ sessionStorage.setItem('kvku-intro-shown','1'); }catch(e){}
-      setTimeout(()=>{
-        curtain.classList.add('hide');
-        curtain.addEventListener('transitionend',()=>curtain.remove(),{once:true});
-        setTimeout(()=>curtain.remove(),1600);
-      }, 1050);
-    }
-  }
-
-  // Scroll progress: a thin ribbon that tracks how far through the garden the visitor has wandered.
-  const progressBar = document.getElementById('scrollProgress');
-  if(progressBar){
-    let ticking=false;
-    const updateProgress = () => {
-      const h=document.documentElement;
-      const scrollable=h.scrollHeight-h.clientHeight;
-      progressBar.style.width=(scrollable>0?(h.scrollTop/scrollable)*100:0)+'%';
-      ticking=false;
-    };
-    window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(updateProgress);ticking=true;}},{passive:true});
-    updateProgress();
-  }
-})();
-</script>
-
 </body>
 </html>
