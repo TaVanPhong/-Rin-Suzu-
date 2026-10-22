@@ -225,7 +225,7 @@ function fromCloudRow(row) {
     : [];
 
   return {
-    id: row.client_id || String(row.id),
+    id: String(row.id),
     title: row.title || 'Kỷ niệm',
     date: row.memory_date || '',
     mood: row.mood || 'peace',
