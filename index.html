@@ -197,10 +197,45 @@ const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Y1E5NTIdG4uS35t1qiYQBA_6zoxdayS
 const ADMIN_UID = 'c7ec70f3-ed92-4ed5-85f6-47d9b607cad6';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 window.rinSupabaseClient = sb;
+
 function fromCloudRow(row) {
- const photos = Array.isArray(row.image_urls) ? row.image_urls.map(p => typeof p === 'string' ? {id:p} : p).filter(p=>p && p.id) : [];
- return {id: row.client_id || String(row.id), title: row.title || 'Kỷ niệm', date: row.memory_date || '', mood: row.mood || 'peace', story: row.content || '', photos: photos.map(p=>({id: p.id || (p.path ? 'cloud:'+p.path : '')})).filter(p=>p.id), symbol: row.symbol || '✿', demo:false};
+  const photos = Array.isArray(row.image_urls)
+    ? row.image_urls
+        .map(p => {
+          if (typeof p === 'string') {
+            return { id: p };
+          }
+
+          if (!p) return null;
+
+          // Giữ nguyên tiền tố để phân biệt bucket ảnh.
+          if (p.id) return { id: p.id };
+
+          if (p.path) {
+            return {
+              id: p.path.startsWith('guest/')
+                ? 'public-cloud:' + p.path
+                : 'cloud:' + p.path
+            };
+          }
+
+          return null;
+        })
+        .filter(p => p && p.id)
+    : [];
+
+  return {
+    id: row.client_id || String(row.id),
+    title: row.title || 'Kỷ niệm',
+    date: row.memory_date || '',
+    mood: row.mood || 'peace',
+    story: row.content || '',
+    photos,
+    symbol: row.symbol || '✿',
+    demo: false
+  };
 }
+
 
 function toCloudRow(m) {
   const image_urls = (m.photos || [])
