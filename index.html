@@ -522,41 +522,75 @@ function openDetail(id){
   withTransition(()=>{fill();openModal('detailBackdrop');});
  }
 }
-$('#memoryForm').addEventListener('submit',async e=>{
- e.preventDefault();showToast('Trang này chỉ xem kỷ niệm. Hãy dùng trang quản trị để chỉnh sửa.');return;
- const title=$('#title').value.trim();if(!title){showToast('Đặt tên cho kỷ niệm trước nhé.');return;}
- const old=memories.find(x=>x.id===$('#memoryId').value);
- const submitBtn=$('#formSubmitBtn'); const originalLabel=submitBtn.innerHTML;
- const photosToProcess=pendingPhotos.slice();
- let newPhotos=[];
- if(photosToProcess.length){
-  submitBtn.disabled=true; submitBtn.innerHTML='<span class="submit-spinner"></span>Đang lưu '+photosToProcess.length+' ảnh...';
-  try{
-   for(const p of photosToProcess){
-    if(p.kind==='existing' && String(p.id).startsWith('cloud:')){newPhotos.push({id:p.id});continue;}
-    let blob;
-    if(p.kind==='legacy') blob=dataURLtoBlob(p.url);
-    else if(p.kind==='existing') blob=await idbGetImage(p.id);
-    else blob=await compressImage(p.file);
-    if(!blob) throw new Error('missing-image');
-    newPhotos.push(await cloudUploadBlob(blob, p.file?.name || 'memory.jpg'));
-   }
-  }catch(err){
-   submitBtn.disabled=false; submitBtn.innerHTML=originalLabel;
-   showToast('Không thể lưu ảnh (bộ nhớ trình duyệt có thể đã đầy). Thử lại với ít ảnh hơn nhé.');
-   return;
+
+$('#memoryForm').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  // Khách chỉ được tạo bài mới, không được sửa bài có sẵn.
+  if ($('#memoryId').value) {
+    showToast('Khách chỉ có thể đăng kỷ niệm mới nhé.');
+    return;
   }
- }
- const item={id:old?.id||'m_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7),title,date:$('#date').value,mood:$('#mood').value,story:$('#story').value.trim(),photos:newPhotos,symbol:old?.symbol||symbols[Math.floor(Math.random()*symbols.length)]};
- if(old){memories=memories.map(x=>x.id===old.id?item:x);}else{memories.unshift(item);burst();showToast('Một bông hoa mới vừa nở trong khu vườn ✨');}
- const ok=save();
- submitBtn.disabled=false; submitBtn.innerHTML=originalLabel;
- if(!ok) return;
- if(old) showToast('Đã cập nhật kỷ niệm.');
- removedExistingIds.forEach(id=>idbDeleteImage(id));
- removedExistingIds=[];
- withTransition(render);closeModal('formBackdrop');
+
+  const title = $('#title').value.trim();
+  if (!title) {
+    showToast('Đặt tên cho kỷ niệm trước nhé.');
+    return;
+  }
+
+  // Ảnh cần cấu hình quyền Storage riêng.
+  if (pendingPhotos.length > 0) {
+    showToast('Chức năng đăng ảnh đang được thiết lập. Hãy bỏ ảnh và thử đăng bài chữ trước nhé.');
+    return;
+  }
+
+  const submitBtn = $('#formSubmitBtn');
+  const originalLabel = submitBtn.innerHTML;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Đang đăng kỷ niệm...';
+
+  try {
+    const id = 'guest_' + (
+      typeof crypto.randomUUID === 'function'
+        ? crypto.randomUUID()
+        : Date.now().toString(36) + Math.random().toString(36).slice(2)
+    );
+
+    const row = {
+      client_id: id,
+      title,
+      content: $('#story').value.trim(),
+      memory_date: $('#date').value || null,
+      mood: $('#mood').value || 'peace',
+      symbol: symbols[Math.floor(Math.random() * symbols.length)],
+      image_urls: [],
+      is_public: true
+    };
+
+    const { error } = await sb
+      .from('memories')
+      .insert(row);
+
+    if (error) throw error;
+
+    memories = await cloudLoadMemories(false);
+    save();
+    withTransition(render);
+    closeModal('formBackdrop');
+    $('#memoryForm').reset();
+    resetPhotoPicker();
+    burst();
+    showToast('Kỷ niệm đã được đăng công khai ✨');
+
+  } catch (err) {
+    console.error('Không thể đăng kỷ niệm:', err);
+    showToast('Đăng chưa thành công. Hãy thử lại sau nhé.');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalLabel;
+  }
 });
+
 $('#editMemory').addEventListener('click',()=>{if(selectedId)openEdit(selectedId);});
 $('#deleteMemory').addEventListener('click',()=>{showToast('Chỉ quản trị viên mới được xóa kỷ niệm.');return; const m=memories.find(x=>x.id===selectedId);if(!m)return;if(!confirm('Xóa kỷ niệm “'+m.title+'” khỏi khu vườn?'))return;if(m.photos)m.photos.forEach(p=>idbDeleteImage(p.id));memories=memories.filter(x=>x.id!==selectedId);save();withTransition(render);closeModal('detailBackdrop');showToast('Kỷ niệm đã được gỡ khỏi khu vườn.');});
 $('#addTop').addEventListener('click',openCreate);
