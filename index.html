@@ -201,14 +201,38 @@ function fromCloudRow(row) {
  const photos = Array.isArray(row.image_urls) ? row.image_urls.map(p => typeof p === 'string' ? {id:p} : p).filter(p=>p && p.id) : [];
  return {id: row.client_id || String(row.id), title: row.title || 'Kỷ niệm', date: row.memory_date || '', mood: row.mood || 'peace', story: row.content || '', photos: photos.map(p=>({id: p.id || (p.path ? 'cloud:'+p.path : '')})).filter(p=>p.id), symbol: row.symbol || '✿', demo:false};
 }
+
 function toCloudRow(m) {
- const image_urls = (m.photos || []).map(p => {
-  if (!p || !p.id) return null;
-  const path = p.id.startsWith('cloud:') ? p.id.slice(6) : null;
-  return path ? {id:p.id, path} : null;
- }).filter(Boolean);
- return {client_id:String(m.id), title:String(m.title || 'Kỷ niệm'), content:String(m.story || ''), memory_date:m.date || null, mood:m.mood || 'peace', symbol:m.symbol || '✿', image_urls, is_public:true};
+  const image_urls = (m.photos || [])
+    .map(p => {
+      if (!p?.id) return null;
+
+      const id = String(p.id);
+
+      if (id.startsWith('public-cloud:')) {
+        return { id, path: id.slice('public-cloud:'.length) };
+      }
+
+      if (id.startsWith('cloud:')) {
+        return { id, path: id.slice('cloud:'.length) };
+      }
+
+      return null;
+    })
+    .filter(Boolean);
+
+  return {
+    client_id: String(m.id),
+    title: String(m.title || 'Kỷ niệm'),
+    content: String(m.story || ''),
+    memory_date: m.date || null,
+    mood: m.mood || 'peace',
+    symbol: m.symbol || '✿',
+    image_urls,
+    is_public: true
+  };
 }
+
 async function cloudLoadMemories(admin=false) {
  let query = sb.from('memories').select('*').order('created_at', {ascending:false});
  if (!admin) query = query.eq('is_public', true);
@@ -229,21 +253,68 @@ async function cloudDeleteMemory(id) {
   : await sb.from('memories').delete().eq('client_id', String(id));
  if (result.error) throw result.error;
 }
-async function cloudUploadBlob(blob, suggestedName='photo.jpg') {
- const {data:{user}, error:userError} = await sb.auth.getUser();
- if (userError || !user || user.id !== ADMIN_UID) throw new Error('Cần đăng nhập tài khoản quản trị để tải ảnh lên.');
- const safeName = String(suggestedName).replace(/[^a-zA-Z0-9._-]/g,'_').slice(-80) || 'photo.jpg';
- const path = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2,9)}-${safeName}`;
- const {error} = await sb.storage.from('memory-images').upload(path, blob, {contentType:blob.type || 'image/jpeg', upsert:false});
- if (error) throw error;
- return {id:'cloud:'+path};
+
+async function cloudUploadBlob(blob, suggestedName = 'photo.jpg') {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+  if (!allowedTypes.includes(blob.type)) {
+    throw new Error('Chỉ chấp nhận ảnh JPG, PNG hoặc WebP.');
+  }
+
+  if (blob.size > 5 * 1024 * 1024) {
+    throw new Error('Mỗi ảnh không được vượt quá 5 MB.');
+  }
+
+  const safeName = String(suggestedName)
+    .replace(/[^a-zA-Z0-9._-]/g, '_')
+    .slice(-80) || 'photo.jpg';
+
+  const uniqueName = typeof crypto.randomUUID === 'function'
+    ? crypto.randomUUID()
+    : Date.now() + '-' + Math.random().toString(36).slice(2);
+
+  const path = `guest/${uniqueName}-${safeName}`;
+
+  const { error } = await sb.storage
+    .from('public-memory-images')
+    .upload(path, blob, {
+      contentType: blob.type,
+      upsert: false
+    });
+
+  if (error) throw error;
+
+  return { id: 'public-cloud:' + path };
 }
+
+
 async function cloudSignedPhotoUrl(id) {
- const path = String(id).startsWith('cloud:') ? String(id).slice(6) : String(id);
- const {data,error} = await sb.storage.from('memory-images').createSignedUrl(path, 3600);
- if (error) return null;
- return data?.signedUrl || null;
+  const value = String(id || '');
+
+  // Ảnh mới do khách đăng: bucket công khai
+  if (value.startsWith('public-cloud:')) {
+    const path = value.slice('public-cloud:'.length);
+
+    const { data } = sb.storage
+      .from('public-memory-images')
+      .getPublicUrl(path);
+
+    return data?.publicUrl || null;
+  }
+
+  // Ảnh cũ: tiếp tục dùng bucket riêng tư
+  const path = value.startsWith('cloud:')
+    ? value.slice('cloud:'.length)
+    : value;
+
+  const { data, error } = await sb.storage
+    .from('memory-images')
+    .createSignedUrl(path, 3600);
+
+  if (error) return null;
+  return data?.signedUrl || null;
 }
+
 
 
 
@@ -523,10 +594,11 @@ function openDetail(id){
  }
 }
 
+
 $('#memoryForm').addEventListener('submit', async e => {
   e.preventDefault();
 
-  // Khách chỉ được tạo bài mới, không được sửa bài có sẵn.
+  // Không cho khách sửa kỷ niệm đã tồn tại.
   if ($('#memoryId').value) {
     showToast('Khách chỉ có thể đăng kỷ niệm mới nhé.');
     return;
@@ -538,9 +610,10 @@ $('#memoryForm').addEventListener('submit', async e => {
     return;
   }
 
-  // Ảnh cần cấu hình quyền Storage riêng.
-  if (pendingPhotos.length > 0) {
-    showToast('Chức năng đăng ảnh đang được thiết lập. Hãy bỏ ảnh và thử đăng bài chữ trước nhé.');
+  const photosToProcess = pendingPhotos.slice();
+
+  if (photosToProcess.length > 15) {
+    showToast('Mỗi bài chỉ được đăng tối đa 15 ảnh.');
     return;
   }
 
@@ -549,47 +622,71 @@ $('#memoryForm').addEventListener('submit', async e => {
   submitBtn.disabled = true;
   submitBtn.textContent = 'Đang đăng kỷ niệm...';
 
-  try {
-    const id = 'guest_' + (
-      typeof crypto.randomUUID === 'function'
-        ? crypto.randomUUID()
-        : Date.now().toString(36) + Math.random().toString(36).slice(2)
-    );
+  const newPhotos = [];
 
-    const row = {
-      client_id: id,
+  try {
+    // Tải ảnh mới lên bucket dành cho bài công khai.
+    for (const p of photosToProcess) {
+      if (p.kind === 'existing' && String(p.id).startsWith('public-cloud:')) {
+        newPhotos.push({ id: p.id });
+        continue;
+      }
+
+      let blob;
+
+      if (p.kind === 'legacy') {
+        blob = dataURLtoBlob(p.url);
+      } else if (p.kind === 'existing') {
+        blob = await idbGetImage(p.id);
+      } else {
+        blob = await compressImage(p.file);
+      }
+
+      if (!blob) throw new Error('Không đọc được ảnh.');
+
+      newPhotos.push(
+        await cloudUploadBlob(blob, p.file?.name || 'memory.jpg')
+      );
+    }
+
+    const item = {
+      id: 'guest_' + (
+        typeof crypto.randomUUID === 'function'
+          ? crypto.randomUUID()
+          : Date.now().toString(36) + Math.random().toString(36).slice(2)
+      ),
       title,
-      content: $('#story').value.trim(),
-      memory_date: $('#date').value || null,
+      date: $('#date').value,
       mood: $('#mood').value || 'peace',
-      symbol: symbols[Math.floor(Math.random() * symbols.length)],
-      image_urls: [],
-      is_public: true
+      story: $('#story').value.trim(),
+      photos: newPhotos,
+      symbol: symbols[Math.floor(Math.random() * symbols.length)]
     };
 
-    const { error } = await sb
-      .from('memories')
-      .insert(row);
+    const row = toCloudRow(item);
+    row.is_public = true;
 
+    // Chỉ INSERT bài mới, không cập nhật bài cũ.
+    const { error } = await sb.from('memories').insert(row);
     if (error) throw error;
 
     memories = await cloudLoadMemories(false);
     save();
+
     withTransition(render);
     closeModal('formBackdrop');
-    $('#memoryForm').reset();
-    resetPhotoPicker();
     burst();
     showToast('Kỷ niệm đã được đăng công khai ✨');
 
   } catch (err) {
-    console.error('Không thể đăng kỷ niệm:', err);
-    showToast('Đăng chưa thành công. Hãy thử lại sau nhé.');
+    console.error('Lỗi đăng kỷ niệm:', err);
+    showToast('Chưa đăng được bài. Hãy kiểm tra kết nối rồi thử lại nhé.');
   } finally {
     submitBtn.disabled = false;
     submitBtn.innerHTML = originalLabel;
   }
 });
+
 
 $('#editMemory').addEventListener('click',()=>{if(selectedId)openEdit(selectedId);});
 $('#deleteMemory').addEventListener('click',()=>{showToast('Chỉ quản trị viên mới được xóa kỷ niệm.');return; const m=memories.find(x=>x.id===selectedId);if(!m)return;if(!confirm('Xóa kỷ niệm “'+m.title+'” khỏi khu vườn?'))return;if(m.photos)m.photos.forEach(p=>idbDeleteImage(p.id));memories=memories.filter(x=>x.id!==selectedId);save();withTransition(render);closeModal('detailBackdrop');showToast('Kỷ niệm đã được gỡ khỏi khu vườn.');});
