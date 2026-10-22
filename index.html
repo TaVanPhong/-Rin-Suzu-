@@ -289,10 +289,44 @@ async function cloudDeleteMemory(id) {
  if (result.error) throw result.error;
 }
 
+
 async function cloudUploadBlob(blob, suggestedName = 'photo.jpg') {
   const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
-  if (!allowedTypes.includes(blob.type)) {
+  if (!blob || !allowedTypes.includes(blob.type)) {
+    throw new Error('Chỉ chấp nhận ảnh JPG, PNG hoặc WebP.');
+  }
+
+  if (blob.size > 5 * 1024 * 1024) {
+    throw new Error('Mỗi ảnh không được vượt quá 5 MB.');
+  }
+
+  const safeName = String(suggestedName)
+    .replace(/[^a-zA-Z0-9._-]/g, '_')
+    .slice(-80) || 'photo.jpg';
+
+  const uniqueName = typeof crypto.randomUUID === 'function'
+    ? crypto.randomUUID()
+    : Date.now() + '-' + Math.random().toString(36).slice(2);
+
+  const path = `${uniqueName}-${safeName}`;
+
+  const { error } = await sb.storage
+    .from('memory-images')
+    .upload(path, blob, {
+      contentType: blob.type,
+      upsert: false
+    });
+
+  if (error) throw error;
+
+  return { id: 'cloud:' + path };
+}
+
+async function cloudUploadPublicBlob(blob, suggestedName = 'photo.jpg') {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+  if (!blob || !allowedTypes.includes(blob.type)) {
     throw new Error('Chỉ chấp nhận ảnh JPG, PNG hoặc WebP.');
   }
 
@@ -680,7 +714,7 @@ $('#memoryForm').addEventListener('submit', async e => {
       if (!blob) throw new Error('Không đọc được ảnh.');
 
       newPhotos.push(
-        await cloudUploadBlob(blob, p.file?.name || 'memory.jpg')
+        await cloudUploadPublicBlob(blob, p.file?.name || 'memory.jpg')
       );
     }
 
