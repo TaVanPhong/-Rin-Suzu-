@@ -237,6 +237,7 @@ function fromCloudRow(row) {
 }
 
 
+
 function toCloudRow(m) {
   const image_urls = (m.photos || [])
     .map(p => {
@@ -245,11 +246,17 @@ function toCloudRow(m) {
       const id = String(p.id);
 
       if (id.startsWith('public-cloud:')) {
-        return { id, path: id.slice('public-cloud:'.length) };
+        return {
+          id,
+          path: id.slice('public-cloud:'.length)
+        };
       }
 
       if (id.startsWith('cloud:')) {
-        return { id, path: id.slice('cloud:'.length) };
+        return {
+          id,
+          path: id.slice('cloud:'.length)
+        };
       }
 
       return null;
@@ -257,7 +264,6 @@ function toCloudRow(m) {
     .filter(Boolean);
 
   return {
-    client_id: String(m.id),
     title: String(m.title || 'Kỷ niệm'),
     content: String(m.story || ''),
     memory_date: m.date || null,
