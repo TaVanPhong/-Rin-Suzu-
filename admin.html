@@ -372,16 +372,50 @@ const ADMIN_UID = 'c7ec70f3-ed92-4ed5-85f6-47d9b607cad6';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 window.rinSupabaseClient = sb;
 function fromCloudRow(row) {
- const photos = Array.isArray(row.image_urls) ? row.image_urls.map(p => typeof p === 'string' ? {id:p} : p).filter(p=>p && p.id) : [];
- return {id: row.client_id || String(row.id), title: row.title || 'Kỷ niệm', date: row.memory_date || '', mood: row.mood || 'peace', story: row.content || '', photos: photos.map(p=>({id: p.id || (p.path ? 'cloud:'+p.path : '')})).filter(p=>p.id), symbol: row.symbol || '✿', demo:false};
+  const photos = Array.isArray(row.image_urls)
+    ? row.image_urls
+        .map(p => {
+          if (typeof p === 'string') return { id: p };
+          if (!p) return null;
+          if (p.id) return { id: p.id };
+          if (p.path) {
+            return {
+              id: p.path.startsWith('guest/')
+                ? 'public-cloud:' + p.path
+                : 'cloud:' + p.path
+            };
+          }
+          return null;
+        })
+        .filter(p => p && p.id)
+    : [];
+  return {
+    id: String(row.id),
+    title: row.title || 'Kỷ niệm',
+    date: row.memory_date || '',
+    mood: row.mood || 'peace',
+    story: row.content || '',
+    photos,
+    symbol: row.symbol || '✿',
+    demo: false
+  };
 }
 function toCloudRow(m) {
- const image_urls = (m.photos || []).map(p => {
-  if (!p || !p.id) return null;
-  const path = p.id.startsWith('cloud:') ? p.id.slice(6) : null;
-  return path ? {id:p.id, path} : null;
- }).filter(Boolean);
- return {client_id:String(m.id), title:String(m.title || 'Kỷ niệm'), content:String(m.story || ''), memory_date:m.date || null, mood:m.mood || 'peace', symbol:m.symbol || '✿', image_urls, is_public:true};
+  const image_urls = (m.photos || [])
+    .map(p => {
+      if (!p?.id) return null;
+      const id = String(p.id);
+      if (id.startsWith('public-cloud:')) return { id, path: id.slice('public-cloud:'.length) };
+      if (id.startsWith('cloud:')) return { id, path: id.slice('cloud:'.length) };
+      return null;
+    })
+    .filter(Boolean);
+  return {
+    title: String(m.title || 'Kỷ niệm'),
+    content: String(m.story || ''),
+    image_urls,
+    is_public: true
+  };
 }
 async function cloudLoadMemories(admin=false) {
  let query = sb.from('memories').select('*').order('created_at', {ascending:false});
@@ -392,16 +426,19 @@ async function cloudLoadMemories(admin=false) {
 }
 async function cloudSaveMemory(m) {
  const row = toCloudRow(m);
- let result;
- if (/^\d+$/.test(String(m.id))) { result = await sb.from('memories').update(row).eq('id', Number(m.id)); }
- else { result = await sb.from('memories').upsert(row, {onConflict:'client_id'}); }
- if (result.error) throw result.error;
+ if (/^\d+$/.test(String(m.id))) {
+  const { error } = await sb.from('memories').update(row).eq('id', Number(m.id));
+  if (error) throw error;
+  return String(m.id);
+ }
+ const { data, error } = await sb.from('memories').insert(row).select('id').single();
+ if (error) throw error;
+ return String(data.id);
 }
 async function cloudDeleteMemory(id) {
- const result = /^\d+$/.test(String(id))
-  ? await sb.from('memories').delete().eq('id', Number(id))
-  : await sb.from('memories').delete().eq('client_id', String(id));
- if (result.error) throw result.error;
+ if (!/^\d+$/.test(String(id))) return; // chưa từng đồng bộ lên Supabase, chỉ xoá cục bộ
+ const { error } = await sb.from('memories').delete().eq('id', Number(id));
+ if (error) throw error;
 }
 async function cloudUploadBlob(blob, suggestedName='photo.jpg') {
  const {data:{user}, error:userError} = await sb.auth.getUser();
@@ -648,7 +685,7 @@ $('#memForm').addEventListener('submit', async e=>{
  const item={id:old?.id||'m_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7),
   title,date:$('#mDate').value,mood:$('#mMood').value,story:$('#mStory').value.trim(),photos:newPhotos,
   symbol:old?.symbol||symbols[Math.floor(Math.random()*symbols.length)]};
- try { await cloudSaveMemory(item); }
+ try { item.id = await cloudSaveMemory(item); }
  catch(err) { console.error(err); submitBtn.disabled=false; submitBtn.innerHTML=originalLabel; showToast('Không lưu được lên Supabase: '+(err.message||'hãy kiểm tra SQL/RLS và đăng nhập')); return; }
  if(old){memories=memories.map(x=>x.id===old.id?item:x);showToast('Đã cập nhật kỷ niệm.');}
  else{memories.unshift(item);showToast('Đã thêm kỷ niệm mới ✨');}

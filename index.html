@@ -281,16 +281,19 @@ async function cloudLoadMemories(admin=false) {
 }
 async function cloudSaveMemory(m) {
  const row = toCloudRow(m);
- let result;
- if (/^\d+$/.test(String(m.id))) { result = await sb.from('memories').update(row).eq('id', Number(m.id)); }
- else { result = await sb.from('memories').upsert(row, {onConflict:'client_id'}); }
- if (result.error) throw result.error;
+ if (/^\d+$/.test(String(m.id))) {
+  const { error } = await sb.from('memories').update(row).eq('id', Number(m.id));
+  if (error) throw error;
+  return String(m.id);
+ }
+ const { data, error } = await sb.from('memories').insert(row).select('id').single();
+ if (error) throw error;
+ return String(data.id);
 }
 async function cloudDeleteMemory(id) {
- const result = /^\d+$/.test(String(id))
-  ? await sb.from('memories').delete().eq('id', Number(id))
-  : await sb.from('memories').delete().eq('client_id', String(id));
- if (result.error) throw result.error;
+ if (!/^\d+$/.test(String(id))) return;
+ const { error } = await sb.from('memories').delete().eq('id', Number(id));
+ if (error) throw error;
 }
 
 
@@ -551,7 +554,7 @@ document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',
 document.querySelectorAll('.modal-backdrop').forEach(b=>b.addEventListener('click',e=>{if(e.target===b)closeModal(b.id);}));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-backdrop.open').forEach(m=>closeModal(m.id));});
 /* ---------- multi-image picker ---------- */
-const MAX_PHOTOS=12, MAX_PHOTO_MB=8;
+const MAX_PHOTOS=15, MAX_PHOTO_MB=5;
 let pendingPhotos=[]; // {kind:'existing'|'legacy'|'new', id?, file?, url}
 let removedExistingIds=[];
 function renderPhotoGrid(){
