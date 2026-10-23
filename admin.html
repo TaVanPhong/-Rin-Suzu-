@@ -253,6 +253,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--pink)}
       <th data-sort="mood">Cảm xúc</th>
       <th>Ảnh</th>
       <th>Nội dung</th>
+      <th>♡</th>
       <th style="width:90px"></th>
      </tr></thead>
      <tbody id="memTableBody"></tbody>
@@ -328,6 +329,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--pink)}
    <input type="hidden" id="mId">
    <div class="form-grid">
     <div class="field full"><label for="mTitle">Tên kỷ niệm *</label><input id="mTitle" maxlength="90" required placeholder="Ví dụ: Một chiều hoàng hôn đáng nhớ"></div>
+    <div class="field full"><label for="mAuthor">Tên người đăng (không bắt buộc)</label><input id="mAuthor" maxlength="60" placeholder="Để trống nếu muốn ẩn danh"></div>
     <div class="field"><label for="mDate">Ngày tháng</label><input id="mDate" type="date"></div>
     <div class="field"><label for="mMood">Cảm xúc</label><select id="mMood"><option value="happy">☀ Vui vẻ</option><option value="peace">☾ Bình yên</option><option value="sad">☁ Trầm lắng</option><option value="surprise">✧ Bất ngờ</option></select></div>
     <div class="field full"><label for="mStory">Câu chuyện</label><textarea id="mStory" maxlength="5000" placeholder="Hôm ấy đã có chuyện gì đặc biệt?"></textarea></div>
@@ -397,6 +399,8 @@ function fromCloudRow(row) {
     story: row.content || '',
     photos,
     symbol: row.symbol || '✿',
+    author: row.author_name || '',
+    likes: row.likes_count || 0,
     demo: false
   };
 }
@@ -414,7 +418,11 @@ function toCloudRow(m) {
     title: String(m.title || 'Kỷ niệm'),
     content: String(m.story || ''),
     image_urls,
-    is_public: true
+    is_public: true,
+    memory_date: m.date || null,
+    mood: m.mood || 'peace',
+    symbol: m.symbol || '✿',
+    author_name: m.author ? String(m.author).trim().slice(0, 60) : null
   };
 }
 async function cloudLoadMemories(admin=false) {
@@ -639,7 +647,7 @@ function openCreate(){
 async function openEdit(id){
  const m=memories.find(x=>x.id===id); if(!m) return;
  editingId=id; $('#memForm').reset();
- $('#mId').value=m.id; $('#mTitle').value=m.title; $('#mDate').value=m.date||''; $('#mMood').value=m.mood||'peace';
+ $('#mId').value=m.id; $('#mTitle').value=m.title; $('#mAuthor').value=m.author||''; $('#mDate').value=m.date||''; $('#mMood').value=m.mood||'peace';
  $('#mStory').value=m.story||'';
  resetPhotoPicker();
  $('#memModalTitle').textContent='Chỉnh sửa kỷ niệm';
@@ -683,8 +691,8 @@ $('#memForm').addEventListener('submit', async e=>{
   }
  }
  const item={id:old?.id||'m_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7),
-  title,date:$('#mDate').value,mood:$('#mMood').value,story:$('#mStory').value.trim(),photos:newPhotos,
-  symbol:old?.symbol||symbols[Math.floor(Math.random()*symbols.length)]};
+  title,author:$('#mAuthor').value.trim(),date:$('#mDate').value,mood:$('#mMood').value,story:$('#mStory').value.trim(),photos:newPhotos,
+  symbol:old?.symbol||symbols[Math.floor(Math.random()*symbols.length)],likes:old?.likes||0};
  try { item.id = await cloudSaveMemory(item); }
  catch(err) { console.error(err); submitBtn.disabled=false; submitBtn.innerHTML=originalLabel; showToast('Không lưu được lên Supabase: '+(err.message||'hãy kiểm tra SQL/RLS và đăng nhập')); return; }
  if(old){memories=memories.map(x=>x.id===old.id?item:x);showToast('Đã cập nhật kỷ niệm.');}
@@ -868,12 +876,13 @@ function renderMemTable(){
    <td><span class="mood-badge"><span class="mood-dot" style="background:${MOOD_HEX[m.mood]||MOOD_HEX.peace}"></span>${mood.icon} ${mood.label}</span></td>
    <td class="photo-tag">${photoCountOf(m)?'▧'+(photoCountOf(m)>1?' ×'+photoCountOf(m):''):'—'}</td>
    <td class="cell-story">${esc(story)||'—'}</td>
+   <td>♡ ${m.likes||0}</td>
    <td><div class="row-actions">
     <button class="icon-action editBtn" data-id="${m.id}" title="Sửa" aria-label="Sửa">✎</button>
     <button class="icon-action danger delBtn" data-id="${m.id}" title="Xoá" aria-label="Xoá">🗑</button>
    </div></td>
   </tr>`;
- }).join('') : `<tr class="empty-row"><td colspan="7">Không tìm thấy kỷ niệm phù hợp.</td></tr>`;
+ }).join('') : `<tr class="empty-row"><td colspan="8">Không tìm thấy kỷ niệm phù hợp.</td></tr>`;
 
  body.querySelectorAll('.editBtn').forEach(b=>b.addEventListener('click',()=>openEdit(b.dataset.id)));
  body.querySelectorAll('.delBtn').forEach(b=>b.addEventListener('click',()=>deleteMemory(b.dataset.id)));
