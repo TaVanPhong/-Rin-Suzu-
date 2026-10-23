@@ -682,17 +682,18 @@ $('#memForm').addEventListener('submit', async e=>{
   submitBtn.disabled=true; submitBtn.innerHTML='<span class="submit-spinner"></span>Đang lưu '+photosToProcess.length+' ảnh...';
   try{
    for(const p of photosToProcess){
-    if(p.kind==='existing' && String(p.id).startsWith('cloud:')){newPhotos.push({id:p.id});continue;}
+    if(p.kind==='existing' && (String(p.id).startsWith('cloud:')||String(p.id).startsWith('public-cloud:'))){newPhotos.push({id:p.id});continue;}
     let blob;
     if(p.kind==='legacy') blob=dataURLtoBlob(p.url);
     else if(p.kind==='existing') blob=await idbGetImage(p.id);
     else blob=await compressImage(p.file);
-    if(!blob) throw new Error('missing-image');
+    if(!blob) throw new Error('Không tìm thấy ảnh "'+(p.id||p.file?.name||'')+'" trong bộ nhớ trình duyệt này (ảnh cũ có thể đã lưu trên một máy/trình duyệt khác).');
     newPhotos.push(await cloudUploadBlob(blob, p.file?.name || 'memory.jpg'));
    }
   }catch(err){
+   console.error(err);
    submitBtn.disabled=false; submitBtn.innerHTML=originalLabel;
-   showToast('Không thể lưu ảnh (bộ nhớ trình duyệt có thể đã đầy). Thử lại với ít ảnh hơn nhé.');
+   showToast('Không thể lưu ảnh: '+(err?.message||'lỗi không xác định'));
    return;
   }
  }
