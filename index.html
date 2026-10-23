@@ -807,7 +807,7 @@ $('#memoryForm').addEventListener('submit', async e => {
 
   } catch (err) {
     console.error('Lỗi đăng kỷ niệm:', err);
-    showToast('Chưa đăng được bài. Hãy kiểm tra kết nối rồi thử lại nhé.');
+    showToast('Chưa đăng được bài: ' + (err?.message || 'lỗi không xác định') + '. Thử lại nhé.');
   } finally {
     submitBtn.disabled = false;
     submitBtn.innerHTML = originalLabel;
