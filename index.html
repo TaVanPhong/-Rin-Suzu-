@@ -238,6 +238,7 @@ function fromCloudRow(row) {
 
 
 
+
 function toCloudRow(m) {
   const image_urls = (m.photos || [])
     .map(p => {
@@ -266,9 +267,6 @@ function toCloudRow(m) {
   return {
     title: String(m.title || 'Kỷ niệm'),
     content: String(m.story || ''),
-    memory_date: m.date || null,
-    mood: m.mood || 'peace',
-    symbol: m.symbol || '✿',
     image_urls,
     is_public: true
   };
