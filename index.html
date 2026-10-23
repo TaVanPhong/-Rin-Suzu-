@@ -440,7 +440,7 @@ const coverUrlCache=new Map();
 async function getCoverUrl(id){
  if(coverUrlCache.has(id)) return coverUrlCache.get(id);
  try{
-  if(String(id).startsWith('cloud:')) { const url=await cloudSignedPhotoUrl(id); if(url) coverUrlCache.set(id,url); return url; }
+  if(String(id).startsWith('cloud:')||String(id).startsWith('public-cloud:')) { const url=await cloudSignedPhotoUrl(id); if(url) coverUrlCache.set(id,url); return url; }
   const blob=await idbGetImage(id); if(!blob) return null; const url=URL.createObjectURL(blob); coverUrlCache.set(id,url); return url;
  }catch(e){return null;}
 }

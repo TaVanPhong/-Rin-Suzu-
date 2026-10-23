@@ -458,7 +458,13 @@ async function cloudUploadBlob(blob, suggestedName='photo.jpg') {
  return {id:'cloud:'+path};
 }
 async function cloudSignedPhotoUrl(id) {
- const path = String(id).startsWith('cloud:') ? String(id).slice(6) : String(id);
+ const value = String(id || '');
+ if (value.startsWith('public-cloud:')) {
+  const path = value.slice('public-cloud:'.length);
+  const { data } = sb.storage.from('public-memory-images').getPublicUrl(path);
+  return data?.publicUrl || null;
+ }
+ const path = value.startsWith('cloud:') ? value.slice('cloud:'.length) : value;
  const {data,error} = await sb.storage.from('memory-images').createSignedUrl(path, 3600);
  if (error) return null;
  return data?.signedUrl || null;
@@ -486,7 +492,7 @@ const coverUrlCache=new Map();
 async function getCoverUrl(id){
  if(coverUrlCache.has(id)) return coverUrlCache.get(id);
  try{
-  if(String(id).startsWith('cloud:')) { const url=await cloudSignedPhotoUrl(id); if(url) coverUrlCache.set(id,url); return url; }
+  if(String(id).startsWith('cloud:')||String(id).startsWith('public-cloud:')) { const url=await cloudSignedPhotoUrl(id); if(url) coverUrlCache.set(id,url); return url; }
   const blob=await idbGetImage(id); if(!blob) return null; const url=URL.createObjectURL(blob); coverUrlCache.set(id,url); return url;
  }catch(e){return null;}
 }
