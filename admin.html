@@ -142,7 +142,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--pink)}
 .modal-backdrop.visible{opacity:1}
 .modal{width:min(620px,100%);max-height:min(88vh,800px);overflow:auto;border:1px solid #e2bdff40;border-radius:22px;background:linear-gradient(145deg,#211a42f5,#111127f8);box-shadow:0 30px 90px #0009;transform:translateY(16px) scale(.98);transition:transform .4s var(--ease)}
 .modal-backdrop.visible .modal{transform:translateY(0) scale(1)}
-.modal-top{display:flex;align-items:center;justify-content:space-between;padding:20px 22px 0}
+.modal-top{display:flex;align-items:center;justify-content:space-between;padding:20px 22px 0;position:sticky;top:0;z-index:5;background:linear-gradient(145deg,#211a42f5,#111127f8);border-radius:22px 22px 0 0}
 .modal-top h3{font-size:22px}
 .close-btn{width:32px;height:32px;border:1px solid var(--line);border-radius:50%;background:#ffffff08;color:#fff;font-size:16px}
 .modal-body{padding:18px 22px 22px}
