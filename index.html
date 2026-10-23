@@ -121,11 +121,11 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:8;opaci
 <header class="topbar">
   <div class="brand"><img class="brand-logo" src="assets/rin-logo-full.jpg" alt="鈴Rin ✧ Suzu鈴"><div><strong id="brandName" class="sr-only">鈴Rin ✧ Suzu鈴</strong><small id="brandTagline">A LITTLE WORLD OF YOURS</small></div></div>
   <div class="top-actions">
-    <button class="ghost-btn" id="exportTop">↗ Sao lưu dữ liệu</button>
+    <button class="ghost-btn hidden" id="exportTop">↗ Sao lưu dữ liệu</button>
     <button class="ghost-btn" id="authTop">Đăng nhập</button>
     <button class="icon-btn" id="motionToggle" title="Bật/tắt chuyển động" aria-label="Bật/tắt chuyển động">✦</button>
     <button class="icon-btn" id="addTop" title="Thêm kỷ niệm" aria-label="Thêm kỷ niệm">＋</button>
-    <a class="icon-btn" href="admin.html" title="Trang quản trị" aria-label="Trang quản trị">⚙</a>
+    <a class="icon-btn hidden" id="adminLinkTop" href="admin.html" title="Trang quản trị" aria-label="Trang quản trị">⚙</a>
   </div>
 </header>
 <section class="hero" id="home">
@@ -357,6 +357,13 @@ function updateAuthUI(){
   const btn = $('#authTop');
   if (currentUser) { btn.textContent = (currentUser.displayName || currentUser.email) + ' · Đăng xuất'; }
   else { btn.textContent = 'Đăng nhập'; }
+  updateAdminOnlyUI();
+}
+function updateAdminOnlyUI(){
+  const isAdmin = !!(currentUser && currentUser.id === ADMIN_UID);
+  $('#exportTop')?.classList.toggle('hidden', !isAdmin);
+  $('#adminLinkTop')?.classList.toggle('hidden', !isAdmin);
+  document.getElementById('importTop')?.classList.toggle('hidden', !isAdmin);
 }
 async function refreshAuthState(){
   const { data: { session } } = await sb.auth.getSession();
@@ -1053,7 +1060,8 @@ async function downloadJSON(){
  showToast('Đã tạo bản sao lưu JSON. Hãy giữ tệp ở nơi an toàn.');
 }
 $('#exportTop').addEventListener('click',downloadJSON);
-const importBtn=document.createElement('button');importBtn.className='ghost-btn';importBtn.textContent='↙ Khôi phục';importBtn.title='Nhập bản sao lưu JSON';$('.top-actions').insertBefore(importBtn,$('#motionToggle'));
+const importBtn=document.createElement('button');importBtn.className='ghost-btn hidden';importBtn.id='importTop';importBtn.textContent='↙ Khôi phục';importBtn.title='Nhập bản sao lưu JSON';$('.top-actions').insertBefore(importBtn,$('#motionToggle'));
+updateAdminOnlyUI();
 const importInput=document.createElement('input');importInput.type='file';importInput.accept='application/json,.json';importInput.hidden=true;document.body.appendChild(importInput);
 importBtn.addEventListener('click',()=>importInput.click());
 importInput.addEventListener('change',async()=>{
