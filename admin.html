@@ -1007,7 +1007,8 @@ const loginForm = $('#adminLoginForm');
 async function bootAdmin(){
  const {data:{session}} = await sb.auth.getSession();
  if(!session || session.user?.id !== ADMIN_UID){
-  if(session) await sb.auth.signOut();
+  // Không chủ động đăng xuất: session này có thể là tài khoản bình luận của khách
+  // (đăng nhập ở trang chính), lỡ ghé trang quản trị không nên bị mất đăng nhập.
   authGate.style.display='flex'; return;
  }
  authGate.style.display='none';
