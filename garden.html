@@ -36,7 +36,33 @@ html,body{margin:0;height:100%;background:#0b0b20;color:var(--text);font-family:
 #detailPanel .eyebrow{color:#d8b6ff;text-transform:uppercase;letter-spacing:.18em;font-size:9px;font-weight:600}
 #detailPanel h3{font-family:'Playfair Display',serif;font-weight:400;font-size:22px;margin:8px 0 4px;padding-right:20px}
 #detailPanel .meta{font-size:11px;color:var(--muted);margin-bottom:12px}
-#detailPanel img{width:100%;border-radius:14px;margin-bottom:12px;max-height:200px;object-fit:cover;display:block}
+.dp-gallery{position:relative;margin-bottom:12px}
+.dp-gallery img{width:100%;border-radius:14px;max-height:220px;object-fit:cover;display:block}
+.dp-gallery-nav{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:#0c0b25a8;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dp-gallery-nav.prev{left:8px}
+.dp-gallery-nav.next{right:8px}
+.dp-gallery-counter{position:absolute;right:8px;bottom:8px;background:#0c0b25c0;color:#fff;font-size:10px;padding:3px 8px;border-radius:999px}
+.dp-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px}
+.dp-actions .ghost-btn{padding:8px 14px;font-size:11px}
+.dp-actions .ghost-btn.liked{color:#ff9ec7;border-color:#ff9ec7aa}
+.comments-section{margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+.comments-heading{font-family:'Playfair Display',serif;font-weight:400;font-size:15px;margin:0 0 12px;color:#f0e6fa}
+.comments-list{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.comment-item{background:#17142f8a;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.comment-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:5px}
+.comment-author-row{display:flex;align-items:center}
+.comment-avatar{width:22px;height:22px;border-radius:50%;object-fit:cover;margin-right:7px;border:1px solid #ffffff25;background:#2a2450}
+.comment-author{font-size:11px;font-weight:600;color:#e9c0ff}
+.comment-time{font-size:9px;color:var(--muted)}
+.comment-text{font-size:11.5px;line-height:1.65;color:#e2d6ef;white-space:pre-wrap}
+.comment-actions{display:flex;gap:8px;margin-top:6px}
+.comment-actions button{font-size:10px;color:var(--muted);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer}
+.comment-actions button:hover{color:#f0bfe9}
+.comment-empty{font-size:11px;color:var(--muted);text-align:center;padding:8px 0}
+.comment-edit-input{width:100%;border:1px solid #cba8ef30;border-radius:10px;padding:8px 10px;background:#100f27;color:#f8efff;font-size:11.5px;resize:vertical;min-height:50px;line-height:1.6;margin-bottom:6px}
+#dpCommentComposer{display:flex;flex-direction:column;gap:8px}
+#dpCommentComposer textarea{width:100%;border:1px solid #cba8ef30;border-radius:12px;padding:10px 12px;background:#100f27;color:#f8efff;font-size:11.5px;resize:vertical;min-height:60px;line-height:1.6}
+#dpCommentComposer .primary-btn{align-self:flex-end;padding:8px 14px;font-size:11px}
 #detailPanel .story{font-size:12.5px;line-height:1.8;color:#e2d6ef;white-space:pre-wrap;margin-bottom:16px}
 #detailPanel a.primary-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,225,255,.4);border-radius:999px;padding:9px 16px;color:#231633;font-weight:600;font-size:11px;background:linear-gradient(115deg,#e9c2ff,#f7c7e6 55%,#ffd9bb);text-decoration:none}
 .dpad{position:fixed;left:18px;bottom:18px;z-index:12;display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(2,44px);gap:6px;touch-action:none}
@@ -73,9 +99,25 @@ html,body{margin:0;height:100%;background:#0b0b20;color:var(--text);font-family:
   <div class="eyebrow" id="dpMood">MỘT KHOẢNH KHẮC</div>
   <h3 id="dpTitle"></h3>
   <div class="meta" id="dpMeta"></div>
-  <img id="dpPhoto" class="hidden" alt="Ảnh kỷ niệm">
+  <div class="dp-gallery hidden" id="dpGallery">
+    <img id="dpPhoto" alt="Ảnh kỷ niệm">
+    <button type="button" class="dp-gallery-nav prev hidden" id="dpPrev">‹</button>
+    <button type="button" class="dp-gallery-nav next hidden" id="dpNext">›</button>
+    <div class="dp-gallery-counter hidden" id="dpCounter"></div>
+  </div>
   <div class="story" id="dpStory"></div>
-  <a class="primary-btn" href="index.html">Xem đầy đủ ở trang chính ↗</a>
+  <div class="dp-actions">
+    <button class="ghost-btn" id="dpLikeBtn" type="button">♡ Thích</button>
+    <a class="ghost-btn" id="dpFullLink" href="index.html">Mở ở trang chính ↗</a>
+  </div>
+  <div class="comments-section">
+    <h4 class="comments-heading">Bình luận</h4>
+    <div class="comments-list" id="dpCommentsList"></div>
+    <div id="dpCommentComposer">
+      <textarea id="dpCommentInput" maxlength="1000" placeholder="Viết vài dòng cảm nghĩ..."></textarea>
+      <button class="primary-btn" id="dpCommentSubmitBtn" type="button">Gửi bình luận</button>
+    </div>
+  </div>
 </div>
 <script>
   // Lưới an toàn: nếu module Three.js (tải từ CDN) lỗi/không tải được, đừng để màn hình
@@ -101,9 +143,32 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 /* ---------- Supabase (same project/keys as index.html) ---------- */
 const SUPABASE_URL = 'https://gvibphifwtojmqnyrtpg.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Y1E5NTIdG4uS35t1qiYQBA_6zoxdayS';
+const ADMIN_UID = 'c7ec70f3-ed92-4ed5-85f6-47d9b607cad6';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
 const $ = s => document.querySelector(s);
+const esc = s => String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let currentUser = null;
+const profileCache = new Map();
+async function ensureProfile(user){
+  const { data, error } = await sb.from('profiles').select('id,display_name,avatar_url').eq('id', user.id).maybeSingle();
+  if (error) { console.error(error); return null; }
+  if (data) return data;
+  const fallbackName = user.user_metadata?.display_name || user.email;
+  const { data: created, error: insErr } = await sb.from('profiles')
+    .insert({ id: user.id, display_name: fallbackName, avatar_url: null })
+    .select('id,display_name,avatar_url').single();
+  if (insErr) { console.error(insErr); return { id: user.id, display_name: fallbackName, avatar_url: null }; }
+  return created;
+}
+async function loadProfiles(userIds){
+  const uncached = userIds.filter(id => !profileCache.has(id));
+  if (uncached.length) {
+    const { data, error } = await sb.from('profiles').select('id,display_name,avatar_url').in('id', uncached);
+    if (!error) (data||[]).forEach(p => profileCache.set(p.id, p));
+  }
+  return userIds.map(id => profileCache.get(id) || null);
+}
 
 function fmtDate(d){
   if(!d) return 'Một ngày đáng nhớ';
@@ -149,7 +214,7 @@ async function cloudSignedPhotoUrl(id){
   }
   const path = value.startsWith('cloud:') ? value.slice('cloud:'.length) : value;
   const { data, error } = await sb.storage.from('memory-images').createSignedUrl(path, 3600);
-  if (error) return null;
+  if (error) { console.error('cloudSignedPhotoUrl failed for', value, error); return null; }
   return data?.signedUrl || null;
 }
 async function loadMemories(){
@@ -157,15 +222,14 @@ async function loadMemories(){
   if (error) throw error;
   return (data||[]).map(fromCloudRow);
 }
-async function resolveCoverUrl(memory){
-  if (!memory.photos || !memory.photos.length) return null;
-  return await cloudSignedPhotoUrl(memory.photos[0].id);
-}
 
 /* ---------- auth: whole site requires login (same session as index.html) ---------- */
 async function requireSession(){
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { location.href = 'index.html'; return null; }
+  currentUser = { id: session.user.id, email: session.user.email, displayName: session.user.user_metadata?.display_name || session.user.email };
+  const profile = await ensureProfile(session.user);
+  if (profile) profileCache.set(profile.id, profile);
   return session;
 }
 
@@ -332,6 +396,7 @@ function initScene(){
 
   camera = new THREE.PerspectiveCamera(52, window.innerWidth/window.innerHeight, 0.1, 400);
   camera.position.set(0, 9, 22);
+  applyCameraFov();
 
   controls = new OrbitControls(camera, renderer.domElement);
   controls.target.set(0,2,0);
@@ -618,9 +683,21 @@ function buildPlant(memory, index){
 }
 
 /* ---------- interaction ---------- */
-function onResize(){
-  camera.aspect = window.innerWidth/window.innerHeight;
+const TARGET_HORIZONTAL_FOV_DEG = 78;
+function applyCameraFov(){
+  // PerspectiveCamera.fov is the VERTICAL field of view, held fixed. On a narrow/tall
+  // phone screen that makes the HORIZONTAL view much narrower than on a wide desktop
+  // screen, which reads as "everything is zoomed in". Compute vertical fov so the
+  // horizontal fov stays roughly constant across aspect ratios instead.
+  const aspect = window.innerWidth/window.innerHeight;
+  const hfovRad = THREE.MathUtils.degToRad(TARGET_HORIZONTAL_FOV_DEG);
+  let vfovDeg = THREE.MathUtils.radToDeg(2*Math.atan(Math.tan(hfovRad/2)/aspect));
+  camera.fov = THREE.MathUtils.clamp(vfovDeg, 50, 100);
+  camera.aspect = aspect;
   camera.updateProjectionMatrix();
+}
+function onResize(){
+  applyCameraFov();
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 function updatePointer(e){
@@ -657,23 +734,168 @@ function onVisibilityChange(){
 }
 
 /* ---------- detail panel + camera fly-to ---------- */
+/* ---------- likes (shared localStorage key with index.html) ---------- */
+const LIKED_KEY = 'rin-memory-garden-liked-v1';
+function getLikedSet(){ try { return new Set(JSON.parse(localStorage.getItem(LIKED_KEY)||'[]')); } catch(e){ return new Set(); } }
+function markLiked(id){ const s=getLikedSet(); s.add(String(id)); try{ localStorage.setItem(LIKED_KEY, JSON.stringify([...s])); }catch(e){} }
+const likedSet = getLikedSet();
+async function likeMemory(id){
+  const { data, error } = await sb.rpc('increment_memory_like', { target_id: Number(id) });
+  if (error) throw error;
+  return data;
+}
+
+/* ---------- comments (same public.comments table/RPC as index.html) ---------- */
+async function loadComments(memoryId){
+  const { data, error } = await sb.from('comments')
+    .select('id,user_id,display_name,content,created_at')
+    .eq('memory_id', Number(memoryId))
+    .order('created_at', { ascending: true });
+  if (error) throw error;
+  return data || [];
+}
+async function postComment(memoryId, content){
+  const displayName = profileCache.get(currentUser.id)?.display_name || currentUser.displayName || currentUser.email;
+  const { error } = await sb.from('comments').insert({
+    memory_id: Number(memoryId), user_id: currentUser.id, display_name: displayName, content
+  });
+  if (error) throw error;
+}
+async function deleteCommentById(commentId){
+  const { error } = await sb.from('comments').delete().eq('id', commentId);
+  if (error) throw error;
+}
+async function updateCommentText(commentId, content){
+  const { error } = await sb.from('comments').update({ content }).eq('id', commentId);
+  if (error) throw error;
+}
+function fmtCommentTime(iso){
+  const d = new Date(iso); if (Number.isNaN(+d)) return '';
+  return d.toLocaleString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+async function renderComments(memoryId){
+  const list = $('#dpCommentsList');
+  list.innerHTML = '<div class="comment-empty">Đang tải bình luận...</div>';
+  let comments;
+  try { comments = await loadComments(memoryId); }
+  catch(e){ console.error(e); list.innerHTML = '<div class="comment-empty">Không tải được bình luận.</div>'; return; }
+  const uniqueUserIds = [...new Set(comments.map(c=>c.user_id))];
+  const profiles = await loadProfiles(uniqueUserIds);
+  const profileByUid = new Map(uniqueUserIds.map((id,i)=>[id, profiles[i]]));
+  list.innerHTML = comments.length ? comments.map(c => {
+    const isOwner = currentUser && currentUser.id === c.user_id;
+    const canDelete = currentUser && (isOwner || currentUser.id === ADMIN_UID);
+    const actions = [isOwner?'<button class="comment-edit" type="button">Sửa</button>':'', canDelete?'<button class="comment-delete" type="button">Xoá</button>':''].filter(Boolean).join('');
+    const p = profileByUid.get(c.user_id);
+    const name = p?.display_name || c.display_name || 'Ẩn danh';
+    const avatarHtml = p?.avatar_url ? `<img class="comment-avatar" src="${esc(p.avatar_url)}" alt="">` : '';
+    return `<div class="comment-item" data-id="${c.id}">
+      <div class="comment-head"><span class="comment-author-row">${avatarHtml}<span class="comment-author">${esc(name)}</span></span><span class="comment-time">${fmtCommentTime(c.created_at)}</span></div>
+      <div class="comment-text">${esc(c.content)}</div>
+      ${actions?'<div class="comment-actions">'+actions+'</div>':''}
+    </div>`;
+  }).join('') : '<div class="comment-empty">Chưa có bình luận nào. Hãy là người đầu tiên!</div>';
+  list.querySelectorAll('.comment-delete').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const item = btn.closest('.comment-item'); const id = item.dataset.id;
+      if (!confirm('Xoá bình luận này?')) return;
+      try { await deleteCommentById(id); renderComments(memoryId); }
+      catch(e){ console.error(e); }
+    });
+  });
+  list.querySelectorAll('.comment-edit').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const item = btn.closest('.comment-item'); const id = item.dataset.id;
+      const textEl = item.querySelector('.comment-text');
+      const original = textEl.textContent;
+      textEl.outerHTML = `<textarea class="comment-edit-input">${esc(original)}</textarea><div class="comment-actions"><button class="comment-save" type="button">Lưu</button><button class="comment-cancel" type="button">Huỷ</button></div>`;
+      item.querySelector('.comment-actions:last-child').remove();
+      item.querySelector('.comment-cancel').addEventListener('click', ()=>renderComments(memoryId));
+      item.querySelector('.comment-save').addEventListener('click', async ()=>{
+        const newContent = item.querySelector('.comment-edit-input').value.trim();
+        if (!newContent) return;
+        try { await updateCommentText(id, newContent); renderComments(memoryId); }
+        catch(e){ console.error(e); }
+      });
+    });
+  });
+}
+$('#dpCommentSubmitBtn').addEventListener('click', async ()=>{
+  const input = $('#dpCommentInput');
+  const content = input.value.trim();
+  if (!content || !selectedPlant || !currentUser) return;
+  const btn = $('#dpCommentSubmitBtn'); btn.disabled = true;
+  try { await postComment(selectedPlant.memory.id, content); input.value=''; await renderComments(selectedPlant.memory.id); }
+  catch(e){ console.error(e); }
+  finally { btn.disabled = false; }
+});
+
+/* ---------- detail panel: full photo gallery + like + deep link ---------- */
+// Matches index.html's approach: always show the real photo count and let people navigate
+// through every slide, resolving (and caching) each photo's URL lazily on demand — instead of
+// resolving all photos up front and silently dropping any that fail, which made a memory with
+// e.g. 1 working photo out of 11 look like it only ever had 1.
+let galleryPhotos = [], galleryIndex = 0, galleryToken = 0;
+const galleryUrlCache = new Map();
+async function showGalleryIndex(i){
+  const total = galleryPhotos.length;
+  if (!total) { $('#dpGallery').classList.add('hidden'); return; }
+  $('#dpGallery').classList.remove('hidden');
+  galleryIndex = ((i % total) + total) % total;
+  const img = $('#dpPhoto'), prev = $('#dpPrev'), next = $('#dpNext'), counter = $('#dpCounter');
+  const multi = total > 1;
+  prev.classList.toggle('hidden', !multi);
+  next.classList.toggle('hidden', !multi);
+  counter.classList.toggle('hidden', !multi);
+  counter.textContent = (galleryIndex+1) + ' / ' + total;
+  const photoId = galleryPhotos[galleryIndex].id;
+  const myToken = ++galleryToken;
+  if (galleryUrlCache.has(photoId)) { img.src = galleryUrlCache.get(photoId) || ''; return; }
+  img.removeAttribute('src');
+  try {
+    const url = await cloudSignedPhotoUrl(photoId);
+    galleryUrlCache.set(photoId, url);
+    if (myToken === galleryToken) img.src = url || '';
+  } catch(e){ console.error('Gallery photo failed:', photoId, e); }
+}
+$('#dpPrev').addEventListener('click', ()=>showGalleryIndex(galleryIndex-1));
+$('#dpNext').addEventListener('click', ()=>showGalleryIndex(galleryIndex+1));
+
+function updateLikeButton(m){
+  const btn = $('#dpLikeBtn');
+  const liked = likedSet.has(String(m.id));
+  btn.textContent = (liked?'♥':'♡') + ' Thích' + (m.likes ? ' ('+m.likes+')' : '');
+  btn.classList.toggle('liked', liked);
+  btn.disabled = liked;
+}
+
 async function openDetail(plantEntry){
   selectedPlant = plantEntry;
   const m = plantEntry.memory;
   const mood = MOODS[m.mood] || MOODS.peace;
   $('#dpMood').textContent = mood.icon + '  ' + mood.label.toUpperCase();
   $('#dpTitle').textContent = m.title;
-  $('#dpMeta').textContent = fmtDate(m.date) + (m.author ? ' · đăng bởi '+m.author : '') + (m.likes ? ' · ♡ '+m.likes : '');
+  $('#dpMeta').textContent = fmtDate(m.date) + (m.author ? ' · đăng bởi '+m.author : '');
   $('#dpStory').textContent = m.story || 'Một khoảnh khắc được giữ lại trong khu vườn của bạn.';
-  const photoEl = $('#dpPhoto');
-  photoEl.classList.add('hidden');
+  $('#dpFullLink').href = 'index.html?memory=' + encodeURIComponent(m.id);
+  galleryPhotos = m.photos || []; galleryIndex = 0;
+  if (galleryPhotos.length) showGalleryIndex(0); else $('#dpGallery').classList.add('hidden');
+  updateLikeButton(m);
   $('#detailPanel').classList.add('open');
   flyCameraTo(plantEntry.group.position.clone());
-  try {
-    const url = await resolveCoverUrl(m);
-    if (url && selectedPlant === plantEntry) { photoEl.src = url; photoEl.classList.remove('hidden'); }
-  } catch(e){ /* text already shown, photo is optional */ }
+  renderComments(m.id);
 }
+$('#dpLikeBtn').addEventListener('click', async ()=>{
+  if (!selectedPlant) return;
+  const m = selectedPlant.memory;
+  if (likedSet.has(String(m.id))) return;
+  const btn = $('#dpLikeBtn'); btn.disabled = true;
+  try {
+    const newCount = await likeMemory(m.id);
+    m.likes = newCount; markLiked(m.id); likedSet.add(String(m.id));
+    updateLikeButton(m);
+  } catch(e){ console.error(e); btn.disabled = false; }
+});
 $('#detailClose').addEventListener('click', ()=>{ $('#detailPanel').classList.remove('open'); selectedPlant = null; });
 
 function flyCameraTo(targetPos){
